@@ -4,9 +4,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#248f8f</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Tertiary">#248f8f</Color>
+    <Color x:Key="MenuBar">#34cbcb</Color>
+    <Color x:Key="AppBackgroundColor">#248f8f</Color>
+    <Color x:Key="AppLabel">White</Color>
+    <Color x:Key="colorPrimaryDark">#FF555555</Color>
+    <Color x:Key="ButtonText">#248f8f</Color>
+    <Color x:Key="TrackingStartButtonColor">#248f8f</Color>
+    <Color x:Key="NavigationBarColor">#34cbcb</Color>
+    <Color x:Key="NavigationBarTextColor">White</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
