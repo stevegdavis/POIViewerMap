@@ -35,7 +35,7 @@ public partial class MapViewPageViewModel : ObservableObject
     MyMap map = new MyMap();
 
     [ObservableProperty]
-    private string? name = $"{POIType.DrinkingWater}";
+    private string? name = "Drinking Water";
     
     public string? POIName
     {
