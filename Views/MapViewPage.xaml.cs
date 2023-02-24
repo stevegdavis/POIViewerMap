@@ -1,5 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Projections;
@@ -33,6 +35,11 @@ public partial class MapViewPage : ContentPage
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
+    }
     private async void GetCurrentDeviceLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -47,5 +54,18 @@ public partial class MapViewPage : ContentPage
         var (minX, minY) = SphericalMercator.FromLonLat(-2.1488, 51.79797);
         var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
         return new MRect(minX, minY, maxX, maxY);
+    }
+}
+public class FullScreenMessage : ValueChangedMessage<object>
+{
+    public FullScreenMessage(object r) : base(r)
+    {
+    }
+}
+
+public class NormalScreenMessage : ValueChangedMessage<object>
+{
+    public NormalScreenMessage(object r) : base(r)
+    {
     }
 }
