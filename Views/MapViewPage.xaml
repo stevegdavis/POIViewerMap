@@ -10,6 +10,39 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
+            <mct:Expander BackgroundColor="White" IsVisible="True">
+                <mct:Expander.Header>
+                    <Label HorizontalOptions="Center" Text="x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
+                </mct:Expander.Header>
+                <mct:Expander.Content BackgroundColor="LightGrey">
+                    <VerticalStackLayout>
+                        <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
+                            <Label Margin="0,10,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="Android, iOS" Value="x:Static resource:AppResource.LiveMapViewDeviceLabelText}"/>
+                                    <On Platform="Windows" Value="" />
+                                </OnPlatform>
+                            </Label>
+                            <!--<Picker x:Name="DevicePicker" FontAttributes="Bold" FontSize="16"
+                                    BackgroundColor="Transparent" 
+                                    Title="Show All" TitleColor="Black" 
+                                    ItemsSource="{Binding Devices}" 
+                                    SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                <Picker.Items>
+                                    <x:String>No Data</x:String>
+                                </Picker.Items>
+                            </Picker>-->
+                        </StackLayout>
+                        <HorizontalStackLayout Margin="5,0,0,0">
+                            <Label FontAttributes="None" TextColor="Black" FontSize="15" IsVisible="{Binding LastUpdateLabelVisible}" Text="x:Static resource:AppResource.LastUpdatedLabelText}"/>
+                            <Label x:Name="LastUpdateLabel" FontAttributes="Bold" TextColor="{StaticResource Yellow100Accent}" FontSize="15" IsVisible="{Binding LastUpdateLabelVisible}" Text="{Binding LastUpdatedLabelText}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Margin="5">
+                            <Label x:Name="ErrorMsgLabel" WidthRequest="340" IsVisible="False" FontSize="15" LineBreakMode="TailTruncation" TextColor="Red"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </mct:Expander.Content>
+            </mct:Expander>
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -19,7 +52,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="75"/>
                 </Grid.RowDefinitions>
-                <mapsui:MapView x:Name="mapView"
+                <mapsui:MapView x:Name="mapView" 
                             Grid.Row ="0" Grid.Column="1" Grid.RowSpan="3"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"

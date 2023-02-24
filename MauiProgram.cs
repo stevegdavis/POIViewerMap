@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using POIViewerMap.ViewModels;
+using POIViewerMap.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace POIViewerMap;
@@ -20,7 +22,8 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-
-		return builder.Build();
+        builder.Services.AddSingleton<MapViewPageViewModel>();
+        builder.Services.AddSingleton<MapViewPage>();
+        return builder.Build();
 	}
 }
