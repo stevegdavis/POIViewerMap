@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LiveMapViewPOILabelText" xml:space="preserve">
-    <value>POIs</value>
-  </data>
-  <data name="MapViewPageTitle" xml:space="preserve">
-    <value>POI Viewer Map</value>
-  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
+    <value>POIs To View</value>
+  </data>
+  <data name="POIViewerTitle" xml:space="preserve">
+    <value>POI Viewer Map</value>
   </data>
 </root>

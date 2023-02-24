@@ -61,29 +61,29 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POIs.
+        ///   Looks up a localized string similar to Options.
         /// </summary>
-        internal static string LiveMapViewPOILabelText {
+        internal static string Options {
             get {
-                return ResourceManager.GetString("LiveMapViewPOILabelText", resourceCulture);
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POIs To View.
+        /// </summary>
+        internal static string POIViewerMapPOIsLabelText {
+            get {
+                return ResourceManager.GetString("POIViewerMapPOIsLabelText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to POI Viewer Map.
         /// </summary>
-        internal static string MapViewPageTitle {
+        internal static string POIViewerTitle {
             get {
-                return ResourceManager.GetString("MapViewPageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Options.
-        /// </summary>
-        internal static string Options {
-            get {
-                return ResourceManager.GetString("Options", resourceCulture);
+                return ResourceManager.GetString("POIViewerTitle", resourceCulture);
             }
         }
     }

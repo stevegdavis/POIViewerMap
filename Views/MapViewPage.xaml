@@ -4,6 +4,7 @@
              x:Class="POIViewerMap.Views.MapViewPage"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             xmlns:resource="clr-namespace:POIViewerMap.Resources.Strings"
              Title="POI Viewer Map">
     <Page.Behaviors>
         <mct:StatusBarBehavior StatusBarColor="{StaticResource colorPrimaryDark}"/>
@@ -12,31 +13,27 @@
         <StackLayout>
             <mct:Expander BackgroundColor="White" IsVisible="True">
                 <mct:Expander.Header>
-                    <Label HorizontalOptions="Center" Text="x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
+                    <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
                         <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
                             <Label Margin="0,10,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
                                 <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="Android, iOS" Value="x:Static resource:AppResource.LiveMapViewDeviceLabelText}"/>
+                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <!--<Picker x:Name="DevicePicker" FontAttributes="Bold" FontSize="16"
+                            <Picker x:Name="POITypePicker" FontAttributes="Bold" FontSize="16"
                                     BackgroundColor="Transparent" 
-                                    Title="Show All" TitleColor="Black" 
-                                    ItemsSource="{Binding Devices}" 
-                                    SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                    Title="{Binding POIName}" TitleColor="Black" 
+                                    ItemsSource="{Binding POITypes}"
+                                    SelectedItem="{Binding POIName}">
                                 <Picker.Items>
                                     <x:String>No Data</x:String>
                                 </Picker.Items>
-                            </Picker>-->
+                            </Picker>
                         </StackLayout>
-                        <HorizontalStackLayout Margin="5,0,0,0">
-                            <Label FontAttributes="None" TextColor="Black" FontSize="15" IsVisible="{Binding LastUpdateLabelVisible}" Text="x:Static resource:AppResource.LastUpdatedLabelText}"/>
-                            <Label x:Name="LastUpdateLabel" FontAttributes="Bold" TextColor="{StaticResource Yellow100Accent}" FontSize="15" IsVisible="{Binding LastUpdateLabelVisible}" Text="{Binding LastUpdatedLabelText}"/>
-                        </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5">
                             <Label x:Name="ErrorMsgLabel" WidthRequest="340" IsVisible="False" FontSize="15" LineBreakMode="TailTruncation" TextColor="Red"/>
                         </HorizontalStackLayout>
