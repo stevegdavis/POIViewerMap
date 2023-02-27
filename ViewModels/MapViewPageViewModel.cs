@@ -21,6 +21,48 @@ public partial class MapViewPageViewModel : ObservableObject
         POITypes.Add("Bicycle Repair Station");
         POITypes.Add("Supermarket");
         POITypes.Add("Show All");
+        this.Browse = ReactiveCommand.CreateFromTask(
+                async (_) =>
+                {
+                    await BrowsePOIs(POIName);
+                });
+    }
+
+    private async Task BrowsePOIs(string POIName)
+    {
+        var customFileType = new FilePickerFileType(
+             new Dictionary<DevicePlatform, IEnumerable<string>>
+             {
+                    { DevicePlatform.iOS, new[] { "public.my.osm.extension" } }, // UTType values
+                    { DevicePlatform.Android, new[] { "text/plain" } }, // MIME type
+                    { DevicePlatform.WinUI, new[] { ".txt" } }, // file extension
+                    { DevicePlatform.Tizen, new[] { "*/*" } },
+                    { DevicePlatform.macOS, new[] { "txt" } }, // UTType values
+             });
+
+        PickOptions options = new()
+        {
+            PickerTitle = "Please select a TXT file",
+            FileTypes = customFileType,
+        };
+        await PickAndShow(options);
+    }
+    public async Task<FileResult> PickAndShow(PickOptions options)
+    {
+        try
+        {
+            var result = await FilePicker.Default.PickAsync(options);
+            if (result != null)
+            {
+                this.Filepath = result.FileName;
+            }
+            return result;
+        }
+        catch (Exception ex)
+        {
+            // The user canceled or something went wrong
+        }
+        return null;
     }
     private MRect GetLimitsOfStroud()
     {
@@ -29,14 +71,16 @@ public partial class MapViewPageViewModel : ObservableObject
         return new MRect(minX, minY, maxX, maxY);
     }
 
-    public int SelectedIndex { get; set; }
+    public IReactiveCommand Browse { get; set; }
 
     [ObservableProperty]
     MyMap map = new MyMap();
 
     [ObservableProperty]
     private string? name = "Drinking Water";
-    
+    [ObservableProperty]
+    private string?path = "...";
+
     public string? POIName
     {
         get => name;
@@ -59,8 +103,30 @@ public partial class MapViewPageViewModel : ObservableObject
     partial void OnNameChanged(string? value)
     {
     }
-    [Reactive] public IList<string> POITypes { get; set; } = new List<string>(); // Picker list source
+    public string? Filepath
+    {
+        get => path;
+        set
+        {
+            if (!EqualityComparer<string?>.Default.Equals(name, value))
+            {
+                OnPathChanging(value);
+                OnPropertyChanging();
+                path = value;
+                OnPathChanged(value);
+                OnPropertyChanged();
+            }
+        }
+    }
+    partial void OnPathChanging(string? value)
+    {
+    }
 
+    partial void OnPathChanged(string? value)
+    {
+    }
+    [Reactive] public IList<string> POITypes { get; set; } = new List<string>(); // Picker list source
+    //[ObservableProperty] public string Filepath;// { get; set; }
 }
 public class POIData
 {

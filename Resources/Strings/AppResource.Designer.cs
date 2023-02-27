@@ -70,7 +70,16 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POIs To View.
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        internal static string POIBrowseButtonText {
+            get {
+                return ResourceManager.GetString("POIBrowseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POIs.
         /// </summary>
         internal static string POIViewerMapPOIsLabelText {
             get {
@@ -84,6 +93,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIViewerTitle {
             get {
                 return ResourceManager.GetString("POIViewerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filename:.
+        /// </summary>
+        internal static string TXTFilepathLabelText {
+            get {
+                return ResourceManager.GetString("TXTFilepathLabelText", resourceCulture);
             }
         }
     }

@@ -120,10 +120,16 @@
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
+  <data name="POIBrowseButtonText" xml:space="preserve">
+    <value>Browse</value>
+  </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
-    <value>POIs To View</value>
+    <value>POIs</value>
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
+  </data>
+  <data name="TXTFilepathLabelText" xml:space="preserve">
+    <value>Filename:</value>
   </data>
 </root>

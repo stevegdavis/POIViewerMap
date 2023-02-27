@@ -17,8 +17,8 @@
                 </mct:Expander.Header>
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
-                        <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
-                            <Label Margin="0,10,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
+                        <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                            <Label Margin="0,12,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
@@ -33,10 +33,14 @@
                                     <x:String>No Data</x:String>
                                 </Picker.Items>
                             </Picker>
+                            
                         </StackLayout>
-                        <HorizontalStackLayout Margin="5">
-                            <Label x:Name="ErrorMsgLabel" WidthRequest="340" IsVisible="False" FontSize="15" LineBreakMode="TailTruncation" TextColor="Red"/>
+                        <HorizontalStackLayout Margin="5,0,0,0">
+                            <Label x:Name="FilepathTitleLabel" FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.TXTFilepathLabelText}"/>
+                            <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" Text="{Binding Filepath}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
+                        <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Command="{Binding Browse}">
+                        </Button>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
             </mct:Expander>
