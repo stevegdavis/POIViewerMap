@@ -38,7 +38,14 @@ public partial class MapViewPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
+        if(DeviceInfo.Current.Version.Major >= 11)
+            WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        if (DeviceInfo.Current.Version.Major >= 11)
+            WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
     }
     private async void GetCurrentDeviceLocation()
     {
