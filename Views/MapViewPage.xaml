@@ -17,6 +17,7 @@
                 </mct:Expander.Header>
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
+                        <ActivityIndicator  x:Name="Loading" IsVisible="False" IsRunning="True"/>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
                             <Label Margin="0,12,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
                                 <OnPlatform x:TypeArguments="x:String">
@@ -26,21 +27,24 @@
                             </Label>
                             <Picker x:Name="POITypePicker" FontAttributes="Bold" FontSize="16"
                                     BackgroundColor="Transparent" 
-                                    Title="{Binding POIName}" TitleColor="Black" 
-                                    ItemsSource="{Binding POITypes}"
-                                    SelectedItem="{Binding POIName}">
-                                <Picker.Items>
-                                    <x:String>No Data</x:String>
-                                </Picker.Items>
+                                    Title="Please Choose" TitleColor="Black" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                        <x:String>Drinking Water</x:String>
+                                        <x:String>Campsite</x:String>
+                                        <x:String>Bicycle Shop</x:String>
+                                        <x:String>Bicycle Repair Station</x:String>
+                                        <x:String>Supermarket</x:String>
+                                        <x:String>Show All</x:String>
+                                </x:Array>
+                                </Picker.ItemsSource>
                             </Picker>
-                            
                         </StackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0">
                             <Label x:Name="FilepathTitleLabel" FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.TXTFilepathLabelText}"/>
-                            <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" Text="{Binding Filepath}" FontAttributes="Bold"/>
+                            <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
-                        <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Command="{Binding Browse}">
-                        </Button>
+                        <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
             </mct:Expander>
