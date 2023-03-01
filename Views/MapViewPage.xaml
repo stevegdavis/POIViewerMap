@@ -19,26 +19,13 @@
                     <VerticalStackLayout>
                         <ActivityIndicator  x:Name="Loading" IsVisible="False" IsRunning="True"/>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <Label Margin="0,12,10,0" TextColor="Black" FontAttributes="None" FontSize="15">
+                            <Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="15">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="POITypePicker" FontAttributes="Bold" FontSize="16"
-                                    BackgroundColor="Transparent" 
-                                    Title="Please Choose" TitleColor="Black" SelectedIndexChanged="OnPickerSelectedIndexChanged">
-                                <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                        <x:String>Drinking Water</x:String>
-                                        <x:String>Campsite</x:String>
-                                        <x:String>Bicycle Shop</x:String>
-                                        <x:String>Bicycle Repair Station</x:String>
-                                        <x:String>Supermarket</x:String>
-                                        <x:String>Show All</x:String>
-                                </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
+                            <Label x:Name="POITypeLabel" Margin="0,13,0,0" FontAttributes="Bold"/>
                         </StackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0">
                             <Label x:Name="FilepathTitleLabel" FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.TXTFilepathLabelText}"/>

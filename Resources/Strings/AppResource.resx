@@ -124,7 +124,7 @@
     <value>Browse</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
-    <value>POIs</value>
+    <value>POI Type:</value>
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>

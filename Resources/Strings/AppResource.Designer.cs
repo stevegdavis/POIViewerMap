@@ -79,7 +79,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POIs.
+        ///   Looks up a localized string similar to POI Type:.
         /// </summary>
         internal static string POIViewerMapPOIsLabelText {
             get {

@@ -49,12 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\bicycle-pin.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
 	  <MauiImage Remove="Resources\Images\campsite.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-basket.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-cart.svg" />
+	  <MauiImage Remove="Resources\Images\spanner.svg" />
 	  <MauiImage Remove="Resources\Images\water.svg" />
 	  <MauiImage Remove="Resources\Images\waterbottle.svg" />
 	  <MauiImage Remove="Resources\Images\waterdrop.svg" />
@@ -64,12 +66,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bicycle-pin.svg" />
 	  <None Remove="Resources\Images\bicycle.svg" />
 	  <None Remove="Resources\Images\campsite.svg" />
 	  <None Remove="Resources\Images\drinkingwater.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\shopping-basket.svg" />
 	  <None Remove="Resources\Images\shopping-cart.svg" />
+	  <None Remove="Resources\Images\spanner.svg" />
 	  <None Remove="Resources\Images\water.svg" />
 	  <None Remove="Resources\Images\waterbottle.svg" />
 	  <None Remove="Resources\Images\waterdrop.svg" />
@@ -79,12 +83,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Images\bicycle-pin.svg" />
 	  <EmbeddedResource Include="Resources\Images\bicycle.svg" />
 	  <EmbeddedResource Include="Resources\Images\campsite.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-basket.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-cart.svg" />
+	  <EmbeddedResource Include="Resources\Images\spanner.svg" />
 	  <EmbeddedResource Include="Resources\Images\water.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterbottle.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterdrop.svg" />

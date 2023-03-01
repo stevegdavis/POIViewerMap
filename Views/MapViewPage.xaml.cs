@@ -18,12 +18,11 @@ public partial class MapViewPage : ContentPage
 {
     private string Filepath;
     private string FullFilepath;
-    private string POIName = $"{POIType.DrinkingWater}";
     static string drinkingwaterStr = null;
     static string campsiteStr = null;
     static string bicycleshopStr = null;
     static string supermarketStr = null;
-    private bool IsPOIIndexChanged = false;
+    static string bicyclerepairstationStr = null;
     private List<POIData> pois = new();
     public MapViewPage()
 	{
@@ -47,6 +46,12 @@ public partial class MapViewPage : ContentPage
         {
             using StreamReader reader = new(bicycleshop!);
             bicycleshopStr = reader.ReadToEnd();
+        }
+        using var bicyclerepairstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.spanner.svg");
+        if (bicyclerepairstation != null)
+        {
+            using StreamReader reader = new(bicyclerepairstation!);
+            bicyclerepairstationStr = reader.ReadToEnd();
         }
         using var supermarket = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.shopping-cart.svg");
         if (supermarket != null)
@@ -75,18 +80,31 @@ public partial class MapViewPage : ContentPage
                     if (!String.IsNullOrEmpty(this.FullFilepath))
                     {
                         pois = await ReadPOIs.Read(FullFilepath);
-                        POIName = this.POITypePicker.Items[POITypePicker.SelectedIndex > -1 ? POITypePicker.SelectedIndex : 0].Replace(" ", string.Empty);
-                        await PopulateMap(pois, POIName);
+                        this.POITypeLabel.Text = GetPOIString(pois[0].POI);
+                        await PopulateMap(pois);
                         this.FullFilepath = string.Empty;
-                    }
-                    else if(IsPOIIndexChanged)
-                    {
-                        POIName = this.POITypePicker.Items[POITypePicker.SelectedIndex > -1 ? POITypePicker.SelectedIndex : 0].Replace(" ", string.Empty);
-                        await PopulateMap(pois, POIName);
-                        IsPOIIndexChanged = false;
                     }
                 });
     }
+
+    private string GetPOIString(POIType poi)
+    {
+        switch(poi) 
+        {
+            case POIType.DrinkingWater:
+                return "Drinking Water";
+            case POIType.Campsite:
+                return "Campsite";
+            case POIType.BicycleShop:
+                return "Bicycle Shop";
+            case POIType.BicycleRepairStation:
+                return "Bicycle Repair Station";
+            case POIType.Supermarket:
+                return "Supermarket/Convenience Store";
+        }
+        return string.Empty;
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -98,17 +116,6 @@ public partial class MapViewPage : ContentPage
         base.OnDisappearing();
         if (DeviceInfo.Current.Version.Major >= 11)
             WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
-    }
-    async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
-    {
-        var picker = (Picker)sender;
-        int selectedIndex = picker.SelectedIndex;
-
-        if (selectedIndex != -1)
-        {
-            POIName = picker.Items[selectedIndex].Replace(" ", string.Empty);
-            IsPOIIndexChanged = true;
-        }
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
     {
@@ -168,7 +175,7 @@ public partial class MapViewPage : ContentPage
         var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
         return new MRect(minX, minY, maxX, maxY);
     }
-    private async Task PopulateMap(List<POIData> pois, string type)
+    private async Task PopulateMap(List<POIData> pois)
     {
         foreach (var pin in mapView.Pins)
         {
@@ -177,25 +184,21 @@ public partial class MapViewPage : ContentPage
         mapView.Pins.Clear();
         foreach (var poi in pois)
         {
-            if(poi.POI.ToString().Equals(type))
+            var myPin = new Pin(mapView)
             {
-                var myPin = new Pin(mapView)
-                {
-                    Position = new Position(poi.Latitude, poi.Longitude),
-                    Type = PinType.Svg,
-                    //Label = "Steve",// $"{AppResource.LiveMapViewDeviceLabelText} {device.Name}\n{AppResource.LiveMapViewCalloutTimeLabelText} {device.Date}",
-                    Label = $"{poi.Title}\r{poi.Subtitle}",
-                    Address = "",
-                    Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
-                    Scale = 0.0288F
-                };
-                //myPin.HideCallout();
-                myPin.Callout.TitleTextAlignment = TextAlignment.Start;
-                myPin.Callout.ArrowHeight = 15;
-                myPin.Callout.TitleFontSize = 15;
-                mapView.Pins.Add(myPin);
-
-            }
+                Position = new Position(poi.Latitude, poi.Longitude),
+                Type = PinType.Svg,
+                //Label = "Steve",// $"{AppResource.LiveMapViewDeviceLabelText} {device.Name}\n{AppResource.LiveMapViewCalloutTimeLabelText} {device.Date}",
+                Label = $"{poi.Title}\r{poi.Subtitle}",
+                Address = "",
+                Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
+                Scale = 0.03988F
+            };
+            //myPin.HideCallout();
+            myPin.Callout.TitleTextAlignment = TextAlignment.Start;
+            myPin.Callout.ArrowHeight = 15;
+            myPin.Callout.TitleFontSize = 15;
+            mapView.Pins.Add(myPin);
         }
     }
     private string GetPOIIcon(POIData poi)
@@ -205,9 +208,10 @@ public partial class MapViewPage : ContentPage
             case POIType.DrinkingWater: return drinkingwaterStr;
             case POIType.Campsite: return campsiteStr;
             case POIType.BicycleShop: return bicycleshopStr;
-                case POIType.Supermarket: return supermarketStr;
-                default: return null;
+            case POIType.Supermarket: return supermarketStr;
+            case POIType.BicycleRepairStation: return bicyclerepairstationStr;
         }
+        return string.Empty;
     }
 }
 public class FullScreenMessage : ValueChangedMessage<object>
