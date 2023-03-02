@@ -51,6 +51,7 @@
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\bicycle-pin.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
+	  <MauiImage Remove="Resources\Images\camping.svg" />
 	  <MauiImage Remove="Resources\Images\campsite.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
@@ -68,6 +69,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\bicycle-pin.svg" />
 	  <None Remove="Resources\Images\bicycle.svg" />
+	  <None Remove="Resources\Images\camping.svg" />
 	  <None Remove="Resources\Images\campsite.svg" />
 	  <None Remove="Resources\Images\drinkingwater.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
@@ -85,6 +87,7 @@
 	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Images\bicycle-pin.svg" />
 	  <EmbeddedResource Include="Resources\Images\bicycle.svg" />
+	  <EmbeddedResource Include="Resources\Images\camping.svg" />
 	  <EmbeddedResource Include="Resources\Images\campsite.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
@@ -112,6 +115,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Platforms\iOS\KeyboardHelper.cs">
+	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+	  </Compile>
 	  <Compile Update="Resources\Strings\AppResource.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>

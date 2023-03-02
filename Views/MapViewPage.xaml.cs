@@ -6,11 +6,8 @@ using Mapsui.Projections;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using POIViewerMap.DataClasses;
-//using POIViewerMap.ViewModels;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
-using ReactiveUI;
-using System.Reactive.Linq;
 using System.Reflection;
 
 namespace POIViewerMap.Views;
@@ -25,6 +22,8 @@ public partial class MapViewPage : ContentPage
     static string supermarketStr = null;
     static string bicyclerepairstationStr = null;
     private List<POIData> pois = new();
+    private static Location myCurrentLocation;
+
     public MapViewPage()
 	{
 		InitializeComponent();
@@ -36,7 +35,7 @@ public partial class MapViewPage : ContentPage
             using StreamReader reader = new(drinkingwater!);
             drinkingwaterStr = reader.ReadToEnd();
         }
-        using var campsite = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.campsite.svg");
+        using var campsite = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.camping.svg");
         if (campsite != null)
         {
             using StreamReader reader = new(campsite!);
@@ -180,10 +179,10 @@ public partial class MapViewPage : ContentPage
     private async void GetCurrentDeviceLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
-        var location = await Geolocation.GetLocationAsync(request, new CancellationToken());
-        if (location != null)
+        myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+        if (myCurrentLocation != null)
         {
-            mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(location.Latitude, location.Longitude));
+            mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
         }
     }
     private MRect GetLimitsOfStroud()
@@ -201,13 +200,25 @@ public partial class MapViewPage : ContentPage
                 pin.HideCallout();
             }
             mapView.Pins.Clear();
+            var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
             foreach (var poi in pois)
             {
+                var distance = (int)Location.CalculateDistance(poi.Latitude, 
+                                                                poi.Longitude, 
+                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude), 
+                                                                DistanceUnits.Kilometers);
+                if (distance > Convert.ToDouble(this.EntryDistance.Text))
+                    continue;
+                var space = string.Empty;
+                if (!String.IsNullOrEmpty(poi.Subtitle))
+                {
+                    space = "\r";
+                }
                 var myPin = new Pin(mapView)
                 {
                     Position = new Position(poi.Latitude, poi.Longitude),
                     Type = PinType.Svg,
-                    Label = $"{poi.Title}\r{poi.Subtitle}",
+                    Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {((int)distance)}km",
                     Address = "",
                     Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
                     Scale = 0.03988F
@@ -232,6 +243,13 @@ public partial class MapViewPage : ContentPage
             case POIType.BicycleRepairStation: return bicyclerepairstationStr;
         }
         return string.Empty;
+    }
+
+    private async void RefreshButton_Clicked(object sender, EventArgs e)
+    {
+        Platforms.KeyboardHelper.HideKeyboard();
+        if (pois.Count > 0)
+            await PopulateMapAsync(pois);
     }
 }
 public class FullScreenMessage : ValueChangedMessage<object>

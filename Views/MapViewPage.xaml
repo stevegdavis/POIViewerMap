@@ -27,6 +27,19 @@
                             </Label>
                             <Label x:Name="POITypeLabel" Margin="0,13,0,0" FontAttributes="Bold"/>
                         </StackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="Maximum Distance in km: " Margin="5,14,10,0"/>
+                            <Entry Keyboard="Numeric" x:Name="EntryDistance" MaxLength="5" Text="10.00" >
+                                <Entry.Behaviors>
+                                    <mct:NumericValidationBehavior 
+                                    Flags="ForceMakeValidWhenFocused"
+                                    MinimumValue="0.0"
+                                    MaximumValue="50.0"
+                                    MaximumDecimalPlaces="2" />     
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Button Text="Refresh" Margin="10,0,0,0" Clicked="RefreshButton_Clicked"/>
+                        </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0">
                             <Label x:Name="FilepathTitleLabel" FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.TXTFilepathLabelText}"/>
                             <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
