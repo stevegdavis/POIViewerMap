@@ -244,8 +244,7 @@ public partial class MapViewPage : ContentPage
         }
         return string.Empty;
     }
-
-    private async void RefreshButton_Clicked(object sender, EventArgs e)
+    private async void  RefreshButton_Clicked(object sender, EventArgs e)
     {
         Platforms.KeyboardHelper.HideKeyboard();
         if (pois.Count > 0)

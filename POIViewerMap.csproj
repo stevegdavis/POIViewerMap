@@ -15,7 +15,7 @@
 		<ApplicationTitle>POIViewerMap</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.poiviewermap</ApplicationId>
+		<ApplicationId>com.sdsdevelopment.poiviewermap</ApplicationId>
 		<ApplicationIdGuid>3813f2ba-cfb8-4a63-baf6-43124cdf5a60</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -36,7 +36,6 @@
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
@@ -116,6 +115,9 @@
 
 	<ItemGroup>
 	  <Compile Update="Platforms\iOS\KeyboardHelper.cs">
+	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\Windows\KeyboardHelper.cs">
 	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
 	  </Compile>
 	  <Compile Update="Resources\Strings\AppResource.Designer.cs">
