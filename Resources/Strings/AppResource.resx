@@ -123,6 +123,9 @@
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="POIsLoadingMsg" xml:space="preserve">
+    <value>Loading - please wait...</value>
+  </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
     <value>POI Type:</value>
   </data>

@@ -79,6 +79,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading - please wait....
+        /// </summary>
+        internal static string POIsLoadingMsg {
+            get {
+                return ResourceManager.GetString("POIsLoadingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to POI Type:.
         /// </summary>
         internal static string POIViewerMapPOIsLabelText {

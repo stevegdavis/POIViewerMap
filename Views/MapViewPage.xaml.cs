@@ -8,6 +8,7 @@ using Mapsui.UI.Maui;
 using POIViewerMap.DataClasses;
 //using POIViewerMap.ViewModels;
 using POIViewerMap.Helpers;
+using POIViewerMap.Resources.Strings;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -68,25 +69,37 @@ public partial class MapViewPage : ContentPage
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
         var mapControl = new Mapsui.UI.Maui.MapControl();
+        mapView.PinClicked += OnPinClicked;
+        mapView.MapClicked += OnMapClicked;
         mapControl.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint());
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
-        _ = Observable
-                .Interval(TimeSpan.FromSeconds(1))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(async _ =>
-                {
-                    if (!String.IsNullOrEmpty(this.FullFilepath))
-                    {
-                        pois = await ReadPOIs.Read(FullFilepath);
-                        this.POITypeLabel.Text = GetPOIString(pois[0].POI);
-                        await PopulateMap(pois);
-                        this.FullFilepath = string.Empty;
-                    }
-                });
     }
-
+    private void OnMapClicked(object sender, MapClickedEventArgs e)
+    {
+        foreach (var pin in mapView.Pins)
+        {
+            pin.HideCallout();
+        }
+    }
+    private void OnPinClicked(object sender, PinClickedEventArgs e)
+    {
+        if (e.Pin != null)
+        {
+            if (e.NumOfTaps == 2)
+            {
+                // Hide Pin when double click
+                e.Pin.IsVisible = false;
+            }
+            if (e.NumOfTaps == 1)
+                if (e.Pin.Callout.IsVisible)
+                    e.Pin.HideCallout();
+                else
+                    e.Pin.ShowCallout();
+        }
+        e.Handled = true;
+    }
     private string GetPOIString(POIType poi)
     {
         switch(poi) 
@@ -121,6 +134,10 @@ public partial class MapViewPage : ContentPage
     {
         pois.Clear();
         await BrowsePOIs();
+        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
+        pois = await ReadPOIs.ReadAysnc(FullFilepath);
+        await PopulateMapAsync(pois);
+        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
     private async Task BrowsePOIs()
     {
@@ -175,31 +192,34 @@ public partial class MapViewPage : ContentPage
         var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
         return new MRect(minX, minY, maxX, maxY);
     }
-    private async Task PopulateMap(List<POIData> pois)
+    private async Task PopulateMapAsync(List<POIData> pois)
     {
-        foreach (var pin in mapView.Pins)
+        await Task.Factory.StartNew(delegate
         {
-            pin.HideCallout();
-        }
-        mapView.Pins.Clear();
-        foreach (var poi in pois)
-        {
-            var myPin = new Pin(mapView)
+            foreach (var pin in mapView.Pins)
             {
-                Position = new Position(poi.Latitude, poi.Longitude),
-                Type = PinType.Svg,
-                //Label = "Steve",// $"{AppResource.LiveMapViewDeviceLabelText} {device.Name}\n{AppResource.LiveMapViewCalloutTimeLabelText} {device.Date}",
-                Label = $"{poi.Title}\r{poi.Subtitle}",
-                Address = "",
-                Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
-                Scale = 0.03988F
-            };
-            //myPin.HideCallout();
-            myPin.Callout.TitleTextAlignment = TextAlignment.Start;
-            myPin.Callout.ArrowHeight = 15;
-            myPin.Callout.TitleFontSize = 15;
-            mapView.Pins.Add(myPin);
-        }
+                pin.HideCallout();
+            }
+            mapView.Pins.Clear();
+            foreach (var poi in pois)
+            {
+                var myPin = new Pin(mapView)
+                {
+                    Position = new Position(poi.Latitude, poi.Longitude),
+                    Type = PinType.Svg,
+                    Label = $"{poi.Title}\r{poi.Subtitle}",
+                    Address = "",
+                    Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
+                    Scale = 0.03988F
+                };
+
+                //myPin.HideCallout();
+                myPin.Callout.TitleTextAlignment = TextAlignment.Start;
+                myPin.Callout.ArrowHeight = 15;
+                myPin.Callout.TitleFontSize = 15;
+                mapView.Pins.Add(myPin);
+            }
+        });
     }
     private string GetPOIIcon(POIData poi)
     {

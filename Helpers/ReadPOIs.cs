@@ -1,4 +1,5 @@
-﻿using POIViewerMap.DataClasses;
+﻿using Mapsui.UI.Maui;
+using POIViewerMap.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,22 @@ namespace POIViewerMap.Helpers;
 
 public class ReadPOIs
 {
-    public static async Task<List<POIData>> Read(string filepath)
+    public static async Task<List<POIData>> ReadAysnc(string filepath)
     {
         List<POIData> pois = new();
-        using var sr = new StreamReader(filepath);
-        while (!sr.EndOfStream)
+        await Task.Factory.StartNew(delegate
         {
-            var line = sr.ReadLine().Trim();
-            if (line.StartsWith("<") && line.EndsWith(">"))
+            using var sr = new StreamReader(filepath);
+            while (!sr.EndOfStream)
             {
-                var data = ParseLine(line);
-                pois.Add(data);
+                var line = sr.ReadLine().Trim();
+                if (line.StartsWith("<") && line.EndsWith(">"))
+                {
+                    var data = ParseLine(line);
+                    pois.Add(data);
+                }
             }
-        }
+        });
         return pois;
     }
     private static POIData ParseLine(string line)
@@ -58,6 +62,7 @@ public class ReadPOIs
             if (Idx2 > -1)
             {
                 title = line.Substring(Idx + "<Title=".Length, Idx2 - (Idx + "<Title=".Length));
+                title = title.Replace("&apos;", "'").Replace("&amp;", "&");
             }
         }
         var subtitle = string.Empty;
