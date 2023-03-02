@@ -11,7 +11,7 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
-            <mct:Expander BackgroundColor="White" IsVisible="True">
+            <mct:Expander BackgroundColor="White" IsVisible="True" x:Name="expander">
                 <mct:Expander.Header>
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>

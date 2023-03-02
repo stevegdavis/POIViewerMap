@@ -81,6 +81,7 @@ public partial class MapViewPage : ContentPage
         {
             pin.HideCallout();
         }
+        this.expander.IsExpanded = false;
     }
     private void OnPinClicked(object sender, PinClickedEventArgs e)
     {
