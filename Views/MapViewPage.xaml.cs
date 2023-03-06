@@ -204,10 +204,10 @@ public partial class MapViewPage : ContentPage
             var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
             foreach (var poi in pois)
             {
-                var distance = (int)Location.CalculateDistance(poi.Latitude, 
-                                                                poi.Longitude, 
-                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude), 
-                                                                DistanceUnits.Kilometers);
+                var distance = Location.CalculateDistance(poi.Latitude, 
+                                                            poi.Longitude, 
+                                                            new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude), 
+                                                            DistanceUnits.Kilometers);
                 if (distance > Convert.ToDouble(this.EntryDistance.Text))
                     continue;
                 var space = string.Empty;
@@ -219,7 +219,7 @@ public partial class MapViewPage : ContentPage
                 {
                     Position = new Position(poi.Latitude, poi.Longitude),
                     Type = PinType.Svg,
-                    Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {((int)distance)}km",
+                    Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
                     Address = "",
                     Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
                     Scale = 0.03988F

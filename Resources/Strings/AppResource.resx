@@ -121,7 +121,7 @@
     <value>Options</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>Browse</value>
+    <value>Import POIs</value>
   </data>
   <data name="POIsLoadingMsg" xml:space="preserve">
     <value>Loading - please wait...</value>

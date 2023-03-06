@@ -70,7 +70,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Browse.
+        ///   Looks up a localized string similar to Import POIs.
         /// </summary>
         internal static string POIBrowseButtonText {
             get {
