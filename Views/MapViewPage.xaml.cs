@@ -142,6 +142,32 @@ public partial class MapViewPage : ContentPage
         await PopulateMapAsync(pois);
         this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
+    async void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        if (POIsReadIsBusy)
+        {
+            return;
+        }            
+        pois.Clear();
+        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
+        pois = await ReadPOIs.ReadAysnc(FullFilepath);
+        await PopulateMapAsync(pois);
+        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+        this.MaxDistanceLabel.Text = String.Format("{0:0.00}", e.NewValue);
+    }
+    async void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        if (POIsReadIsBusy)
+            return;
+        if (String.IsNullOrEmpty(this.FullFilepath))
+            return;
+        this.MaxDistanceLabel.Text = e.NewValue.ToString();// String.Format("{0:0.00}", e.NewValue);
+        pois.Clear();
+        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
+        pois = await ReadPOIs.ReadAysnc(FullFilepath);
+        await PopulateMapAsync(pois);
+        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+    }
     private async Task BrowsePOIs()
     {
         var customFileType = new FilePickerFileType(
@@ -199,43 +225,48 @@ public partial class MapViewPage : ContentPage
     {
         await Task.Factory.StartNew(delegate
         {
-            POIsReadIsBusy = true;
-            foreach (var pin in mapView.Pins)
+            try
             {
-                pin.HideCallout();
-            }
-            mapView.Pins.Clear();
-            var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
-            foreach (var poi in pois)
-            {
-                var distance = Location.CalculateDistance(poi.Latitude, 
-                                                            poi.Longitude, 
-                                                            new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude), 
-                                                            DistanceUnits.Kilometers);
-                if (distance > Convert.ToDouble(this.EntryDistance.Text))
-                    continue;
-                var space = string.Empty;
-                if (!String.IsNullOrEmpty(poi.Subtitle))
+                POIsReadIsBusy = true;
+                foreach (var pin in mapView.Pins)
                 {
-                    space = "\r";
+                    pin.HideCallout();
                 }
-                var myPin = new Pin(mapView)
+                mapView.Pins.Clear();
+                var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
+                foreach (var poi in pois)
                 {
-                    Position = new Position(poi.Latitude, poi.Longitude),
-                    Type = PinType.Svg,
-                    Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
-                    Address = "",
-                    Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
-                    Scale = 0.03988F
-                };
+                    var distance = Location.CalculateDistance(poi.Latitude,
+                                                                poi.Longitude,
+                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                                                                DistanceUnits.Kilometers);
+                    if (distance > Convert.ToDouble(this.MaxDistanceLabel.Text))
+                        continue;
+                    var space = string.Empty;
+                    if (!String.IsNullOrEmpty(poi.Subtitle))
+                    {
+                        space = "\r";
+                    }
+                    var myPin = new Pin(mapView)
+                    {
+                        Position = new Position(poi.Latitude, poi.Longitude),
+                        Type = PinType.Svg,
+                        Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
+                        Address = "",
+                        Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
+                        Scale = 0.03988F
+                    };
 
-                //myPin.HideCallout();
-                myPin.Callout.TitleTextAlignment = TextAlignment.Start;
-                myPin.Callout.ArrowHeight = 15;
-                myPin.Callout.TitleFontSize = 15;
-                mapView.Pins.Add(myPin);
+                    //myPin.HideCallout();
+                    myPin.Callout.TitleTextAlignment = TextAlignment.Start;
+                    myPin.Callout.ArrowHeight = 15;
+                    myPin.Callout.TitleFontSize = 15;
+                    mapView.Pins.Add(myPin);
+                }
+                POIsReadIsBusy = false;
             }
-            POIsReadIsBusy = false;
+            catch(Exception ex) {  }
+            finally { POIsReadIsBusy = false; }
         });
     }
     private string GetPOIIcon(POIData poi)

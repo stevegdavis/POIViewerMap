@@ -17,7 +17,6 @@
                 </mct:Expander.Header>
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
-                        <ActivityIndicator  x:Name="Loading" IsVisible="False" IsRunning="True"/>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
                             <Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="15">
                                 <OnPlatform x:TypeArguments="x:String">
@@ -27,18 +26,11 @@
                             </Label>
                             <Label x:Name="POITypeLabel" Margin="0,13,0,0" FontAttributes="Bold"/>
                         </StackLayout>
-                        <HorizontalStackLayout>
-                            <Label Text="Maximum Distance in km: " Margin="5,14,10,0"/>
-                            <Entry Keyboard="Numeric" x:Name="EntryDistance" MaxLength="5" Text="10.00" >
-                                <Entry.Behaviors>
-                                    <mct:NumericValidationBehavior 
-                                    Flags="ForceMakeValidWhenFocused"
-                                    MinimumValue="0.0"
-                                    MaximumValue="50.0"
-                                    MaximumDecimalPlaces="2" />     
-                                </Entry.Behaviors>
-                            </Entry>
-                            <Button Text="Refresh" Margin="10,0,0,0" Clicked="RefreshButton_Clicked"/>
+                        <HorizontalStackLayout HorizontalOptions="Fill">
+                            <Label Text="Max Distance: " Margin="5,12,0,0"/>
+                            <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
+                            <Label Text="km" Margin="0,12,5,0"/>
+                            <Stepper x:Name="MaxStepper" Value="10" Maximum="50" Minimum="1" Increment="1" HorizontalOptions="Start" Margin="0,0,5,0" ValueChanged="OnStepperValueChanged" />
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0">
                             <Label x:Name="FilepathTitleLabel" FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.TXTFilepathLabelText}"/>
