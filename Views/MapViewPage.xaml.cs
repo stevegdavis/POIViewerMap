@@ -21,6 +21,7 @@ public partial class MapViewPage : ContentPage
     static string bicycleshopStr = null;
     static string supermarketStr = null;
     static string bicyclerepairstationStr = null;
+    static bool POIsReadIsBusy = false;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
 
@@ -132,6 +133,8 @@ public partial class MapViewPage : ContentPage
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
     {
+        if (POIsReadIsBusy)
+            return;
         pois.Clear();
         await BrowsePOIs();
         this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
@@ -196,6 +199,7 @@ public partial class MapViewPage : ContentPage
     {
         await Task.Factory.StartNew(delegate
         {
+            POIsReadIsBusy = true;
             foreach (var pin in mapView.Pins)
             {
                 pin.HideCallout();
@@ -231,6 +235,7 @@ public partial class MapViewPage : ContentPage
                 myPin.Callout.TitleFontSize = 15;
                 mapView.Pins.Add(myPin);
             }
+            POIsReadIsBusy = false;
         });
     }
     private string GetPOIIcon(POIData poi)
