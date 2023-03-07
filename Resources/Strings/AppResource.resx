@@ -132,6 +132,9 @@
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
+  <data name="RouteImportButtonText" xml:space="preserve">
+    <value>Import Route</value>
+  </data>
   <data name="TXTFilepathLabelText" xml:space="preserve">
     <value>Filename:</value>
   </data>

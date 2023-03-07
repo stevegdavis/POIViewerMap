@@ -2,19 +2,25 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Mapsui;
 using Mapsui.Extensions;
+using Mapsui.Layers;
+using Mapsui.Nts;
+using Mapsui.Nts.Extensions;
 using Mapsui.Projections;
+using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
 using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
 using System.Reflection;
+using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
 
 public partial class MapViewPage : ContentPage
 {
-    private string Filepath;
     private string FullFilepath;
     static string drinkingwaterStr = null;
     static string campsiteStr = null;
@@ -142,18 +148,41 @@ public partial class MapViewPage : ContentPage
         await PopulateMapAsync(pois);
         this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
-    async void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+    async void BrowseRoutesButton_Clicked(object sender, EventArgs e)
     {
         if (POIsReadIsBusy)
-        {
             return;
-        }            
-        pois.Clear();
-        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-        pois = await ReadPOIs.ReadAysnc(FullFilepath);
-        await PopulateMapAsync(pois);
-        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
-        this.MaxDistanceLabel.Text = String.Format("{0:0.00}", e.NewValue);
+        await BrowseRoutes();
+        var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepath);
+        try
+        {
+            var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
+            mapView.Map.Layers.Add(lineStringLayer);
+        }
+        catch { } // TODO
+    }
+    public static ILayer CreateLineStringLayer(string line, IStyle? style = null)
+    {
+        var lineString = (LineString)new WKTReader().Read(line);
+        lineString = new LineString(lineString.Coordinates.Select(v => SphericalMercator.FromLonLat(v.Y, v.X).ToCoordinate()).ToArray());
+
+        return new MemoryLayer
+        {
+            Features = new[] { new GeometryFeature { Geometry = lineString } },
+            Name = "LineStringLayer",
+            Style = style
+
+        };
+    }
+    public static IStyle CreateLineStringStyle()
+    {
+        return new VectorStyle
+        {
+            Fill = null,
+            Outline = null,
+#pragma warning disable CS8670 // Object or collection initializer implicitly dereferences possibly null member.
+            Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
+        };
     }
     async void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
     {
@@ -187,6 +216,25 @@ public partial class MapViewPage : ContentPage
         };
         await PickAndShow(options);
     }
+    private async Task BrowseRoutes()
+    {
+        var customFileType = new FilePickerFileType(
+             new Dictionary<DevicePlatform, IEnumerable<string>>
+             {
+                    { DevicePlatform.iOS, new[] { "public.my.gpx.extension" } }, // UTType values
+                    { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
+                    { DevicePlatform.WinUI, new[] { ".gpx" } }, // file extension
+                    { DevicePlatform.Tizen, new[] { "*/*" } },
+                    { DevicePlatform.macOS, new[] { "gpx" } }, // UTType values
+             });
+
+        PickOptions options = new()
+        {
+            PickerTitle = "Please select a GPX file",
+            FileTypes = customFileType,
+        };
+        await PickAndShow(options);
+    }
     public async Task<FileResult> PickAndShow(PickOptions options)
     {
         try
@@ -194,7 +242,6 @@ public partial class MapViewPage : ContentPage
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                this.Filepath = result.FileName;
                 this.FullFilepath = result?.FullPath;
                 this.FilepathLabel.Text = result?.FileName;
             }
@@ -249,7 +296,7 @@ public partial class MapViewPage : ContentPage
                     }
                     var myPin = new Pin(mapView)
                     {
-                        Position = new Position(poi.Latitude, poi.Longitude),
+                        Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
                         Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
                         Address = "",

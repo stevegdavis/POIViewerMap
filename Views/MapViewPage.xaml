@@ -37,6 +37,7 @@
                             <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
                         <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                        <Button Margin="5" Text="{x:Static resource:AppResource.RouteImportButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
             </mct:Expander>

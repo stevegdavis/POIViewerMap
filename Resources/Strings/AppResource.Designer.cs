@@ -106,6 +106,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import Route.
+        /// </summary>
+        internal static string RouteImportButtonText {
+            get {
+                return ResourceManager.GetString("RouteImportButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filename:.
         /// </summary>
         internal static string TXTFilepathLabelText {
