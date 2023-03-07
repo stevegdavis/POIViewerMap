@@ -27,7 +27,7 @@
                             <Label x:Name="POITypeLabel" Margin="0,13,0,0" FontAttributes="Bold"/>
                         </StackLayout>
                         <HorizontalStackLayout HorizontalOptions="Fill">
-                            <Label Text="Max Distance: " Margin="5,12,0,0"/>
+                            <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
                             <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
                             <Label Text="km" Margin="0,12,5,0"/>
                             <Stepper x:Name="MaxStepper" Value="10" Maximum="50" Minimum="1" Increment="1" HorizontalOptions="Start" Margin="0,0,5,0" ValueChanged="OnStepperValueChanged" />
@@ -37,7 +37,7 @@
                             <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
                         <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
-                        <Button Margin="5" Text="{x:Static resource:AppResource.RouteImportButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                        <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
             </mct:Expander>

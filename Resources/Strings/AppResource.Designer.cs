@@ -61,6 +61,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import Route.
+        /// </summary>
+        internal static string ImportRouteButtonText {
+            get {
+                return ResourceManager.GetString("ImportRouteButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string Options {
@@ -75,6 +84,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIBrowseButtonText {
             get {
                 return ResourceManager.GetString("POIBrowseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Distance:.
+        /// </summary>
+        internal static string POIMaxDistanceLabel {
+            get {
+                return ResourceManager.GetString("POIMaxDistanceLabel", resourceCulture);
             }
         }
         
@@ -102,15 +120,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIViewerTitle {
             get {
                 return ResourceManager.GetString("POIViewerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Import Route.
-        /// </summary>
-        internal static string RouteImportButtonText {
-            get {
-                return ResourceManager.GetString("RouteImportButtonText", resourceCulture);
             }
         }
         
