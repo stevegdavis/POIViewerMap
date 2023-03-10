@@ -1,4 +1,5 @@
-﻿using Mapsui.UI.Maui;
+﻿using ExCSS;
+using Mapsui.UI.Maui;
 using POIViewerMap.DataClasses;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,23 @@ public class ReadPOIs
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine().Trim();
-                if (line.StartsWith("<") && line.EndsWith(">"))
+                if (line.StartsWith("[POI]"))
                 {
-                    var data = ParseLine(line);
+                    line = sr.ReadLine();
+                    var lat = Convert.ToDouble(line);
+                    line = sr.ReadLine();
+                    var lon = Convert.ToDouble(line);
+                    var title = sr.ReadLine();
+                    var subtitle = sr.ReadLine();
+                    var poi = sr.ReadLine();
+                    var data = new POIData
+                    {
+                        Latitude = lat,
+                        Longitude = lon,
+                        POI = Enum.Parse<POIType>(poi),
+                        Title = title,
+                        Subtitle = subtitle,
+                    };
                     pois.Add(data);
                 }
             }

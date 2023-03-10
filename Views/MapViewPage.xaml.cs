@@ -21,7 +21,8 @@ namespace POIViewerMap.Views;
 
 public partial class MapViewPage : ContentPage
 {
-    private string FullFilepath;
+    private string FullFilepathPOIs;
+    private string FullFilepathRoute;
     static string drinkingwaterStr = null;
     static string campsiteStr = null;
     static string bicycleshopStr = null;
@@ -84,11 +85,17 @@ public partial class MapViewPage : ContentPage
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
     {
-        foreach (var pin in mapView.Pins)
+        if (POIsReadIsBusy)
+            return;
+        try
         {
-            pin.HideCallout();
+            foreach (var pin in mapView.Pins)
+            {
+                pin.HideCallout();
+            }
+            this.expander.IsExpanded = false;
         }
-        this.expander.IsExpanded = false;
+        catch(Exception ex) { }
     }
     private void OnPinClicked(object sender, PinClickedEventArgs e)
     {
@@ -144,7 +151,7 @@ public partial class MapViewPage : ContentPage
         pois.Clear();
         await BrowsePOIs();
         this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-        pois = await ReadPOIs.ReadAysnc(FullFilepath);
+        pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
         await PopulateMapAsync(pois);
         this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
@@ -153,7 +160,7 @@ public partial class MapViewPage : ContentPage
         if (POIsReadIsBusy)
             return;
         await BrowseRoutes();
-        var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepath);
+        var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
         try
         {
             var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
@@ -188,12 +195,12 @@ public partial class MapViewPage : ContentPage
     {
         if (POIsReadIsBusy)
             return;
-        if (String.IsNullOrEmpty(this.FullFilepath))
+        if (String.IsNullOrEmpty(this.FullFilepathPOIs))
             return;
-        this.MaxDistanceLabel.Text = e.NewValue.ToString();// String.Format("{0:0.00}", e.NewValue);
+        this.MaxDistanceLabel.Text = e.NewValue.ToString();
         pois.Clear();
         this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-        pois = await ReadPOIs.ReadAysnc(FullFilepath);
+        pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
         await PopulateMapAsync(pois);
         this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
@@ -202,19 +209,19 @@ public partial class MapViewPage : ContentPage
         var customFileType = new FilePickerFileType(
              new Dictionary<DevicePlatform, IEnumerable<string>>
              {
-                    { DevicePlatform.iOS, new[] { "public.my.osm.extension" } }, // UTType values
-                    { DevicePlatform.Android, new[] { "text/plain" } }, // MIME type
-                    { DevicePlatform.WinUI, new[] { ".txt" } }, // file extension
+                    { DevicePlatform.iOS, new[] { "public.my.poi.extension" } }, // UTType values
+                    { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
+                    { DevicePlatform.WinUI, new[] { ".poi" } }, // file extension
                     { DevicePlatform.Tizen, new[] { "*/*" } },
-                    { DevicePlatform.macOS, new[] { "txt" } }, // UTType values
+                    { DevicePlatform.macOS, new[] { "poi" } }, // UTType values
              });
 
         PickOptions options = new()
         {
-            PickerTitle = "Please select a TXT file",
+            PickerTitle = "Please select a POIS file",
             FileTypes = customFileType,
         };
-        await PickAndShow(options);
+        await PickAndShow(options, "pois");
     }
     private async Task BrowseRoutes()
     {
@@ -233,17 +240,26 @@ public partial class MapViewPage : ContentPage
             PickerTitle = "Please select a GPX file",
             FileTypes = customFileType,
         };
-        await PickAndShow(options);
+        await PickAndShow(options, "route");
     }
-    public async Task<FileResult> PickAndShow(PickOptions options)
+    public async Task<FileResult> PickAndShow(PickOptions options, string type)
     {
         try
         {
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                this.FullFilepath = result?.FullPath;
-                this.FilepathLabel.Text = result?.FileName;
+                switch(type)
+                {
+                    case "pois":
+                        this.FullFilepathPOIs = result?.FullPath;
+                        this.FilepathLabel.Text = result?.FileName;
+                        break;
+                    case "route":
+                        this.FullFilepathRoute = result?.FullPath;
+                        this.FilepathRouteLabel.Text = result?.FileName;
+                        break;
+                }
             }
             return result;
         }
@@ -270,7 +286,7 @@ public partial class MapViewPage : ContentPage
     }
     private async Task PopulateMapAsync(List<POIData> pois)
     {
-        await Task.Factory.StartNew(delegate
+        await Task.Factory.StartNew(() =>
         {
             try
             {
@@ -301,7 +317,7 @@ public partial class MapViewPage : ContentPage
                         Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
                         Address = "",
                         Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
-                        Scale = 0.03988F
+                        Scale = 0.0362F
                     };
 
                     //myPin.HideCallout();
