@@ -29,6 +29,8 @@ public partial class MapViewPage : ContentPage
     static string supermarketStr = null;
     static string bicyclerepairstationStr = null;
     static bool POIsReadIsBusy = false;
+    static bool POIsMapUpdateIsBusy = false;
+    static int MaxDistancePOIShow = 10; //Meters
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
 
@@ -78,10 +80,28 @@ public partial class MapViewPage : ContentPage
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
+        mapView.Viewport.ViewportChanged += Viewport_ViewportChanged;
         mapControl.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint());
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
+    }
+    private async void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (POIsMapUpdateIsBusy || e.PropertyName.Equals("SetSize"))
+            return;
+        if (mapView.Viewport.Resolution > 100)
+        {
+            pois.Clear();
+            mapView.Pins.Clear();
+        }
+        else if (!String.IsNullOrEmpty(FullFilepathPOIs))
+        {
+            POIsMapUpdateIsBusy = true;
+            pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+            await PopulateMapAsync(pois);
+            POIsMapUpdateIsBusy = false;
+        }
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
     {
@@ -149,6 +169,7 @@ public partial class MapViewPage : ContentPage
         if (POIsReadIsBusy)
             return;
         pois.Clear();
+        mapView.Pins.Clear();
         await BrowsePOIs();
         if(!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
@@ -297,7 +318,11 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                mapView.Pins.Clear();
+                if(mapView.Viewport.Resolution > 100)
+                {
+                    mapView.Pins.Clear();
+                    return;
+                }
                 var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
                 foreach (var poi in pois)
                 {
@@ -305,8 +330,8 @@ public partial class MapViewPage : ContentPage
                                                                 poi.Longitude,
                                                                 new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
                                                                 DistanceUnits.Kilometers);
-                    if (distance > Convert.ToDouble(this.MaxDistanceLabel.Text))
-                        continue;
+                    if (distance > MaxDistancePOIShow)// Convert.ToDouble(this.MaxDistanceLabel.Text))
+                      continue;
                     var space = string.Empty;
                     if (!String.IsNullOrEmpty(poi.Subtitle))
                     {
