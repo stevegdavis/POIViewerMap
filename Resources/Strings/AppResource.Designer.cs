@@ -61,15 +61,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filename:.
-        /// </summary>
-        internal static string FilepathLabelText {
-            get {
-                return ResourceManager.GetString("FilepathLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Import Route.
         /// </summary>
         internal static string ImportRouteButtonText {
@@ -93,6 +84,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIBrowseButtonText {
             get {
                 return ResourceManager.GetString("POIBrowseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POI Filename:.
+        /// </summary>
+        internal static string POIFilepathLabelText {
+            get {
+                return ResourceManager.GetString("POIFilepathLabelText", resourceCulture);
             }
         }
         
@@ -129,6 +129,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIViewerTitle {
             get {
                 return ResourceManager.GetString("POIViewerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route Filename:.
+        /// </summary>
+        internal static string RouteFilepathLabelText {
+            get {
+                return ResourceManager.GetString("RouteFilepathLabelText", resourceCulture);
             }
         }
     }

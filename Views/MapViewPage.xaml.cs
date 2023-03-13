@@ -150,23 +150,29 @@ public partial class MapViewPage : ContentPage
             return;
         pois.Clear();
         await BrowsePOIs();
-        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-        pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
-        await PopulateMapAsync(pois);
-        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+        if(!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
+        {
+            this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
+            pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+            await PopulateMapAsync(pois);
+            this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+        }
     }
     async void BrowseRoutesButton_Clicked(object sender, EventArgs e)
     {
         if (POIsReadIsBusy)
             return;
         await BrowseRoutes();
-        var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
-        try
+        if(!String.IsNullOrEmpty(this.FilepathRouteLabel.Text))
         {
-            var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
-            mapView.Map.Layers.Add(lineStringLayer);
+            var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
+            try
+            {
+                var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
+                mapView.Map.Layers.Add(lineStringLayer);
+            }
+            catch { } // TODO
         }
-        catch { } // TODO
     }
     public static ILayer CreateLineStringLayer(string line, IStyle? style = null)
     {
@@ -218,10 +224,15 @@ public partial class MapViewPage : ContentPage
 
         PickOptions options = new()
         {
-            PickerTitle = "Please select a POIS file",
+            PickerTitle = "Please select a POI file",
             FileTypes = customFileType,
         };
-        await PickAndShow(options, "pois");
+        var result = await PickAndShow(options);//, "route");
+        if (Path.GetExtension(result.FileName).Equals(".poi"))
+        {
+            this.FullFilepathPOIs = result?.FullPath;
+            this.FilepathPOILabel.Text = result?.FileName;
+        }
     }
     private async Task BrowseRoutes()
     {
@@ -240,27 +251,18 @@ public partial class MapViewPage : ContentPage
             PickerTitle = "Please select a GPX file",
             FileTypes = customFileType,
         };
-        await PickAndShow(options, "route");
+        var result = await PickAndShow(options);
+        if (Path.GetExtension(result.FileName).Equals(".gpx"))
+        {
+            this.FullFilepathRoute = result?.FullPath;
+            this.FilepathRouteLabel.Text = result?.FileName;
+        }
     }
-    public async Task<FileResult> PickAndShow(PickOptions options, string type)
+    public async Task<FileResult> PickAndShow(PickOptions options)
     {
         try
         {
             var result = await FilePicker.Default.PickAsync(options);
-            if (result != null)
-            {
-                switch(type)
-                {
-                    case "pois":
-                        this.FullFilepathPOIs = result?.FullPath;
-                        this.FilepathLabel.Text = result?.FileName;
-                        break;
-                    case "route":
-                        this.FullFilepathRoute = result?.FullPath;
-                        this.FilepathRouteLabel.Text = result?.FileName;
-                        break;
-                }
-            }
             return result;
         }
         catch (Exception ex)

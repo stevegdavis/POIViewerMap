@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FilepathLabelText" xml:space="preserve">
-    <value>Filename:</value>
-  </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Import Route</value>
   </data>
@@ -128,6 +125,9 @@
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>Import POIs</value>
+  </data>
+  <data name="POIFilepathLabelText" xml:space="preserve">
+    <value>POI Filename:</value>
   </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Max Distance:</value>
@@ -140,5 +140,8 @@
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
+  </data>
+  <data name="RouteFilepathLabelText" xml:space="preserve">
+    <value>Route Filename:</value>
   </data>
 </root>

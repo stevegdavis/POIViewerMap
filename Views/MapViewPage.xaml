@@ -33,15 +33,17 @@
                             <Stepper x:Name="MaxStepper" Value="10" Maximum="50" Minimum="1" Increment="1" HorizontalOptions="Start" Margin="0,0,5,0" ValueChanged="OnStepperValueChanged" />
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0">
-                            <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.FilepathLabelText}"/>
-                            <Label x:Name="FilepathLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
+                            <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
+                            <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
-                        <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                         <HorizontalStackLayout Margin="5,0,0,0">
-                            <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.FilepathLabelText}"/>
+                            <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
                             <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
-                        <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                            <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                            <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
             </mct:Expander>
