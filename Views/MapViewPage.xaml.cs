@@ -31,6 +31,7 @@ public partial class MapViewPage : ContentPage
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int MaxDistancePOIShow = 10; //Meters
+    static int MinZoomPOI = 60;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
 
@@ -73,7 +74,8 @@ public partial class MapViewPage : ContentPage
         var extent = GetLimitsOfStroud();
         mapView.Map.Home = n => n.NavigateTo(extent);
         mapView.Map.RotationLock = true;
-        mapView.Map = mapView.Map;
+        //mapView.Map = mapView.Map;
+        //mapView.PanLock = true;
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
@@ -90,17 +92,22 @@ public partial class MapViewPage : ContentPage
     {
         if (POIsMapUpdateIsBusy || e.PropertyName.Equals("SetSize"))
             return;
-        if (mapView.Viewport.Resolution > 100)
+        var res = mapView.Viewport.Resolution;
+        if (mapView.Viewport.Resolution < MinZoomPOI)
         {
             pois.Clear();
-            mapView.Pins.Clear();
+            //mapView.Pins.Clear();
+            if (!String.IsNullOrEmpty(FullFilepathPOIs))
+            {
+                POIsMapUpdateIsBusy = true;
+                pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+                await PopulateMapAsync(pois);
+                POIsMapUpdateIsBusy = false;
+            }
         }
-        else if (!String.IsNullOrEmpty(FullFilepathPOIs))
+        else
         {
-            POIsMapUpdateIsBusy = true;
-            pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
-            await PopulateMapAsync(pois);
-            POIsMapUpdateIsBusy = false;
+            mapView.Pins.Clear();
         }
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
@@ -175,7 +182,8 @@ public partial class MapViewPage : ContentPage
         {
             this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
             pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
-            await PopulateMapAsync(pois);
+            if (mapView.Viewport.Resolution < MinZoomPOI)
+                await PopulateMapAsync(pois);
             this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
         }
     }
@@ -318,7 +326,7 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                if(mapView.Viewport.Resolution > 100)
+                if(mapView.Viewport.Resolution > MinZoomPOI)
                 {
                     mapView.Pins.Clear();
                     return;
@@ -330,7 +338,7 @@ public partial class MapViewPage : ContentPage
                                                                 poi.Longitude,
                                                                 new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
                                                                 DistanceUnits.Kilometers);
-                    if (distance > MaxDistancePOIShow)// Convert.ToDouble(this.MaxDistanceLabel.Text))
+                    if (distance > MaxDistancePOIShow)
                       continue;
                     var space = string.Empty;
                     if (!String.IsNullOrEmpty(poi.Subtitle))
