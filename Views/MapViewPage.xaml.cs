@@ -30,7 +30,7 @@ public partial class MapViewPage : ContentPage
     static string bicyclerepairstationStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static int MaxDistancePOIShow = 10; //Meters
+    static int MaxDistancePOIShow = 10; //Km
     static int MinZoomPOI = 40;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
