@@ -140,5 +140,14 @@ namespace POIViewerMap.Resources.Strings {
                 return ResourceManager.GetString("RouteFilepathLabelText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom in to view POIs.
+        /// </summary>
+        internal static string ZoomInToastMsg {
+            get {
+                return ResourceManager.GetString("ZoomInToastMsg", resourceCulture);
+            }
+        }
     }
 }

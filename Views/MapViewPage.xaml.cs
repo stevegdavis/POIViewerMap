@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Mapsui;
@@ -108,6 +110,10 @@ public partial class MapViewPage : ContentPage
         else
         {
             mapView.Pins.Clear();
+            if(pois.Count > 0)
+            {
+                ShowZoomInToast();
+            }
         }
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
@@ -184,8 +190,24 @@ public partial class MapViewPage : ContentPage
             pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
             if (mapView.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
+            else
+            {
+                ShowZoomInToast();
+            }
             this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
         }
+    }
+    private void ShowZoomInToast()
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            // Code to run on the main thread
+            CancellationTokenSource cancellationTokenSource = new();
+            ToastDuration duration = ToastDuration.Short;
+            double fontSize = 15;
+            var toast = Toast.Make(AppResource.ZoomInToastMsg, duration, fontSize);
+            await toast.Show(cancellationTokenSource.Token);
+        });
     }
     async void BrowseRoutesButton_Clicked(object sender, EventArgs e)
     {

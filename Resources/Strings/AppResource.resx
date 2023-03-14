@@ -144,4 +144,7 @@
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route Filename:</value>
   </data>
+  <data name="ZoomInToastMsg" xml:space="preserve">
+    <value>Zoom in to view POIs</value>
+  </data>
 </root>
