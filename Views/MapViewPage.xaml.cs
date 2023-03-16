@@ -30,9 +30,14 @@ public partial class MapViewPage : ContentPage
     static string bicycleshopStr = null;
     static string supermarketStr = null;
     static string bicyclerepairstationStr = null;
+    static string atmStr = null;
+    static string toiletStr = null;
+    static string benchStr = null;
+    static string cupStr = null;
+    static string bakeryStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static int MaxDistancePOIShow = 10; //Km
+    static int MaxDistancePOIShow = 50; // km
     static int MinZoomPOI = 40;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
@@ -72,8 +77,38 @@ public partial class MapViewPage : ContentPage
             using StreamReader reader = new(supermarket!);
             supermarketStr = reader.ReadToEnd();
         }
+        using var atm = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.atm.svg");
+        if (atm != null)
+        {
+            using StreamReader reader = new(atm!);
+            atmStr = reader.ReadToEnd();
+        }
+        using var toilet = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.toilet.svg");
+        if (toilet != null)
+        {
+            using StreamReader reader = new(toilet!);
+            toiletStr = reader.ReadToEnd();
+        }
+        using var bench = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.bench.svg");
+        if (bench != null)
+        {
+            using StreamReader reader = new(bench!);
+            benchStr = reader.ReadToEnd();
+        }
+        using var cup = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.coffee-cup.svg");
+        if (cup != null)
+        {
+            using StreamReader reader = new(cup!);
+            cupStr = reader.ReadToEnd();
+        }
+        using var bakery = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.cupcake.svg");
+        if (bakery != null)
+        {
+            using StreamReader reader = new(bakery!);
+            bakeryStr = reader.ReadToEnd();
+        }
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
-        var extent = GetLimitsOfStroud();
+        var extent = MapViewPage.GetLimitsOfStroud();
         mapView.Map.Home = n => n.NavigateTo(extent);
         mapView.Map.RotationLock = true;
         //mapView.Map = mapView.Map;
@@ -94,8 +129,19 @@ public partial class MapViewPage : ContentPage
     {
         if (POIsMapUpdateIsBusy || e.PropertyName.Equals("SetSize"))
             return;
-        var res = mapView.Viewport.Resolution;
-        if (mapView.Viewport.Resolution < MinZoomPOI)
+        if (mapView.Viewport.Resolution > MinZoomPOI)
+        {
+            foreach (var pin in mapView.Pins)
+            {
+                pin.HideCallout();
+            }
+            mapView.Pins.Clear();
+            if (pois.Count > 0)
+            {
+                MapViewPage.ShowZoomInToast();
+            }
+        }
+        else if(mapView.Pins.Count == 0)
         {
             pois.Clear();
             //mapView.Pins.Clear();
@@ -105,14 +151,6 @@ public partial class MapViewPage : ContentPage
                 pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
                 await PopulateMapAsync(pois);
                 POIsMapUpdateIsBusy = false;
-            }
-        }
-        else
-        {
-            mapView.Pins.Clear();
-            if(pois.Count > 0)
-            {
-                ShowZoomInToast();
             }
         }
     }
@@ -128,7 +166,7 @@ public partial class MapViewPage : ContentPage
             }
             this.expander.IsExpanded = false;
         }
-        catch(Exception ex) { }
+        catch (Exception) { }
     }
     private void OnPinClicked(object sender, PinClickedEventArgs e)
     {
@@ -147,20 +185,22 @@ public partial class MapViewPage : ContentPage
         }
         e.Handled = true;
     }
-    private string GetPOIString(POIType poi)
+    private static string GetPOIString(POIType poi)
     {
-        switch(poi) 
+        switch (poi)
         {
-            case POIType.DrinkingWater:
-                return "Drinking Water";
-            case POIType.Campsite:
-                return "Campsite";
-            case POIType.BicycleShop:
-                return "Bicycle Shop";
-            case POIType.BicycleRepairStation:
-                return "Bicycle Repair Station";
-            case POIType.Supermarket:
-                return "Supermarket/Convenience Store";
+            case POIType.DrinkingWater: return "Drinking Water";
+            case POIType.Campsite: return "Campsite";
+            case POIType.BicycleShop: return "Bicycle Shop";
+            case POIType.BicycleRepairStation: return "Bicycle Repair Station";
+            case POIType.Supermarket: return "Supermarket/Convenience Store";
+            case POIType.ATM: return "ATM";
+            case POIType.Toilet: return "Toilet";
+            case POIType.Cafe: return "Cafe";
+            case POIType.Bench: return "Bench";
+            case POIType.Unknown:
+                break;
+            case POIType.Bakery: return "Bakery";
         }
         return string.Empty;
     }
@@ -182,6 +222,10 @@ public partial class MapViewPage : ContentPage
         if (POIsReadIsBusy)
             return;
         pois.Clear();
+        foreach (var pin in mapView.Pins)
+        {
+            pin.HideCallout();
+        }
         mapView.Pins.Clear();
         await BrowsePOIs();
         if(!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
@@ -192,12 +236,12 @@ public partial class MapViewPage : ContentPage
                 await PopulateMapAsync(pois);
             else
             {
-                ShowZoomInToast();
+                MapViewPage.ShowZoomInToast();
             }
-            this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+            this.POITypeLabel.Text = MapViewPage.GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
         }
     }
-    private void ShowZoomInToast()
+    private static void ShowZoomInToast()
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
@@ -259,7 +303,7 @@ public partial class MapViewPage : ContentPage
         this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
         pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
         await PopulateMapAsync(pois);
-        this.POITypeLabel.Text = GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+        this.POITypeLabel.Text = MapViewPage.GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
     }
     private async Task BrowsePOIs()
     {
@@ -278,7 +322,7 @@ public partial class MapViewPage : ContentPage
             PickerTitle = "Please select a POI file",
             FileTypes = customFileType,
         };
-        var result = await PickAndShow(options);//, "route");
+        var result = await MapViewPage.PickAndShow(options);//, "route");
         if (Path.GetExtension(result.FileName).Equals(".poi"))
         {
             this.FullFilepathPOIs = result?.FullPath;
@@ -302,21 +346,21 @@ public partial class MapViewPage : ContentPage
             PickerTitle = "Please select a GPX file",
             FileTypes = customFileType,
         };
-        var result = await PickAndShow(options);
+        var result = await MapViewPage.PickAndShow(options);
         if (Path.GetExtension(result.FileName).Equals(".gpx"))
         {
             this.FullFilepathRoute = result?.FullPath;
             this.FilepathRouteLabel.Text = result?.FileName;
         }
     }
-    public async Task<FileResult> PickAndShow(PickOptions options)
+    public static async Task<FileResult> PickAndShow(PickOptions options)
     {
         try
         {
             var result = await FilePicker.Default.PickAsync(options);
             return result;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // The user canceled or something went wrong
         }
@@ -331,7 +375,7 @@ public partial class MapViewPage : ContentPage
             mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
         }
     }
-    private MRect GetLimitsOfStroud()
+    private static MRect GetLimitsOfStroud()
     {
         var (minX, minY) = SphericalMercator.FromLonLat(-2.1488, 51.79797);
         var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
@@ -373,7 +417,7 @@ public partial class MapViewPage : ContentPage
                         Type = PinType.Svg,
                         Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
                         Address = "",
-                        Svg = GetPOIIcon(poi),// eg. drinkingwaterStr,
+                        Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0362F
                     };
 
@@ -389,15 +433,22 @@ public partial class MapViewPage : ContentPage
             finally { POIsReadIsBusy = false; }
         });
     }
-    private string GetPOIIcon(POIData poi)
+    private static string GetPOIIcon(POIData poi)
     {
-        switch(poi.POI)
+        switch (poi.POI)
         {
             case POIType.DrinkingWater: return drinkingwaterStr;
             case POIType.Campsite: return campsiteStr;
             case POIType.BicycleShop: return bicycleshopStr;
             case POIType.Supermarket: return supermarketStr;
             case POIType.BicycleRepairStation: return bicyclerepairstationStr;
+            case POIType.ATM: return atmStr;
+            case POIType.Toilet: return toiletStr;
+            case POIType.Bench: return benchStr;
+            case POIType.Cafe: return cupStr;
+            case POIType.Bakery: return bakeryStr;
+            case POIType.Unknown:
+                break;
         }
         return string.Empty;
     }

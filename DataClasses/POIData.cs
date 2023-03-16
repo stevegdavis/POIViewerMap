@@ -25,4 +25,8 @@ public enum POIType
     BicycleShop,
     BicycleRepairStation,
     Supermarket,
+    ATM,
+    Toilet,
+    Cafe,
+    Bakery,
 }
