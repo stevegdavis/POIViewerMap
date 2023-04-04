@@ -1,4 +1,5 @@
-﻿using POIViewerMap.DataClasses;
+﻿using POIBinaryFormatMauiLib;
+using POIViewerMap.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

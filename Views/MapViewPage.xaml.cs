@@ -13,6 +13,7 @@ using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
+using POIBinaryFormatMauiLib;
 using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
@@ -37,8 +38,9 @@ public partial class MapViewPage : ContentPage
     static string bakeryStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static int MaxDistancePOIShow = 50; // km
-    static int MinZoomPOI = 40;
+    static readonly int MaxDistancePOIShow = 50; // km
+    static readonly int MinZoomPOI = 40;
+    static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
 
@@ -107,6 +109,7 @@ public partial class MapViewPage : ContentPage
             using StreamReader reader = new(bakery!);
             bakeryStr = reader.ReadToEnd();
         }
+        this.picker.SelectedIndex = 0; // drinking water
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
         var extent = MapViewPage.GetLimitsOfStroud();
         mapView.Map.Home = n => n.NavigateTo(extent);
@@ -148,7 +151,8 @@ public partial class MapViewPage : ContentPage
             if (!String.IsNullOrEmpty(FullFilepathPOIs))
             {
                 POIsMapUpdateIsBusy = true;
-                pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+                //pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+                pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
                 await PopulateMapAsync(pois);
                 POIsMapUpdateIsBusy = false;
             }
@@ -185,26 +189,6 @@ public partial class MapViewPage : ContentPage
         }
         e.Handled = true;
     }
-    private static string GetPOIString(POIType poi)
-    {
-        switch (poi)
-        {
-            case POIType.DrinkingWater: return "Drinking Water";
-            case POIType.Campsite: return "Campsite";
-            case POIType.BicycleShop: return "Bicycle Shop";
-            case POIType.BicycleRepairStation: return "Bicycle Repair Station";
-            case POIType.Supermarket: return "Supermarket/Convenience Store";
-            case POIType.ATM: return "ATM";
-            case POIType.Toilet: return "Toilet";
-            case POIType.Cafe: return "Cafe";
-            case POIType.Bench: return "Bench";
-            case POIType.Unknown:
-                break;
-            case POIType.Bakery: return "Bakery";
-        }
-        return string.Empty;
-    }
-
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -216,6 +200,35 @@ public partial class MapViewPage : ContentPage
         base.OnDisappearing();
         if (DeviceInfo.Current.Version.Major >= 11)
             WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
+    }
+    async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        if(POIsReadIsBusy)
+        { return; }
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+
+        if (selectedIndex != -1)
+        {
+            currentPOIType = MapViewPage.GetPOIType(selectedIndex);
+            this.Loading.IsVisible = true;
+            this.picker.IsEnabled = false;
+            foreach (var pin in mapView.Pins)
+            {
+                pin.HideCallout();
+            }
+            mapView.Pins.Clear();
+            if (mapView.Viewport.Resolution < MinZoomPOI)
+            {
+                await PopulateMapAsync(pois);
+                this.picker.IsEnabled = true;
+                this.Loading.IsVisible = false;
+            }
+            else
+            {
+                MapViewPage.ShowZoomInToast();
+            }
+        }
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
     {
@@ -230,15 +243,23 @@ public partial class MapViewPage : ContentPage
         await BrowsePOIs();
         if(!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
-            this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-            pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+            //this.POITypeLabel.IsVisible = true;
+            //this.activity.IsRunning = true;
+            //this.activity.IsVisible = true;
+            this.Loading.IsVisible = true;
+            this.picker.IsEnabled = false;
+            pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
             if (mapView.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
             else
             {
                 MapViewPage.ShowZoomInToast();
             }
-            this.POITypeLabel.Text = MapViewPage.GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+            //this.POITypeLabel.IsVisible = false;
+            this.picker.IsEnabled = true;
+            //this.activity.IsRunning = false;
+            //this.activity.IsVisible = false;
+            this.Loading.IsVisible = false;
         }
     }
     private static void ShowZoomInToast()
@@ -300,21 +321,23 @@ public partial class MapViewPage : ContentPage
             return;
         this.MaxDistanceLabel.Text = e.NewValue.ToString();
         pois.Clear();
-        this.POITypeLabel.Text = AppResource.POIsLoadingMsg;
-        pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
+        //this.POITypeLabel.IsVisible = true;
+        this.picker.IsEnabled = false;
+        pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
         await PopulateMapAsync(pois);
-        this.POITypeLabel.Text = MapViewPage.GetPOIString(pois.Count > 0 ? pois[0].POI : POIType.Unknown);
+        //this.POITypeLabel.IsVisible = false;
+        this.picker.IsEnabled = true;
     }
     private async Task BrowsePOIs()
     {
         var customFileType = new FilePickerFileType(
              new Dictionary<DevicePlatform, IEnumerable<string>>
              {
-                    { DevicePlatform.iOS, new[] { "public.my.poi.extension" } }, // UTType values
+                    { DevicePlatform.iOS, new[] { "public.my.bin.extension" } }, // UTType values
                     { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
-                    { DevicePlatform.WinUI, new[] { ".poi" } }, // file extension
+                    { DevicePlatform.WinUI, new[] { ".bin" } }, // file extension
                     { DevicePlatform.Tizen, new[] { "*/*" } },
-                    { DevicePlatform.macOS, new[] { "poi" } }, // UTType values
+                    { DevicePlatform.macOS, new[] { "bin" } }, // UTType values
              });
 
         PickOptions options = new()
@@ -323,7 +346,7 @@ public partial class MapViewPage : ContentPage
             FileTypes = customFileType,
         };
         var result = await MapViewPage.PickAndShow(options);//, "route");
-        if (Path.GetExtension(result.FileName).Equals(".poi"))
+        if (Path.GetExtension(result.FileName).Equals(".bin"))
         {
             this.FullFilepathPOIs = result?.FullPath;
             this.FilepathPOILabel.Text = result?.FileName;
@@ -406,6 +429,8 @@ public partial class MapViewPage : ContentPage
                                                                 DistanceUnits.Kilometers);
                     if (distance > MaxDistancePOIShow)
                       continue;
+                    if (poi.POI != currentPOIType)
+                        continue;
                     var space = string.Empty;
                     if (!String.IsNullOrEmpty(poi.Subtitle))
                     {
@@ -439,18 +464,37 @@ public partial class MapViewPage : ContentPage
         {
             case POIType.DrinkingWater: return drinkingwaterStr;
             case POIType.Campsite: return campsiteStr;
+            case POIType.Bench: return benchStr;
             case POIType.BicycleShop: return bicycleshopStr;
-            case POIType.Supermarket: return supermarketStr;
             case POIType.BicycleRepairStation: return bicyclerepairstationStr;
+            case POIType.Supermarket: return supermarketStr;
             case POIType.ATM: return atmStr;
             case POIType.Toilet: return toiletStr;
-            case POIType.Bench: return benchStr;
             case POIType.Cafe: return cupStr;
             case POIType.Bakery: return bakeryStr;
             case POIType.Unknown:
                 break;
         }
         return string.Empty;
+    }
+    private static POIType GetPOIType(int selectedIndex)
+    {
+        switch (selectedIndex)
+        {
+            case 0: return POIType.DrinkingWater;
+            case 1: return POIType.Campsite;
+            case 2: return POIType.Bench;
+            case 3: return POIType.BicycleShop;
+            case 4: return POIType.BicycleRepairStation;
+            case 5: return POIType.Supermarket;
+            case 6: return POIType.ATM;
+            case 7: return POIType.Toilet;
+            case 8: return POIType.Cafe;
+            case 9: return POIType.Bakery;
+            default:
+                break;
+        }
+        return POIType.Unknown;
     }
     private async void  RefreshButton_Clicked(object sender, EventArgs e)
     {

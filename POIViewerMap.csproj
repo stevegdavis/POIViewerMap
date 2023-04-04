@@ -116,6 +116,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="POIBinaryFormatMauiLib">
+	    <HintPath>..\POIBinaryFormatMauiLib\bin\Debug\net7.0-Android\POIBinaryFormatMauiLib.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="Platforms\iOS\KeyboardHelper.cs">
 	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
 	  </Compile>

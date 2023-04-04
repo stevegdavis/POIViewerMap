@@ -24,7 +24,22 @@
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Label x:Name="POITypeLabel" Margin="0,13,0,0" FontAttributes="Bold"/>
+                            <Picker x:Name="picker" IsEnabled="False" Title="{x:Static resource:AppResource.POIPickerTitleText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Drinking Water</x:String>
+                                        <x:String>Campsite</x:String>
+                                        <x:String>Bench</x:String>
+                                        <x:String>Bicycle Shop</x:String>
+                                        <x:String>Bicycle Repair Point</x:String>
+                                        <x:String>Supermarket</x:String>
+                                        <x:String>ATM</x:String>
+                                        <x:String>Toilet</x:String>
+                                        <x:String>Cafe</x:String>
+                                        <x:String>Bakery</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
                         </StackLayout>
                         <HorizontalStackLayout HorizontalOptions="Fill" IsVisible="False" >
                             <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
@@ -32,7 +47,7 @@
                             <Label Text="km" Margin="0,12,5,0"/>
                             <Stepper x:Name="MaxStepper" Value="10" Maximum="50" Minimum="1" Increment="1" HorizontalOptions="Start" Margin="0,0,5,0" ValueChanged="OnStepperValueChanged" />
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Margin="5,0,0,0">
+                        <HorizontalStackLayout Margin="5,0,0,0" IsVisible="False">
                             <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
                             <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
@@ -43,6 +58,10 @@
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                             <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout x:Name="Loading" IsVisible="False">
+                            <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>
+                            <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" TextColor="{StaticResource Tertiary}" FontAttributes="Bold" FontSize="16"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </mct:Expander.Content>

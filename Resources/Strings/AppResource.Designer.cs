@@ -106,11 +106,20 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading - please wait....
+        ///   Looks up a localized string similar to Select a POI to view.
         /// </summary>
-        internal static string POIsLoadingMsg {
+        internal static string POIPickerTitleText {
             get {
-                return ResourceManager.GetString("POIsLoadingMsg", resourceCulture);
+                return ResourceManager.GetString("POIPickerTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading POIs - please wait....
+        /// </summary>
+        internal static string POIsLoadingLabelText {
+            get {
+                return ResourceManager.GetString("POIsLoadingLabelText", resourceCulture);
             }
         }
         

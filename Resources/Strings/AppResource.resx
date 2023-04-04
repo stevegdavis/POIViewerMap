@@ -132,8 +132,11 @@
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Max Distance:</value>
   </data>
-  <data name="POIsLoadingMsg" xml:space="preserve">
-    <value>Loading - please wait...</value>
+  <data name="POIPickerTitleText" xml:space="preserve">
+    <value>Select a POI to view</value>
+  </data>
+  <data name="POIsLoadingLabelText" xml:space="preserve">
+    <value>Loading POIs - please wait...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
     <value>POI Type:</value>
