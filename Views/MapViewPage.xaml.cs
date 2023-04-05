@@ -211,22 +211,25 @@ public partial class MapViewPage : ContentPage
         if (selectedIndex != -1)
         {
             currentPOIType = MapViewPage.GetPOIType(selectedIndex);
-            this.Loading.IsVisible = true;
-            this.picker.IsEnabled = false;
-            foreach (var pin in mapView.Pins)
+            if (pois.Count > 0)
             {
-                pin.HideCallout();
-            }
-            mapView.Pins.Clear();
-            if (mapView.Viewport.Resolution < MinZoomPOI)
-            {
-                await PopulateMapAsync(pois);
-                this.picker.IsEnabled = true;
-                this.Loading.IsVisible = false;
-            }
-            else
-            {
-                MapViewPage.ShowZoomInToast();
+                this.Loading.IsVisible = true;
+                this.picker.IsEnabled = false;
+                foreach (var pin in mapView.Pins)
+                {
+                    pin.HideCallout();
+                }
+                mapView.Pins.Clear();
+                if (mapView.Viewport.Resolution < MinZoomPOI)
+                {
+                    await PopulateMapAsync(pois);
+                    this.picker.IsEnabled = true;
+                    this.Loading.IsVisible = false;
+                }
+                else
+                {
+                    MapViewPage.ShowZoomInToast();
+                }
             }
         }
     }
