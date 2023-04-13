@@ -11,12 +11,14 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
+using Mapsui.Widgets;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatMauiLib;
-using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
+using ReactiveUI;
+using System.Reactive.Linq;
 using System.Reflection;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
@@ -113,25 +115,61 @@ public partial class MapViewPage : ContentPage
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
         var extent = MapViewPage.GetLimitsOfStroud();
         mapView.Map.Home = n => n.NavigateTo(extent);
+        //mapView.Map.Home = n => n.CenterOnAndZoomTo(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint(), 10); //beta 9
         mapView.Map.RotationLock = true;
-        //mapView.Map = mapView.Map;
-        //mapView.PanLock = true;
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
+        //mapView.Map.Widgets.Add(new ButtonWidget
+        //{
+        //    HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
+        //    VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top,
+        //    MarginX = 20,
+        //    MarginY = 20,
+        //    SvgImage = drinkingwaterStr,
+        //    Picture = drinkingwaterStr,
+        //});
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         mapView.Viewport.ViewportChanged += Viewport_ViewportChanged;
         mapControl.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint());
+        //mapView.Map.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint()); // beta 9
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
+        _ = Observable
+                .Interval(TimeSpan.FromSeconds(10))
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(async _ =>
+                {
+                    if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                        await GetCurrentDeviceLocationAsync();
+                });
+    }
+
+    private void Gps_WidgetTouched(object sender, WidgetTouchedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task GetCurrentDeviceLocationAsync()
+    {
+        await Task.Factory.StartNew(async () =>
+        {
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+            if (myCurrentLocation != null)
+            {
+                mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
+            }
+        });
     }
     private async void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (POIsMapUpdateIsBusy || e.PropertyName.Equals("SetSize"))
             return;
+        //if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
         if (mapView.Viewport.Resolution > MinZoomPOI)
         {
             foreach (var pin in mapView.Pins)
@@ -220,6 +258,7 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
+                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
                 if (mapView.Viewport.Resolution < MinZoomPOI)
                 {
                     await PopulateMapAsync(pois);
@@ -252,6 +291,7 @@ public partial class MapViewPage : ContentPage
             this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
             pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
+            //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
             if (mapView.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
             else
@@ -418,7 +458,8 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                if(mapView.Viewport.Resolution > MinZoomPOI)
+                //if(mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
+                if (mapView.Viewport.Resolution > MinZoomPOI)
                 {
                     mapView.Pins.Clear();
                     return;
