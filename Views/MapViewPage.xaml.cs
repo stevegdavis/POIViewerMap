@@ -147,12 +147,6 @@ public partial class MapViewPage : ContentPage
                         await GetCurrentDeviceLocationAsync();
                 });
     }
-
-    private void Gps_WidgetTouched(object sender, WidgetTouchedEventArgs e)
-    {
-        throw new NotImplementedException();
-    }
-
     private async Task GetCurrentDeviceLocationAsync()
     {
         await Task.Factory.StartNew(async () =>
@@ -167,33 +161,42 @@ public partial class MapViewPage : ContentPage
     }
     private async void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (POIsMapUpdateIsBusy || e.PropertyName.Equals("SetSize"))
+        if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize"))
             return;
-        //if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
-        if (mapView.Viewport.Resolution > MinZoomPOI)
+        try
         {
-            foreach (var pin in mapView.Pins)
+            if (mapView.Viewport.Resolution > MinZoomPOI)
             {
-                pin.HideCallout();
+                foreach (var pin in mapView.Pins)
+                {
+                    pin.HideCallout();
+                }
+                mapView.Pins.Clear();
+                if (pois.Count > 0)
+                {
+                    MapViewPage.ShowZoomInToast();
+                }
             }
-            mapView.Pins.Clear();
-            if (pois.Count > 0)
+            else if (mapView.Pins.Count == 0)
             {
-                MapViewPage.ShowZoomInToast();
+                pois.Clear();
+                //mapView.Pins.Clear();
+                if (!String.IsNullOrEmpty(FullFilepathPOIs))
+                {
+                    POIsMapUpdateIsBusy = true;
+                    pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
+                    this.Loading.IsVisible = true;
+                    this.picker.IsEnabled = false;
+                    await PopulateMapAsync(pois);
+                    this.picker.IsEnabled = true;
+                    this.Loading.IsVisible = false;
+                    POIsMapUpdateIsBusy = false;
+                }
             }
         }
-        else if(mapView.Pins.Count == 0)
+        catch (Exception ex)
         {
-            pois.Clear();
-            //mapView.Pins.Clear();
-            if (!String.IsNullOrEmpty(FullFilepathPOIs))
-            {
-                POIsMapUpdateIsBusy = true;
-                //pois = await ReadPOIs.ReadAysnc(FullFilepathPOIs);
-                pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
-                await PopulateMapAsync(pois);
-                POIsMapUpdateIsBusy = false;
-            }
+
         }
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
@@ -251,8 +254,8 @@ public partial class MapViewPage : ContentPage
             currentPOIType = MapViewPage.GetPOIType(selectedIndex);
             if (pois.Count > 0)
             {
-                this.Loading.IsVisible = true;
-                this.picker.IsEnabled = false;
+                //this.Loading.IsVisible = true;
+                //this.picker.IsEnabled = false;
                 foreach (var pin in mapView.Pins)
                 {
                     pin.HideCallout();
@@ -261,6 +264,8 @@ public partial class MapViewPage : ContentPage
                 //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
                 if (mapView.Viewport.Resolution < MinZoomPOI)
                 {
+                    this.Loading.IsVisible = true;
+                    this.picker.IsEnabled = false;
                     await PopulateMapAsync(pois);
                     this.picker.IsEnabled = true;
                     this.Loading.IsVisible = false;

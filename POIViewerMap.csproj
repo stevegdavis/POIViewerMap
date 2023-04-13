@@ -49,7 +49,6 @@
 
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\atm.svg" />
-	  <MauiImage Remove="Resources\Images\bench.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle-pin.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
 	  <MauiImage Remove="Resources\Images\bread-bakery.svg" />
@@ -68,7 +67,6 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\atm.svg" />
-	  <None Remove="Resources\Images\bench.svg" />
 	  <None Remove="Resources\Images\bicycle-pin.svg" />
 	  <None Remove="Resources\Images\bicycle.svg" />
 	  <None Remove="Resources\Images\bread-bakery.svg" />
@@ -86,7 +84,6 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Images\atm.svg" />
-	  <EmbeddedResource Include="Resources\Images\bench.svg" />
 	  <EmbeddedResource Include="Resources\Images\bicycle-pin.svg" />
 	  <EmbeddedResource Include="Resources\Images\bicycle.svg" />
 	  <EmbeddedResource Include="Resources\Images\bread-bakery.svg" />
