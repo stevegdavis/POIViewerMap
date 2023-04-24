@@ -145,7 +145,7 @@
     <value>POI Viewer Map</value>
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
-    <value>Route Filename:</value>
+    <value>Route:</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>

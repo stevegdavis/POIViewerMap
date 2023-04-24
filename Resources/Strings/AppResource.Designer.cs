@@ -142,7 +142,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Route Filename:.
+        ///   Looks up a localized string similar to Route:.
         /// </summary>
         internal static string RouteFilepathLabelText {
             get {
