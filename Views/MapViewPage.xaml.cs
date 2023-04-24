@@ -35,7 +35,6 @@ public partial class MapViewPage : ContentPage
     static string bicyclerepairstationStr = null;
     static string atmStr = null;
     static string toiletStr = null;
-    static string benchStr = null;
     static string cupStr = null;
     static string bakeryStr = null;
     static bool POIsReadIsBusy = false;
@@ -92,12 +91,6 @@ public partial class MapViewPage : ContentPage
         {
             using StreamReader reader = new(toilet!);
             toiletStr = reader.ReadToEnd();
-        }
-        using var bench = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.bench.svg");
-        if (bench != null)
-        {
-            using StreamReader reader = new(bench!);
-            benchStr = reader.ReadToEnd();
         }
         using var cup = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.coffee-cup.svg");
         if (cup != null)
@@ -288,7 +281,7 @@ public partial class MapViewPage : ContentPage
         }
         mapView.Pins.Clear();
         await BrowsePOIs();
-        if(!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
+        if (!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
             //this.POITypeLabel.IsVisible = true;
             //this.activity.IsRunning = true;
@@ -513,7 +506,6 @@ public partial class MapViewPage : ContentPage
         {
             case POIType.DrinkingWater: return drinkingwaterStr;
             case POIType.Campsite: return campsiteStr;
-            case POIType.Bench: return benchStr;
             case POIType.BicycleShop: return bicycleshopStr;
             case POIType.BicycleRepairStation: return bicyclerepairstationStr;
             case POIType.Supermarket: return supermarketStr;
@@ -532,14 +524,13 @@ public partial class MapViewPage : ContentPage
         {
             case 0: return POIType.DrinkingWater;
             case 1: return POIType.Campsite;
-            case 2: return POIType.Bench;
-            case 3: return POIType.BicycleShop;
-            case 4: return POIType.BicycleRepairStation;
-            case 5: return POIType.Supermarket;
-            case 6: return POIType.ATM;
-            case 7: return POIType.Toilet;
-            case 8: return POIType.Cafe;
-            case 9: return POIType.Bakery;
+            case 2: return POIType.BicycleShop;
+            case 3: return POIType.BicycleRepairStation;
+            case 4: return POIType.Supermarket;
+            case 5: return POIType.ATM;
+            case 6: return POIType.Toilet;
+            case 7: return POIType.Cafe;
+            case 8: return POIType.Bakery;
             default:
                 break;
         }

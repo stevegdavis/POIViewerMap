@@ -29,7 +29,6 @@
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Drinking Water</x:String>
                                         <x:String>Campsite</x:String>
-                                        <x:String>Bench</x:String>
                                         <x:String>Bicycle Shop</x:String>
                                         <x:String>Bicycle Repair Point</x:String>
                                         <x:String>Supermarket</x:String>
