@@ -32,10 +32,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#248f8f" BaseSize="128,128" ForegroundScale="0.47" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#248f8f" BaseSize="128,128" />
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
@@ -75,11 +75,14 @@
 	  <None Remove="Resources\Images\coffee-cup.svg" />
 	  <None Remove="Resources\Images\cupcake.svg" />
 	  <None Remove="Resources\Images\drinkingwater.svg" />
+	  <None Remove="Resources\Images\map.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\shopping-basket.svg" />
 	  <None Remove="Resources\Images\shopping-cart.svg" />
 	  <None Remove="Resources\Images\spanner.svg" />
 	  <None Remove="Resources\Images\toilet.svg" />
+	  <None Remove="Resources\Splash\splash.svg" />
+	  <None Remove="Resources\Splash\splash_bicycle.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -98,6 +101,10 @@
 	  <EmbeddedResource Include="Resources\Images\spanner.svg" />
 	  <EmbeddedResource Include="Resources\Images\toilet.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterlightblue.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Splash\splash.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
