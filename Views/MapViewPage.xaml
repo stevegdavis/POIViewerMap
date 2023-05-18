@@ -18,13 +18,13 @@
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="15">
+                            <Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="18">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="picker" IsEnabled="False" Title="{x:Static resource:AppResource.POIPickerTitleText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.POIPickerTitleText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Drinking Water</x:String>
@@ -48,12 +48,14 @@
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0" IsVisible="False">
                             <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
-                            <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
+                            <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="18" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Margin="5,0,0,0">
-                            <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
-                            <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="15" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
-                        </HorizontalStackLayout>
+                        <ScrollView Orientation="Horizontal" Margin="5,0,5,0">
+                            <HorizontalStackLayout Margin="0,0,5,0">
+                                <Label FontSize="18" TextColor="Black" Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
+                                <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="18" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </ScrollView>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                             <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
