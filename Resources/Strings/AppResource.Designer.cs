@@ -61,6 +61,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance &gt;.
+        /// </summary>
+        internal static string DistanceToGreatToastMsg {
+            get {
+                return ResourceManager.GetString("DistanceToGreatToastMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import Route.
         /// </summary>
         internal static string ImportRouteButtonText {

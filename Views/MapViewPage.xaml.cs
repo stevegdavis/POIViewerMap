@@ -44,6 +44,8 @@ public partial class MapViewPage : ContentPage
     static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
+    private object minX;
+    private object minY;
 
     public MapViewPage()
 	{
@@ -158,6 +160,20 @@ public partial class MapViewPage : ContentPage
             return;
         try
         {
+            if(e.PropertyName.Equals("Transform"))
+            {
+                var mapLocation = SphericalMercator.ToLonLat(mapView.Viewport.CenterX, mapView.Viewport.CenterY);
+                var lat = mapLocation.lat; 
+                var lon = mapLocation.lon;
+                var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
+                                                                myCurrentLocation.Longitude,
+                                                                new Location(lat, lon),
+                                                                DistanceUnits.Kilometers);
+                if (distance > MaxDistancePOIShow)
+                {
+                    MapViewPage.ShowDistanceToGreatToast();
+                }
+            }
             if (mapView.Viewport.Resolution > MinZoomPOI)
             {
                 foreach (var pin in mapView.Pins)
@@ -312,6 +328,18 @@ public partial class MapViewPage : ContentPage
             ToastDuration duration = ToastDuration.Short;
             double fontSize = 15;
             var toast = Toast.Make(AppResource.ZoomInToastMsg, duration, fontSize);
+            await toast.Show(cancellationTokenSource.Token);
+        });
+    }
+    private static void ShowDistanceToGreatToast()
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            // Code to run on the main thread
+            CancellationTokenSource cancellationTokenSource = new();
+            ToastDuration duration = ToastDuration.Short;
+            double fontSize = 15;
+            var toast = Toast.Make($"{AppResource.DistanceToGreatToastMsg} {MaxDistancePOIShow}km", duration, fontSize);
             await toast.Show(cancellationTokenSource.Token);
         });
     }
