@@ -37,6 +37,7 @@ public partial class MapViewPage : ContentPage
     static string toiletStr = null;
     static string cupStr = null;
     static string bakeryStr = null;
+    static string picnictableStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static readonly int MaxDistancePOIShow = 50; // km
@@ -105,6 +106,12 @@ public partial class MapViewPage : ContentPage
         {
             using StreamReader reader = new(bakery!);
             bakeryStr = reader.ReadToEnd();
+        }
+        using var picnictable = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.picnic-table.svg");
+        if (picnictable != null)
+        {
+            using StreamReader reader = new(picnictable!);
+            picnictableStr = reader.ReadToEnd();
         }
         this.picker.SelectedIndex = 0; // drinking water
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
@@ -541,6 +548,7 @@ public partial class MapViewPage : ContentPage
             case POIType.Toilet: return toiletStr;
             case POIType.Cafe: return cupStr;
             case POIType.Bakery: return bakeryStr;
+            case POIType.PicnicTable: return picnictableStr;
             case POIType.Unknown:
                 break;
         }
@@ -559,6 +567,7 @@ public partial class MapViewPage : ContentPage
             case 6: return POIType.Toilet;
             case 7: return POIType.Cafe;
             case 8: return POIType.Bakery;
+            case 9: return POIType.PicnicTable;
             default:
                 break;
         }

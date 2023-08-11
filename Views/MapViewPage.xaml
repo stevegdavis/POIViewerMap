@@ -36,6 +36,7 @@
                                         <x:String>Toilet</x:String>
                                         <x:String>Cafe</x:String>
                                         <x:String>Bakery</x:String>
+                                        <x:String>Picnic Table</x:String>
                                     </x:Array>
                                 </Picker.ItemsSource>
                             </Picker>
