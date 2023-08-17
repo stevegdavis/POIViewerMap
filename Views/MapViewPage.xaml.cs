@@ -250,7 +250,8 @@ public partial class MapViewPage : ContentPage
     {
         base.OnAppearing();
         if(DeviceInfo.Current.Version.Major >= 11)
-            WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
+            //WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
+            WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
     }
     protected override void OnDisappearing()
     {
