@@ -38,7 +38,7 @@ public partial class MapViewPage : ContentPage
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static readonly int MaxDistancePOIShow = 50; // km
-    static readonly int MinZoomPOI = 40;
+    static readonly int MinZoomPOI = 90;
     static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
