@@ -1,7 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Layers;
@@ -11,7 +9,6 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
-using Mapsui.Widgets;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatMauiLib;
@@ -245,19 +242,6 @@ public partial class MapViewPage : ContentPage
                     e.Pin.ShowCallout();
         }
         e.Handled = true;
-    }
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        if(DeviceInfo.Current.Version.Major >= 11)
-            //WeakReferenceMessenger.Default.Send(new FullScreenMessage("HideOsNavigationBar"));
-            WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
-    }
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
-        if (DeviceInfo.Current.Version.Major >= 11)
-            WeakReferenceMessenger.Default.Send(new NormalScreenMessage("NormalNavigationBar"));
     }
     async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
     {
@@ -579,18 +563,5 @@ public partial class MapViewPage : ContentPage
         Platforms.KeyboardHelper.HideKeyboard();
         if (pois.Count > 0)
             await PopulateMapAsync(pois);
-    }
-}
-public class FullScreenMessage : ValueChangedMessage<object>
-{
-    public FullScreenMessage(object r) : base(r)
-    {
-    }
-}
-
-public class NormalScreenMessage : ValueChangedMessage<object>
-{
-    public NormalScreenMessage(object r) : base(r)
-    {
     }
 }
