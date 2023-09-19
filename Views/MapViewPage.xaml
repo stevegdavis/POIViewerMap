@@ -18,13 +18,13 @@
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="18">
+                            <Label Margin="5,12,1,0" TextColor="Black" FontAttributes="None" FontSize="18">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.POIPickerTitleText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>Drinking Water</x:String>
@@ -40,6 +40,43 @@
                                     </x:Array>
                                 </Picker.ItemsSource>
                             </Picker>
+                            <Label Margin="1,10,1,0" TextColor="Black" FontAttributes="None" FontSize="18">
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.MaxRadiusLabelText}"/>
+                                    <On Platform="Windows" Value="" />
+                                </OnPlatform>
+                            </Label>
+                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>10km</x:String>
+                                        <x:String>20km</x:String>
+                                        <x:String>50km</x:String>
+                                        <x:String>75km</x:String>
+                                        <x:String>100km</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </StackLayout>
+                        <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                            <!--<Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="18">
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.MaxRadiusLabelText}"/>
+                                    <On Platform="Windows" Value="" />
+                                </OnPlatform>
+                            </Label>
+                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>10km</x:String>
+                                        <x:String>20km</x:String>
+                                        <x:String>50km</x:String>
+                                        <x:String>75km</x:String>
+                                        <x:String>100km</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>-->
+                            <Button Margin="25,5,0,0" IsVisible="False" Text="{x:Static resource:AppResource.RefreshButtonText}" Clicked="RefreshButton_Clicked"/>
                         </StackLayout>
                         <HorizontalStackLayout HorizontalOptions="Fill" IsVisible="False" >
                             <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>

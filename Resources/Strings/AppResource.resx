@@ -123,6 +123,9 @@
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Import Route</value>
   </data>
+  <data name="MaxRadiusLabelText" xml:space="preserve">
+    <value>Radius:</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
@@ -136,16 +139,19 @@
     <value>Max Distance:</value>
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
-    <value>Select a POI to view</value>
+    <value>Choose</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
     <value>Loading POIs - please wait...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
-    <value>POI Type:</value>
+    <value>POI:</value>
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
+  </data>
+  <data name="RefreshButtonText" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>

@@ -79,6 +79,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Radius:.
+        /// </summary>
+        internal static string MaxRadiusLabelText {
+            get {
+                return ResourceManager.GetString("MaxRadiusLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string Options {
@@ -115,7 +124,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select a POI to view.
+        ///   Looks up a localized string similar to Choose.
         /// </summary>
         internal static string POIPickerTitleText {
             get {
@@ -133,7 +142,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POI Type:.
+        ///   Looks up a localized string similar to POI:.
         /// </summary>
         internal static string POIViewerMapPOIsLabelText {
             get {
@@ -147,6 +156,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIViewerTitle {
             get {
                 return ResourceManager.GetString("POIViewerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string RefreshButtonText {
+            get {
+                return ResourceManager.GetString("RefreshButtonText", resourceCulture);
             }
         }
         

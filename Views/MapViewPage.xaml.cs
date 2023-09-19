@@ -37,8 +37,8 @@ public partial class MapViewPage : ContentPage
     static string picnictableStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static readonly int MaxDistancePOIShow = 50; // km
-    static readonly int MinZoomPOI = 90;
+    static int MaxRadius = 10; // km
+    static readonly int MinZoomPOI = 290;
     static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
@@ -110,7 +110,7 @@ public partial class MapViewPage : ContentPage
             using StreamReader reader = new(picnictable!);
             picnictableStr = reader.ReadToEnd();
         }
-        this.picker.SelectedIndex = 0; // drinking water
+        //this.picker.SelectedIndex = 0; // drinking water
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
         var extent = MapViewPage.GetLimitsOfStroud();
         mapView.Map.Home = n => n.NavigateTo(extent);
@@ -173,7 +173,7 @@ public partial class MapViewPage : ContentPage
                                                                 myCurrentLocation.Longitude,
                                                                 new Location(lat, lon),
                                                                 DistanceUnits.Kilometers);
-                if (distance > MaxDistancePOIShow)
+                if (distance > MaxRadius)
                 {
                     MapViewPage.ShowDistanceToGreatToast();
                 }
@@ -200,8 +200,10 @@ public partial class MapViewPage : ContentPage
                     pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
                     this.Loading.IsVisible = true;
                     this.picker.IsEnabled = false;
+                    this.pickerRadius.IsEnabled = false;
                     await PopulateMapAsync(pois);
                     this.picker.IsEnabled = true;
+                    this.pickerRadius.IsEnabled = true;
                     this.Loading.IsVisible = false;
                     POIsMapUpdateIsBusy = false;
                 }
@@ -267,8 +269,10 @@ public partial class MapViewPage : ContentPage
                 {
                     this.Loading.IsVisible = true;
                     this.picker.IsEnabled = false;
+                    this.pickerRadius.IsEnabled = false;
                     await PopulateMapAsync(pois);
                     this.picker.IsEnabled = true;
+                    this.pickerRadius.IsEnabled = true;
                     this.Loading.IsVisible = false;
                 }
                 else
@@ -276,6 +280,54 @@ public partial class MapViewPage : ContentPage
                     MapViewPage.ShowZoomInToast();
                 }
             }
+        }
+    }
+    async void OnRadiusPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (POIsReadIsBusy)
+        { return; }
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+
+        if (selectedIndex != -1)
+        {
+            MaxRadius = GetRadiusType(selectedIndex);
+            this.pickerRadius.Title = $"{MaxRadius}km";
+            if (pois.Count > 0)
+            {
+                //this.Loading.IsVisible = true;
+                //this.picker.IsEnabled = false;
+                foreach (var pin in mapView.Pins)
+                {
+                    pin.HideCallout();
+                }
+                mapView.Pins.Clear();
+                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
+                if (mapView.Viewport.Resolution < MinZoomPOI)
+                {
+                    this.Loading.IsVisible = true;
+                    this.picker.IsEnabled = false;
+                    this.pickerRadius.IsEnabled = false;
+                    await PopulateMapAsync(pois);
+                    this.picker.IsEnabled = true;
+                    this.pickerRadius.IsEnabled = true;
+                    this.Loading.IsVisible = false;
+                }
+                else
+                {
+                    MapViewPage.ShowZoomInToast();
+                }
+            }
+        }
+    }
+    static int GetRadiusType(int selectedIndex)
+    {
+        switch(selectedIndex)
+        {
+            case 0:
+                return 10; case 1: return 20; case 2: return 50;
+            case 3: return 75;
+            case 4: return 100; default: return 10;
         }
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
@@ -294,8 +346,10 @@ public partial class MapViewPage : ContentPage
             //this.POITypeLabel.IsVisible = true;
             //this.activity.IsRunning = true;
             //this.activity.IsVisible = true;
+            this.pickerRadius.Title = $"{MaxRadius}km";
             this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
+            this.pickerRadius.IsEnabled = false;
             pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
             //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
             if (mapView.Viewport.Resolution < MinZoomPOI)
@@ -306,9 +360,11 @@ public partial class MapViewPage : ContentPage
             }
             //this.POITypeLabel.IsVisible = false;
             this.picker.IsEnabled = true;
+            this.pickerRadius.IsEnabled = true;
             //this.activity.IsRunning = false;
             //this.activity.IsVisible = false;
             this.Loading.IsVisible = false;
+            this.picker.SelectedIndex = 0; // Drinking Water
         }
     }
     private static void ShowZoomInToast()
@@ -331,7 +387,7 @@ public partial class MapViewPage : ContentPage
             CancellationTokenSource cancellationTokenSource = new();
             ToastDuration duration = ToastDuration.Short;
             double fontSize = 15;
-            var toast = Toast.Make($"{AppResource.DistanceToGreatToastMsg} {MaxDistancePOIShow}km", duration, fontSize);
+            var toast = Toast.Make($"{AppResource.DistanceToGreatToastMsg} {MaxRadius}km", duration, fontSize);
             await toast.Show(cancellationTokenSource.Token);
         });
     }
@@ -384,10 +440,12 @@ public partial class MapViewPage : ContentPage
         pois.Clear();
         //this.POITypeLabel.IsVisible = true;
         this.picker.IsEnabled = false;
+        this.pickerRadius.IsEnabled = false;
         pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
         await PopulateMapAsync(pois);
         //this.POITypeLabel.IsVisible = false;
         this.picker.IsEnabled = true;
+        this.pickerRadius.IsEnabled = true;
     }
     private async Task BrowsePOIs()
     {
@@ -489,7 +547,7 @@ public partial class MapViewPage : ContentPage
                                                                 poi.Longitude,
                                                                 new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
                                                                 DistanceUnits.Kilometers);
-                    if (distance > MaxDistancePOIShow)
+                    if (distance > MaxRadius)
                       continue;
                     if (poi.POI != currentPOIType)
                         continue;
@@ -505,7 +563,7 @@ public partial class MapViewPage : ContentPage
                         Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
-                        Scale = 0.0362F
+                        Scale = 0.0462F
                     };
 
                     //myPin.HideCallout();
