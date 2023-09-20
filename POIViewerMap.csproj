@@ -118,7 +118,9 @@
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="3.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="2.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-		<PackageReference Include="Mapsui.Maui" Version="4.0.0-beta.8" />
+		<PackageReference Include="Mapsui.Maui" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Tiling" Version="4.0.0" />		
 		<PackageReference Include="Flurl.Http" Version="3.2.4" />
 	</ItemGroup>
 

@@ -112,10 +112,14 @@ public partial class MapViewPage : ContentPage
         }
         //this.picker.SelectedIndex = 0; // drinking water
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
-        var extent = MapViewPage.GetLimitsOfStroud();
-        mapView.Map.Home = n => n.NavigateTo(extent);
-        //mapView.Map.Home = n => n.CenterOnAndZoomTo(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint(), 10); //beta 9
-        mapView.Map.RotationLock = true;
+        mapView.Map.Navigator.RotationLock = true;
+        // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
+        var centerOfStroud = new MPoint(-2.218266, 51.745564);
+        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfStroud.X, centerOfStroud.Y).ToMPoint();
+        // Set the center of the viewport to the coordinate. The UI will refresh automatically
+        // Additionally you might want to set the resolution, this could depend on your specific purpose
+        mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
@@ -131,9 +135,8 @@ public partial class MapViewPage : ContentPage
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
-        mapView.Viewport.ViewportChanged += Viewport_ViewportChanged;
-        mapControl.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint());
-        //mapView.Map.Navigator.CenterOn(SphericalMercator.FromLonLat(-2.2539759, 51.7476017).ToMPoint()); // beta 9
+        mapView.Map.Navigator.ViewportChanged += Viewport_ViewportChanged;
+
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
@@ -160,25 +163,28 @@ public partial class MapViewPage : ContentPage
     }
     private async void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize"))
+        if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize") || !e.PropertyName.Equals("Viewport"))
             return;
         try
         {
-            if(e.PropertyName.Equals("Transform"))
+            if(e.PropertyName.Equals("Viewport"))
             {
-                var mapLocation = SphericalMercator.ToLonLat(mapView.Viewport.CenterX, mapView.Viewport.CenterY);
+                var mapLocation = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
                 var lat = mapLocation.lat; 
                 var lon = mapLocation.lon;
-                var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
+                if(myCurrentLocation != null && mapView.Pins.Count > 0)
+                {
+                    var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
                                                                 myCurrentLocation.Longitude,
                                                                 new Location(lat, lon),
                                                                 DistanceUnits.Kilometers);
-                if (distance > MaxRadius)
-                {
-                    MapViewPage.ShowDistanceToGreatToast();
+                    if (distance > MaxRadius)
+                    {
+                        MapViewPage.ShowDistanceToGreatToast();
+                    }
                 }
             }
-            if (mapView.Viewport.Resolution > MinZoomPOI)
+            if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
             {
                 foreach (var pin in mapView.Pins)
                 {
@@ -265,7 +271,7 @@ public partial class MapViewPage : ContentPage
                 }
                 mapView.Pins.Clear();
                 //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
-                if (mapView.Viewport.Resolution < MinZoomPOI)
+                if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
                 {
                     this.Loading.IsVisible = true;
                     this.picker.IsEnabled = false;
@@ -303,7 +309,7 @@ public partial class MapViewPage : ContentPage
                 }
                 mapView.Pins.Clear();
                 //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
-                if (mapView.Viewport.Resolution < MinZoomPOI)
+                if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
                 {
                     this.Loading.IsVisible = true;
                     this.picker.IsEnabled = false;
@@ -334,6 +340,7 @@ public partial class MapViewPage : ContentPage
     {
         if (POIsReadIsBusy)
             return;
+        POIsReadIsBusy = true;
         pois.Clear();
         foreach (var pin in mapView.Pins)
         {
@@ -347,12 +354,14 @@ public partial class MapViewPage : ContentPage
             //this.activity.IsRunning = true;
             //this.activity.IsVisible = true;
             this.pickerRadius.Title = $"{MaxRadius}km";
+            this.picker.Title = "Drinking Water";
+            currentPOIType = POIType.DrinkingWater;
             this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
             //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
-            if (mapView.Viewport.Resolution < MinZoomPOI)
+            if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
             else
             {
@@ -364,7 +373,9 @@ public partial class MapViewPage : ContentPage
             //this.activity.IsRunning = false;
             //this.activity.IsVisible = false;
             this.Loading.IsVisible = false;
-            this.picker.SelectedIndex = 0; // Drinking Water
+            this.picker.SelectedIndex = -1;
+            this.pickerRadius.SelectedIndex = -1;
+            POIsReadIsBusy = false;
         }
     }
     private static void ShowZoomInToast()
@@ -535,7 +546,7 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 //if(mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
-                if (mapView.Viewport.Resolution > MinZoomPOI)
+                if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
                 {
                     mapView.Pins.Clear();
                     return;
@@ -574,7 +585,9 @@ public partial class MapViewPage : ContentPage
                 }
                 POIsReadIsBusy = false;
             }
-            catch(Exception ex) {  }
+            catch(Exception ex)
+            {
+            }
             finally { POIsReadIsBusy = false; }
         });
     }
