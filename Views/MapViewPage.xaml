@@ -98,6 +98,10 @@
                             <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                             <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                         </HorizontalStackLayout>
+                        <HorizontalStackLayout HorizontalOptions="StartAndExpand">
+                            <CheckBox Margin="0,0,0,0" x:Name="AllowCenterMap" IsChecked="False"/>
+                            <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold" FontSize="15"/>
+                        </HorizontalStackLayout>
                         <HorizontalStackLayout x:Name="Loading" IsVisible="False">
                             <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>
                             <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" TextColor="{StaticResource Tertiary}" FontAttributes="Bold" FontSize="16"/>

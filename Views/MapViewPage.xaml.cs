@@ -44,7 +44,10 @@ public partial class MapViewPage : ContentPage
     private static Location myCurrentLocation;
     private object minX;
     private object minY;
-
+    //private Mapsui.Map map = new();
+    private MyLocationLayer? _myLocationLayer;
+    private (MPoint, double, double, double, bool, bool, bool)[] _points = new (MPoint, double, double, double, bool, bool, bool)[0];
+    private int _count = 0;
     public MapViewPage()
 	{
 		InitializeComponent();
@@ -111,18 +114,26 @@ public partial class MapViewPage : ContentPage
             picnictableStr = reader.ReadToEnd();
         }
         //this.picker.SelectedIndex = 0; // drinking water
+        _myLocationLayer = new MyLocationLayer(mapView.Map)
+        {
+            IsCentered = true,
+        };
+
+
+        mapView.Map.Layers.Add(_myLocationLayer);
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
         mapView.Map.Navigator.RotationLock = true;
         // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
-        var centerOfStroud = new MPoint(-2.218266, 51.745564);
+        var centerOfMap = new MPoint(-2.218266, 51.745564);
         // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfStroud.X, centerOfStroud.Y).ToMPoint();
+        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfMap.X, centerOfMap.Y).ToMPoint();
         // Set the center of the viewport to the coordinate. The UI will refresh automatically
         // Additionally you might want to set the resolution, this could depend on your specific purpose
         mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
+        mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         //mapView.Map.Widgets.Add(new ButtonWidget
         //{
         //    HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
@@ -135,8 +146,67 @@ public partial class MapViewPage : ContentPage
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
-        mapView.Map.Navigator.ViewportChanged += Viewport_ViewportChanged;
+        //mapView.Map = map;
+        //mapView.Map.Navigator.ViewportChanged += Viewport_ViewportChanged;
+        mapView.Map.Navigator.ViewportChanged += async (s, e) =>
+        {
+            //if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize"))
+                return;
+            try
+            {
+                if (e.PropertyName.Equals("Viewport"))
+                {
+                    var mapLocation = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
+                    var lat = mapLocation.lat;
+                    var lon = mapLocation.lon;
+                    if (myCurrentLocation != null && mapView.Pins.Count > 0)
+                    {
+                        var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
+                                                                    myCurrentLocation.Longitude,
+                                                                    new Location(lat, lon),
+                                                                    DistanceUnits.Kilometers);
+                        if (distance > MaxRadius)
+                        {
+                            MapViewPage.ShowDistanceToGreatToast();
+                        }
+                    }
+                }
+                if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
+                {
+                    //foreach (var pin in mapView.Pins)
+                    //{
+                    //    pin.HideCallout();
+                    //}
+                    //mapView.Pins.Clear();
+                    if (pois.Count > 0)
+                    {
+                        MapViewPage.ShowZoomInToast();
+                    }
+                }
+                //else if (mapView.Pins.Count == 0)
+                //{
+                //    pois.Clear();
+                //    //mapView.Pins.Clear();
+                //    if (!String.IsNullOrEmpty(FullFilepathPOIs))
+                //    {
+                //        POIsMapUpdateIsBusy = true;
+                //        pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
+                //        this.Loading.IsVisible = true;
+                //        this.picker.IsEnabled = false;
+                //        this.pickerRadius.IsEnabled = false;
+                //        await PopulateMapAsync(pois);
+                //        this.picker.IsEnabled = true;
+                //        this.pickerRadius.IsEnabled = true;
+                //        this.Loading.IsVisible = false;
+                //        POIsMapUpdateIsBusy = false;
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
 
+            }
+        };
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
@@ -145,8 +215,20 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
+                    if (this.AllowCenterMap.IsChecked == false)
+                        return;
                     if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                         await GetCurrentDeviceLocationAsync();
+                    
+                    // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
+                    var centerOfMap = new MPoint(myCurrentLocation.Longitude, myCurrentLocation.Latitude);
+                    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfMap.X, centerOfMap.Y).ToMPoint();
+                    //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
+                    _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
+                    mapView.MyLocationLayer.UpdateMyDirection(36, mapView.Map.Navigator.Viewport.Rotation, true);
+                    mapView.MyLocationLayer.UpdateMyViewDirection(36, mapView.Map.Navigator.Viewport.Rotation, true);// _points[_count].Item7);
+                    
                 });
     }
     private async Task GetCurrentDeviceLocationAsync()
@@ -155,70 +237,7 @@ public partial class MapViewPage : ContentPage
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
-            if (myCurrentLocation != null)
-            {
-                mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
-            }
         });
-    }
-    private async void Viewport_ViewportChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize") || !e.PropertyName.Equals("Viewport"))
-            return;
-        try
-        {
-            if(e.PropertyName.Equals("Viewport"))
-            {
-                var mapLocation = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
-                var lat = mapLocation.lat; 
-                var lon = mapLocation.lon;
-                if(myCurrentLocation != null && mapView.Pins.Count > 0)
-                {
-                    var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
-                                                                myCurrentLocation.Longitude,
-                                                                new Location(lat, lon),
-                                                                DistanceUnits.Kilometers);
-                    if (distance > MaxRadius)
-                    {
-                        MapViewPage.ShowDistanceToGreatToast();
-                    }
-                }
-            }
-            if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
-            {
-                foreach (var pin in mapView.Pins)
-                {
-                    pin.HideCallout();
-                }
-                mapView.Pins.Clear();
-                if (pois.Count > 0)
-                {
-                    MapViewPage.ShowZoomInToast();
-                }
-            }
-            else if (mapView.Pins.Count == 0)
-            {
-                pois.Clear();
-                //mapView.Pins.Clear();
-                if (!String.IsNullOrEmpty(FullFilepathPOIs))
-                {
-                    POIsMapUpdateIsBusy = true;
-                    pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
-                    this.Loading.IsVisible = true;
-                    this.picker.IsEnabled = false;
-                    this.pickerRadius.IsEnabled = false;
-                    await PopulateMapAsync(pois);
-                    this.picker.IsEnabled = true;
-                    this.pickerRadius.IsEnabled = true;
-                    this.Loading.IsVisible = false;
-                    POIsMapUpdateIsBusy = false;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-
-        }
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
     {

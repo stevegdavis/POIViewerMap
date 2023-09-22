@@ -61,6 +61,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center Map on My Position.
+        /// </summary>
+        internal static string CenterMapLabelText {
+            get {
+                return ResourceManager.GetString("CenterMapLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance &gt;.
         /// </summary>
         internal static string DistanceToGreatToastMsg {
