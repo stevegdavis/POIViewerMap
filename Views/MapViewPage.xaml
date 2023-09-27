@@ -49,6 +49,7 @@
                             <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
+                                        <x:String>5km</x:String>
                                         <x:String>10km</x:String>
                                         <x:String>20km</x:String>
                                         <x:String>50km</x:String>
