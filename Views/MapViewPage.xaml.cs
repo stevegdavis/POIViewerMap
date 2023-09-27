@@ -44,13 +44,18 @@ public partial class MapViewPage : ContentPage
     private static Location myCurrentLocation;
     private object minX;
     private object minY;
-    //private Mapsui.Map map = new();
+    private CompassData CurrentCompassReading;
+    private static bool IsCompassUpDateBusy = false; 
     private MyLocationLayer? _myLocationLayer;
+    private bool _disposed;
     private (MPoint, double, double, double, bool, bool, bool)[] _points = new (MPoint, double, double, double, bool, bool, bool)[0];
     private int _count = 0;
     public MapViewPage()
 	{
 		InitializeComponent();
+        Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
+        {
+        };// todo: Write to your own logger;
         var assembly = typeof(App).GetTypeInfo().Assembly;
         var assemblyName = assembly.GetName().Name;
         using var drinkingwater = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.waterlightblue.svg");
@@ -113,23 +118,25 @@ public partial class MapViewPage : ContentPage
             using StreamReader reader = new(picnictable!);
             picnictableStr = reader.ReadToEnd();
         }
-        //this.picker.SelectedIndex = 0; // drinking water
+        _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
         {
             IsCentered = true,
         };
 
-
-        mapView.Map.Layers.Add(_myLocationLayer);
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
-        mapView.Map.Navigator.RotationLock = true;
+        mapView.Map.Layers.Add(_myLocationLayer);
+
         // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
-        var centerOfMap = new MPoint(-2.218266, 51.745564);
+        var center = new MPoint(-2.218266, 51.745564);
         // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfMap.X, centerOfMap.Y).ToMPoint();
+        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
         // Set the center of the viewport to the coordinate. The UI will refresh automatically
         // Additionally you might want to set the resolution, this could depend on your specific purpose
-        mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
+        mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[9]);
+        
+        mapView.Map.Navigator.RotationLock = true;
+        
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
@@ -146,8 +153,7 @@ public partial class MapViewPage : ContentPage
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
-        //mapView.Map = map;
-        //mapView.Map.Navigator.ViewportChanged += Viewport_ViewportChanged;
+        ToggleCompass();
         mapView.Map.Navigator.ViewportChanged += async (s, e) =>
         {
             //if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize"))
@@ -215,21 +221,35 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
-                    if (this.AllowCenterMap.IsChecked == false)
+                    if (!this.AllowCenterMap.IsChecked)
+                    {
+                        mapView.MyLocationLayer.Enabled = true;
+                        _myLocationLayer.Enabled = false;
                         return;
+                    }
                     if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                         await GetCurrentDeviceLocationAsync();
-                    
-                    // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
-                    var centerOfMap = new MPoint(myCurrentLocation.Longitude, myCurrentLocation.Latitude);
-                    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(centerOfMap.X, centerOfMap.Y).ToMPoint();
-                    //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
-                    _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
-                    mapView.MyLocationLayer.UpdateMyDirection(36, mapView.Map.Navigator.Viewport.Rotation, true);
-                    mapView.MyLocationLayer.UpdateMyViewDirection(36, mapView.Map.Navigator.Viewport.Rotation, true);// _points[_count].Item7);
-                    
+                    mapView.MyLocationLayer.Enabled = false;
+                    _myLocationLayer.Enabled = true;
                 });
+    }
+    public virtual void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _myLocationLayer?.Dispose();
+    }
+
+    protected virtual void ThrowIfDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
     }
     private async Task GetCurrentDeviceLocationAsync()
     {
@@ -237,6 +257,13 @@ public partial class MapViewPage : ContentPage
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+
+            var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+            //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
+            _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
+            
+            _myLocationLayer.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
         });
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
@@ -437,6 +464,28 @@ public partial class MapViewPage : ContentPage
             catch { } // TODO
         }
     }
+    private void ToggleCompass()
+    {
+        if (Compass.Default.IsSupported)
+        {
+            if (!Compass.Default.IsMonitoring)
+            {
+                // Turn on compass
+                Compass.Default.ReadingChanged += Compass_ReadingChanged;
+                Compass.Default.Start(SensorSpeed.UI);
+            }
+            else
+            {
+                // Turn off compass
+                Compass.Default.Stop();
+                Compass.Default.ReadingChanged -= Compass_ReadingChanged;
+            }
+        }
+    }
+    private void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
+    {
+        CurrentCompassReading = e.Reading;
+    }
     public static ILayer CreateLineStringLayer(string line, IStyle? style = null)
     {
         var lineString = (LineString)new WKTReader().Read(line);
@@ -538,7 +587,8 @@ public partial class MapViewPage : ContentPage
         }
         return null;
     }
-    private async void GetCurrentDeviceLocation()
+    private async     Task
+GetCurrentDeviceLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
         myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
