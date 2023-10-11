@@ -25,21 +25,7 @@
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnPickerSelectedIndexChanged">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>Drinking Water</x:String>
-                                        <x:String>Campsite</x:String>
-                                        <x:String>Bicycle Shop</x:String>
-                                        <x:String>Bicycle Repair Station</x:String>
-                                        <x:String>Supermarket</x:String>
-                                        <x:String>ATM</x:String>
-                                        <x:String>Toilet</x:String>
-                                        <x:String>Cafe</x:String>
-                                        <x:String>Bakery</x:String>
-                                        <x:String>Picnic Table</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
+                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                             </Picker>
                         </StackLayout>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
@@ -49,7 +35,7 @@
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
+                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>5km</x:String>
@@ -62,25 +48,8 @@
                                 </Picker.ItemsSource>
                             </Picker>
                         </StackLayout>
-                        <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <!--<Label Margin="5,12,5,0" TextColor="Black" FontAttributes="None" FontSize="18">
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.MaxRadiusLabelText}"/>
-                                    <On Platform="Windows" Value="" />
-                                </OnPlatform>
-                            </Label>
-                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="Choose" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>10km</x:String>
-                                        <x:String>20km</x:String>
-                                        <x:String>50km</x:String>
-                                        <x:String>75km</x:String>
-                                        <x:String>100km</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>-->
-                            <Button Margin="25,5,0,0" IsVisible="False" Text="{x:Static resource:AppResource.RefreshButtonText}" Clicked="RefreshButton_Clicked"/>
+                        <StackLayout IsVisible="False" Margin="0,0,0,0" Orientation="Horizontal">
+                            <Button Margin="25,5,0,0" Text="{x:Static resource:AppResource.RefreshButtonText}" Clicked="RefreshButton_Clicked"/>
                         </StackLayout>
                         <HorizontalStackLayout HorizontalOptions="Fill" IsVisible="False" >
                             <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
@@ -99,8 +68,8 @@
                             </HorizontalStackLayout>
                         </ScrollView>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                            <Button Margin="5" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
-                            <Button Margin="5" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                            <Button Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                            <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout HorizontalOptions="StartAndExpand">
                             <CheckBox Margin="0,0,0,0" x:Name="AllowCenterMap" IsChecked="False"/>

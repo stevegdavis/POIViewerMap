@@ -12,10 +12,10 @@ using Mapsui.UI.Maui;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
-//using POIBinaryFormatMauiLib;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
 using ReactiveUI;
+using System.Globalization;
 using System.Reactive.Linq;
 using System.Reflection;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -51,9 +51,23 @@ public partial class MapViewPage : ContentPage
     private bool _disposed;
     private (MPoint, double, double, double, bool, bool, bool)[] _points = new (MPoint, double, double, double, bool, bool, bool)[0];
     private int _count = 0;
+    
     public MapViewPage()
 	{
 		InitializeComponent();
+
+        var items = new List<string>();
+        items.Add(AppResource.OptionsPOIPickerDrinkingWaterText);
+        items.Add(AppResource.OptionsPOIPickerCampsiteText);
+        items.Add(AppResource.OptionsPOIPickerBicycleShopText);
+        items.Add(AppResource.OptionsPOIPickerBicycleRepairStationText);
+        items.Add(AppResource.OptionsPOIPickerSupermarketText);
+        items.Add(AppResource.OptionsPOIPickerATMText);
+        items.Add(AppResource.OptionsPOIPickerToiletText);
+        items.Add(AppResource.OptionsPOIPickerCafeText);
+        items.Add(AppResource.OptionsPOIPickerBakeryText);
+        items.Add(AppResource.OptionsPOIPickerPicnicTableText);
+        this.picker.ItemsSource = items;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
@@ -401,7 +415,7 @@ public partial class MapViewPage : ContentPage
             //this.activity.IsRunning = true;
             //this.activity.IsVisible = true;
             this.pickerRadius.Title = $"{MaxRadius}km";
-            this.picker.Title = "Drinking Water";
+            this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
             currentPOIType = POIType.DrinkingWater;
             this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
