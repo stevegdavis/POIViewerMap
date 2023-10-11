@@ -1,4 +1,4 @@
-﻿using POIBinaryFormatMauiLib;
+﻿using POIBinaryFormatLib;
 using POIViewerMap.DataClasses;
 using System;
 using System.Collections.Generic;
