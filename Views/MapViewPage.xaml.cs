@@ -587,8 +587,7 @@ public partial class MapViewPage : ContentPage
         }
         return null;
     }
-    private async     Task
-GetCurrentDeviceLocation()
+    private async Task GetCurrentDeviceLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
         myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
