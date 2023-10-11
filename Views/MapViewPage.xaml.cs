@@ -9,6 +9,8 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
+using Mapsui.Widgets.ScaleBar;
+using Mapsui.Widgets;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -156,15 +158,8 @@ public partial class MapViewPage : ContentPage
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = true;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
-        //mapView.Map.Widgets.Add(new ButtonWidget
-        //{
-        //    HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Center,
-        //    VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top,
-        //    MarginX = 20,
-        //    MarginY = 20,
-        //    SvgImage = drinkingwaterStr,
-        //    Picture = drinkingwaterStr,
-        //});
+        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center });
+        
         var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
