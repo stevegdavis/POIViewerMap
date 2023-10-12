@@ -41,7 +41,7 @@ public partial class MapViewPage : ContentPage
     static string picnictableStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static int MaxRadius = 10; // km
+    static int MaxRadius = 5; // km
     static readonly int MinZoomPOI = 290;
     static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
@@ -387,10 +387,13 @@ public partial class MapViewPage : ContentPage
     {
         switch(selectedIndex)
         {
-            case 0:
-                return 10; case 1: return 20; case 2: return 50;
-            case 3: return 75;
-            case 4: return 100; default: return 10;
+            case 0: return 5; // Km
+            case 1: return 10; 
+            case 2: return 20;
+            case 3: return 50;
+            case 4: return 75;
+            case 5: return 100; 
+            default: return 5;
         }
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
