@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Reactive.Linq;
 using System.Reflection;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
+using Microsoft.Maui.ApplicationModel;
 
 namespace POIViewerMap.Views;
 
@@ -416,12 +417,24 @@ public partial class MapViewPage : ContentPage
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
-            //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
             if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
             else
             {
-                MapViewPage.ShowZoomInToast();
+                //MapViewPage.ShowZoomInToast();
+                if(myCurrentLocation != null)
+                {
+                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12]);
+                }
+                else
+                {
+                    var center = new MPoint(-2.218266, 51.745564);
+                    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12]);
+                }
+                await PopulateMapAsync(pois);
             }
             //this.POITypeLabel.IsVisible = false;
             this.picker.IsEnabled = true;
