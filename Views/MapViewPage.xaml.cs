@@ -327,21 +327,42 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
-                if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
+                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
+                //{
+                //    this.Loading.IsVisible = true;
+                //    this.picker.IsEnabled = false;
+                //    this.pickerRadius.IsEnabled = false;
+                //    await PopulateMapAsync(pois);
+                //    this.picker.IsEnabled = true;
+                //    this.pickerRadius.IsEnabled = true;
+                //    this.Loading.IsVisible = false;
+                //}
+                //else
+                //{
+                //    MapViewPage.ShowZoomInToast();
+                //}
+                if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
                 {
-                    this.Loading.IsVisible = true;
-                    this.picker.IsEnabled = false;
-                    this.pickerRadius.IsEnabled = false;
-                    await PopulateMapAsync(pois);
-                    this.picker.IsEnabled = true;
-                    this.pickerRadius.IsEnabled = true;
-                    this.Loading.IsVisible = false;
+                    if (myCurrentLocation != null)
+                    {
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                    }
+                    else
+                    {
+                        var center = new MPoint(-2.218266, 51.745564);
+                        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                    }
                 }
-                else
-                {
-                    MapViewPage.ShowZoomInToast();
-                }
+                this.Loading.IsVisible = true;
+                this.picker.IsEnabled = false;
+                this.pickerRadius.IsEnabled = false;
+                await PopulateMapAsync(pois);
+                this.picker.IsEnabled = true;
+                this.pickerRadius.IsEnabled = true;
+                this.Loading.IsVisible = false;
             }
         }
     }
@@ -365,21 +386,29 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI) //beta 9
-                if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
+                if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
                 {
-                    this.Loading.IsVisible = true;
-                    this.picker.IsEnabled = false;
-                    this.pickerRadius.IsEnabled = false;
-                    await PopulateMapAsync(pois);
-                    this.picker.IsEnabled = true;
-                    this.pickerRadius.IsEnabled = true;
-                    this.Loading.IsVisible = false;
+                    //MapViewPage.ShowZoomInToast();
+                    if (myCurrentLocation != null)
+                    {
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                    }
+                    else
+                    {
+                        var center = new MPoint(-2.218266, 51.745564);
+                        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                    }
                 }
-                else
-                {
-                    MapViewPage.ShowZoomInToast();
-                }
+                this.Loading.IsVisible = true;
+                this.picker.IsEnabled = false;
+                this.pickerRadius.IsEnabled = false;
+                await PopulateMapAsync(pois);
+                this.picker.IsEnabled = true;
+                this.pickerRadius.IsEnabled = true;
+                this.Loading.IsVisible = false;
             }
         }
     }
