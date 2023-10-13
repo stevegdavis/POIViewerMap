@@ -428,14 +428,14 @@ public partial class MapViewPage : ContentPage
                 if(myCurrentLocation != null)
                 {
                     var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12]);
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                 }
                 else
                 {
                     var center = new MPoint(-2.218266, 51.745564);
                     // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
                     var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
-                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12]);
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                 }
                 await PopulateMapAsync(pois);
             }
