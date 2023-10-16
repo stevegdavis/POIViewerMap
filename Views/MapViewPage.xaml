@@ -55,7 +55,6 @@
                             <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
                             <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
                             <Label Text="km" Margin="0,12,5,0"/>
-                            <Stepper x:Name="MaxStepper" Value="10" Maximum="50" Minimum="1" Increment="1" HorizontalOptions="Start" Margin="0,0,5,0" ValueChanged="OnStepperValueChanged" />
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Margin="5,0,0,0" IsVisible="False">
                             <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>

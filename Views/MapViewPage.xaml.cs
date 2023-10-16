@@ -9,19 +9,17 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
-using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets;
+using Mapsui.Widgets.ScaleBar;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
 using ReactiveUI;
-using System.Globalization;
 using System.Reactive.Linq;
 using System.Reflection;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
-using Microsoft.Maui.ApplicationModel;
 
 namespace POIViewerMap.Views;
 
@@ -157,73 +155,13 @@ public partial class MapViewPage : ContentPage
         
         mapView.IsZoomButtonVisible = true;
         mapView.IsMyLocationButtonVisible = true;
-        mapView.IsNorthingButtonVisible = true;
+        mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center });
-        
-        var mapControl = new Mapsui.UI.Maui.MapControl();
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         ToggleCompass();
-        mapView.Map.Navigator.ViewportChanged += async (s, e) =>
-        {
-            //if (POIsMapUpdateIsBusy || POIsReadIsBusy || e.PropertyName.Equals("SetSize"))
-                return;
-            try
-            {
-                if (e.PropertyName.Equals("Viewport"))
-                {
-                    var mapLocation = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
-                    var lat = mapLocation.lat;
-                    var lon = mapLocation.lon;
-                    if (myCurrentLocation != null && mapView.Pins.Count > 0)
-                    {
-                        var distance = Location.CalculateDistance(myCurrentLocation.Latitude,
-                                                                    myCurrentLocation.Longitude,
-                                                                    new Location(lat, lon),
-                                                                    DistanceUnits.Kilometers);
-                        if (distance > MaxRadius)
-                        {
-                            MapViewPage.ShowDistanceToGreatToast();
-                        }
-                    }
-                }
-                if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
-                {
-                    //foreach (var pin in mapView.Pins)
-                    //{
-                    //    pin.HideCallout();
-                    //}
-                    //mapView.Pins.Clear();
-                    if (pois.Count > 0)
-                    {
-                        MapViewPage.ShowZoomInToast();
-                    }
-                }
-                //else if (mapView.Pins.Count == 0)
-                //{
-                //    pois.Clear();
-                //    //mapView.Pins.Clear();
-                //    if (!String.IsNullOrEmpty(FullFilepathPOIs))
-                //    {
-                //        POIsMapUpdateIsBusy = true;
-                //        pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
-                //        this.Loading.IsVisible = true;
-                //        this.picker.IsEnabled = false;
-                //        this.pickerRadius.IsEnabled = false;
-                //        await PopulateMapAsync(pois);
-                //        this.picker.IsEnabled = true;
-                //        this.pickerRadius.IsEnabled = true;
-                //        this.Loading.IsVisible = false;
-                //        POIsMapUpdateIsBusy = false;
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-
-            }
-        };
+        
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
@@ -320,27 +258,12 @@ public partial class MapViewPage : ContentPage
             currentPOIType = MapViewPage.GetPOIType(selectedIndex);
             if (pois.Count > 0)
             {
-                //this.Loading.IsVisible = true;
-                //this.picker.IsEnabled = false;
                 foreach (var pin in mapView.Pins)
                 {
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                //if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
-                //{
-                //    this.Loading.IsVisible = true;
-                //    this.picker.IsEnabled = false;
-                //    this.pickerRadius.IsEnabled = false;
-                //    await PopulateMapAsync(pois);
-                //    this.picker.IsEnabled = true;
-                //    this.pickerRadius.IsEnabled = true;
-                //    this.Loading.IsVisible = false;
-                //}
-                //else
-                //{
-                //    MapViewPage.ShowZoomInToast();
-                //}
+                
                 if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
                 {
                     if (myCurrentLocation != null)
@@ -380,8 +303,6 @@ public partial class MapViewPage : ContentPage
             this.pickerRadius.Title = $"{MaxRadius}km";
             if (pois.Count > 0)
             {
-                //this.Loading.IsVisible = true;
-                //this.picker.IsEnabled = false;
                 foreach (var pin in mapView.Pins)
                 {
                     pin.HideCallout();
@@ -389,7 +310,6 @@ public partial class MapViewPage : ContentPage
                 mapView.Pins.Clear();
                 if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
                 {
-                    //MapViewPage.ShowZoomInToast();
                     if (myCurrentLocation != null)
                     {
                         var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
@@ -440,9 +360,6 @@ public partial class MapViewPage : ContentPage
         await BrowsePOIs();
         if (!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
-            //this.POITypeLabel.IsVisible = true;
-            //this.activity.IsRunning = true;
-            //this.activity.IsVisible = true;
             this.pickerRadius.Title = $"{MaxRadius}km";
             this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
             currentPOIType = POIType.DrinkingWater;
@@ -454,7 +371,6 @@ public partial class MapViewPage : ContentPage
                 await PopulateMapAsync(pois);
             else
             {
-                //MapViewPage.ShowZoomInToast();
                 if(myCurrentLocation != null)
                 {
                     var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
@@ -469,11 +385,8 @@ public partial class MapViewPage : ContentPage
                 }
                 await PopulateMapAsync(pois);
             }
-            //this.POITypeLabel.IsVisible = false;
             this.picker.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
-            //this.activity.IsRunning = false;
-            //this.activity.IsVisible = false;
             this.Loading.IsVisible = false;
             this.picker.SelectedIndex = -1;
             this.pickerRadius.SelectedIndex = -1;
@@ -565,23 +478,6 @@ public partial class MapViewPage : ContentPage
             Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
         };
     }
-    async void OnStepperValueChanged(object sender, ValueChangedEventArgs e)
-    {
-        if (POIsReadIsBusy)
-            return;
-        if (String.IsNullOrEmpty(this.FullFilepathPOIs))
-            return;
-        this.MaxDistanceLabel.Text = e.NewValue.ToString();
-        pois.Clear();
-        //this.POITypeLabel.IsVisible = true;
-        this.picker.IsEnabled = false;
-        this.pickerRadius.IsEnabled = false;
-        pois = await POIBinaryFormat.ReadAsync(this.FullFilepathPOIs);
-        await PopulateMapAsync(pois);
-        //this.POITypeLabel.IsVisible = false;
-        this.picker.IsEnabled = true;
-        this.pickerRadius.IsEnabled = true;
-    }
     private async Task BrowsePOIs()
     {
         var customFileType = new FilePickerFileType(
@@ -669,7 +565,6 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                //if(mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
                 if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
                 {
                     mapView.Pins.Clear();
@@ -700,8 +595,6 @@ public partial class MapViewPage : ContentPage
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
                     };
-
-                    //myPin.HideCallout();
                     myPin.Callout.TitleTextAlignment = TextAlignment.Start;
                     myPin.Callout.ArrowHeight = 15;
                     myPin.Callout.TitleFontSize = 15;
