@@ -19,23 +19,23 @@
                 <mct:Expander.Content BackgroundColor="LightGrey">
                     <VerticalStackLayout>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <Label Margin="5,12,10,0" TextColor="Black" FontAttributes="None" FontSize="18">
+                            <Label Margin="5,12,2,0" TextColor="Black" FontAttributes="None" FontSize="18">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="picker" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                            <Picker x:Name="picker" Margin="2" IsEnabled="False" FontSize="16" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                             </Picker>
                         </StackLayout>
                         <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
-                            <Label Margin="1,10,10,0" TextColor="Black" FontAttributes="None" FontSize="18">
+                            <Label Margin="1,10,2,0" TextColor="Black" FontAttributes="None" FontSize="18">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.MaxRadiusLabelText}"/>
                                     <On Platform="Windows" Value="" />
                                 </OnPlatform>
                             </Label>
-                            <Picker x:Name="pickerRadius" IsEnabled="False" FontSize="18" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
+                            <Picker x:Name="pickerRadius" IsEnabled="False" Margin="2" FontSize="16" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>5km</x:String>
