@@ -178,7 +178,7 @@
     <value>Wählen Sie</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
-    <value>POIs werden geladen - bitte warten...</value>
+    <value>Laden - bitte warten...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
     <value>POI:</value>

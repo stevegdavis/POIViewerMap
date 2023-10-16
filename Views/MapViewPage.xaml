@@ -12,7 +12,7 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
-            <mct:Expander BackgroundColor="White" IsVisible="True" Padding="12" x:Name="expander">
+            <mct:Expander BackgroundColor="White" IsVisible="True" Padding="5" x:Name="expander">
                 <mct:Expander.Header>
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>
@@ -72,12 +72,12 @@
                             <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout HorizontalOptions="StartAndExpand">
-                            <CheckBox Margin="0,0,0,0" x:Name="AllowCenterMap" IsChecked="False"/>
+                            <CheckBox x:Name="AllowCenterMap" IsChecked="False"/>
                             <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold" FontSize="15"/>
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout x:Name="Loading" IsVisible="False">
+                        <HorizontalStackLayout x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
                             <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>
-                            <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" TextColor="{StaticResource Tertiary}" FontAttributes="Bold" FontSize="16"/>
+                            <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" TextColor="{StaticResource Tertiary}" FontAttributes="Bold" FontSize="15"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </mct:Expander.Content>
