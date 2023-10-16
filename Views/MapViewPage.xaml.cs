@@ -363,6 +363,7 @@ public partial class MapViewPage : ContentPage
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
                 this.Loading.IsVisible = false;
+                this.picker.Title = picker.Items[selectedIndex];
             }
         }
     }
