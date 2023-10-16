@@ -19,6 +19,7 @@ using POIViewerMap.Resources.Strings;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Reflection;
+using static Google.Android.Material.Tabs.TabLayout;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
@@ -210,7 +211,7 @@ public partial class MapViewPage : ContentPage
             var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
             //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
             _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
-            
+            mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
             _myLocationLayer.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
             _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
         });
