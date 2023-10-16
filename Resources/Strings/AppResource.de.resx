@@ -123,7 +123,10 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Wählen Sie</value>
   </data>
-  <data name="DistanceToGreatToastMsg" xml:space="preserve">
+  <data name="DistanceMessageText" xml:space="preserve">
+    <value>Entfernung</value>
+  </data>
+  <data name="DistanceTooGreatToastMsg" xml:space="preserve">
     <value>Entfernung &gt;</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">

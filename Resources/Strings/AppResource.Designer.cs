@@ -79,11 +79,20 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance.
+        /// </summary>
+        internal static string DistanceMessageText {
+            get {
+                return ResourceManager.GetString("DistanceMessageText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance &gt;.
         /// </summary>
-        internal static string DistanceToGreatToastMsg {
+        internal static string DistanceTooGreatToastMsg {
             get {
-                return ResourceManager.GetString("DistanceToGreatToastMsg", resourceCulture);
+                return ResourceManager.GetString("DistanceTooGreatToastMsg", resourceCulture);
             }
         }
         

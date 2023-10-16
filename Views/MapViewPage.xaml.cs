@@ -500,7 +500,7 @@ public partial class MapViewPage : ContentPage
             CancellationTokenSource cancellationTokenSource = new();
             ToastDuration duration = ToastDuration.Short;
             double fontSize = 15;
-            var toast = Toast.Make($"{AppResource.DistanceToGreatToastMsg} {MaxRadius}km", duration, fontSize);
+            var toast = Toast.Make($"{AppResource.DistanceTooGreatToastMsg} {MaxRadius}km", duration, fontSize);
             await toast.Show(cancellationTokenSource.Token);
         });
     }
@@ -695,7 +695,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{poi.Title}\r{poi.Subtitle}{space}Distance: {String.Format("{0:0.00}", distance)}km",
+                        Label = $"{GetTitleLang(poi)}\r{poi.Subtitle}{space}{AppResource.DistanceMessageText}: {String.Format("{0:0.00}", distance)}km",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
@@ -715,6 +715,24 @@ public partial class MapViewPage : ContentPage
             finally { POIsReadIsBusy = false; }
         });
     }
+    private static string GetTitleLang(POIData data)
+    {
+        switch(data.POI)
+        {
+            case POIType.DrinkingWater: return AppResource.OptionsPOIPickerDrinkingWaterText;
+            case POIType.Campsite: return AppResource.OptionsPOIPickerCampsiteText;
+            case POIType.BicycleShop: return AppResource.OptionsPOIPickerBicycleShopText;
+            case POIType.BicycleRepairStation: return AppResource.OptionsPOIPickerBicycleRepairStationText;
+            case POIType.Supermarket: return AppResource.OptionsPOIPickerSupermarketText;
+            case POIType.ATM: return AppResource.OptionsPOIPickerATMText;
+            case POIType.Toilet: return AppResource.OptionsPOIPickerToiletText;
+            case POIType.Cafe: return AppResource.OptionsPOIPickerCafeText;
+            case POIType.Bakery: return AppResource.OptionsPOIPickerBakeryText;
+            case POIType.PicnicTable: return AppResource.OptionsPOIPickerPicnicTableText;
+            default: return string.Empty;
+        }
+    }
+
     private static string GetPOIIcon(POIData poi)
     {
         switch (poi.POI)
