@@ -135,6 +135,9 @@
   <data name="MaxRadiusLabelText" xml:space="preserve">
     <value>Search Radius:</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open:</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
@@ -145,7 +148,7 @@
     <value>Bakery</value>
   </data>
   <data name="OptionsPOIPickerBicycleRepairStationText" xml:space="preserve">
-    <value> Bicycle Repair Station</value>
+    <value>Bicycle Repair Station</value>
   </data>
   <data name="OptionsPOIPickerBicycleShopText" xml:space="preserve">
     <value>Bicycle Shop</value>
@@ -194,6 +197,12 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services:</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website:</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>

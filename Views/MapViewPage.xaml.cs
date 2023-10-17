@@ -591,7 +591,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{GetTitleLang(poi)}\r{poi.Subtitle}{space}{AppResource.DistanceMessageText}: {String.Format("{0:0.00}", distance)}km",
+                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.DistanceMessageText}: {String.Format("{0:0.00}", distance)}km",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
@@ -609,22 +609,56 @@ public partial class MapViewPage : ContentPage
             finally { POIsReadIsBusy = false; }
         });
     }
-    private static string GetTitleLang(POIData data)
+    private string GetSubTitleLang(POIData poi)
     {
+        var subtitle = string.Empty;
+        if(poi.Subtitle.Contains("Open:"))
+        {
+            subtitle = $"{AppResource.Open} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
+        }
+        if (poi.Subtitle.Contains("Website:"))
+        {
+            subtitle = $"{AppResource.Website} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
+        }
+        if (poi.Subtitle.Contains("Services:"))
+        {
+            subtitle = $"{AppResource.Services} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
+        }        
+        return subtitle;
+    }
+    private static string GetTitleLang(POIData data, bool v)
+    {
+        var Title = string.Empty;
         switch(data.POI)
         {
-            case POIType.DrinkingWater: return AppResource.OptionsPOIPickerDrinkingWaterText;
-            case POIType.Campsite: return AppResource.OptionsPOIPickerCampsiteText;
-            case POIType.BicycleShop: return AppResource.OptionsPOIPickerBicycleShopText;
-            case POIType.BicycleRepairStation: return AppResource.OptionsPOIPickerBicycleRepairStationText;
-            case POIType.Supermarket: return AppResource.OptionsPOIPickerSupermarketText;
-            case POIType.ATM: return AppResource.OptionsPOIPickerATMText;
-            case POIType.Toilet: return AppResource.OptionsPOIPickerToiletText;
-            case POIType.Cafe: return AppResource.OptionsPOIPickerCafeText;
-            case POIType.Bakery: return AppResource.OptionsPOIPickerBakeryText;
-            case POIType.PicnicTable: return AppResource.OptionsPOIPickerPicnicTableText;
-            default: return string.Empty;
+            case POIType.DrinkingWater: 
+                Title = AppResource.OptionsPOIPickerDrinkingWaterText;
+                break;
+            case POIType.Campsite:
+                Title = AppResource.OptionsPOIPickerCampsiteText;
+                break;
+            case POIType.BicycleShop:
+                Title = AppResource.OptionsPOIPickerBicycleShopText;
+                break;
+            case POIType.BicycleRepairStation:
+                Title =  AppResource.OptionsPOIPickerBicycleRepairStationText;
+                break;
+            case POIType.Supermarket: Title =  AppResource.OptionsPOIPickerSupermarketText;
+                break; ;
+            case POIType.ATM: Title =  AppResource.OptionsPOIPickerATMText;
+                break;
+            case POIType.Toilet: Title =  AppResource.OptionsPOIPickerToiletText;
+                break;
+            case POIType.Cafe: Title =  AppResource.OptionsPOIPickerCafeText;
+                break;
+            case POIType.Bakery: Title =  AppResource.OptionsPOIPickerBakeryText;
+                break;
+            case POIType.PicnicTable: Title =  AppResource.OptionsPOIPickerPicnicTableText;
+                break;
+            default: Title =  string.Empty;
+                break;
         }
+        return Title += v ? data.Title[data.Title.IndexOf(":")..] : string.Empty;
     }
 
     private static string GetPOIIcon(POIData poi)

@@ -135,6 +135,9 @@
   <data name="MaxRadiusLabelText" xml:space="preserve">
     <value>Rayon de recherche :</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Ouvert :</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
@@ -194,6 +197,12 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Itinéraire :</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services :</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Site web :</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom avant pour visualiser les POI</value>
