@@ -19,7 +19,6 @@ using POIViewerMap.Resources.Strings;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Reflection;
-using static Google.Android.Material.Tabs.TabLayout;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
