@@ -60,7 +60,7 @@
                             <Label FontSize="15" TextColor="Black" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
                             <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="18" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
                         </HorizontalStackLayout>
-                        <ScrollView Orientation="Horizontal" Margin="5,0,5,0">
+                        <ScrollView Orientation="Horizontal" Margin="5,0,5,0" IsVisible="False">
                             <HorizontalStackLayout Margin="0,0,5,0">
                                 <Label FontSize="18" TextColor="Black" Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
                                 <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" FontSize="18" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
