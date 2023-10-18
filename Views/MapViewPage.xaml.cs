@@ -613,16 +613,20 @@ public partial class MapViewPage : ContentPage
         var subtitle = string.Empty;
         if(poi.Subtitle.Contains("Open:"))
         {
-            subtitle = $"{AppResource.Open} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
+            subtitle = $"{AppResource.PinLabelSubtitleOpen} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
         }
         if (poi.Subtitle.Contains("Website:"))
         {
-            subtitle = $"{AppResource.Website} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
+            subtitle = $"{AppResource.PinLabelSubtitleWebsite} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
         }
         if (poi.Subtitle.Contains("Services:"))
         {
-            subtitle = $"{AppResource.Services} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 1)}";
-        }        
+            subtitle = $"{AppResource.PinLabelSubtitleServices} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
+        }
+        if (poi.Subtitle.Contains("Refill Here"))
+        {
+            subtitle = $"{AppResource.PinLabelSubtitleRefill}";
+        }
         return subtitle;
     }
     private static string GetTitleLang(POIData data, bool v)

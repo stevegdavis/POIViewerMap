@@ -115,15 +115,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open:.
-        /// </summary>
-        internal static string Open {
-            get {
-                return ResourceManager.GetString("Open", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string Options {
@@ -223,6 +214,42 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open:.
+        /// </summary>
+        internal static string PinLabelSubtitleOpen {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottle Refill Here.
+        /// </summary>
+        internal static string PinLabelSubtitleRefill {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleRefill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Services:.
+        /// </summary>
+        internal static string PinLabelSubtitleServices {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website:.
+        /// </summary>
+        internal static string PinLabelSubtitleWebsite {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import POIs.
         /// </summary>
         internal static string POIBrowseButtonText {
@@ -300,24 +327,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string RouteFilepathLabelText {
             get {
                 return ResourceManager.GetString("RouteFilepathLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Services:.
-        /// </summary>
-        internal static string Services {
-            get {
-                return ResourceManager.GetString("Services", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Website:.
-        /// </summary>
-        internal static string Website {
-            get {
-                return ResourceManager.GetString("Website", resourceCulture);
             }
         }
         

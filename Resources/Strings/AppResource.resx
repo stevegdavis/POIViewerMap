@@ -135,9 +135,6 @@
   <data name="MaxRadiusLabelText" xml:space="preserve">
     <value>Search Radius:</value>
   </data>
-  <data name="Open" xml:space="preserve">
-    <value>Open:</value>
-  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
@@ -171,6 +168,18 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Toilet</value>
   </data>
+  <data name="PinLabelSubtitleOpen" xml:space="preserve">
+    <value>Open:</value>
+  </data>
+  <data name="PinLabelSubtitleRefill" xml:space="preserve">
+    <value>Bottle Refill Here</value>
+  </data>
+  <data name="PinLabelSubtitleServices" xml:space="preserve">
+    <value>Services:</value>
+  </data>
+  <data name="PinLabelSubtitleWebsite" xml:space="preserve">
+    <value>Website:</value>
+  </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>Import POIs</value>
   </data>
@@ -197,12 +206,6 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
-  </data>
-  <data name="Services" xml:space="preserve">
-    <value>Services:</value>
-  </data>
-  <data name="Website" xml:space="preserve">
-    <value>Website:</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>
