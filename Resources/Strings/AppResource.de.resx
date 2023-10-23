@@ -123,9 +123,6 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Wählen Sie</value>
   </data>
-  <data name="DistanceMessageText" xml:space="preserve">
-    <value>Entfernung</value>
-  </data>
   <data name="DistanceTooGreatToastMsg" xml:space="preserve">
     <value>Entfernung &gt;</value>
   </data>
@@ -165,14 +162,26 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Toilette</value>
   </data>
+  <data name="PinLabelDistanceText" xml:space="preserve">
+    <value>Entfernung :</value>
+  </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Offen:</value>
   </data>
   <data name="PinLabelSubtitleOptions" xml:space="preserve">
     <value>Optionen</value>
   </data>
+  <data name="PinLabelSubtitlePump" xml:space="preserve">
+    <value>Pumpe</value>
+  </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
     <value>Flasche hier nachfüllen</value>
+  </data>
+  <data name="PinLabelSubtitleTools" xml:space="preserve">
+    <value>Werkzeuge</value>
+  </data>
+  <data name="PinLabelSubtitleUnknown" xml:space="preserve">
+    <value>Unbekannt</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs importieren</value>

@@ -118,105 +118,105 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CenterMapLabelText" xml:space="preserve">
-    <value>Centrer la carte sur ma position</value>
+    <value>Wyśrodkuj mapę na mojej pozycji</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
-    <value>Choisir</value>
+    <value>Wybierz</value>
   </data>
   <data name="DistanceTooGreatToastMsg" xml:space="preserve">
-    <value>Distance &gt;</value>
+    <value>Odległość &gt;</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Importer un itinéraire</value>
+    <value>Trasa importu</value>
   </data>
   <data name="MaxRadiusLabelText" xml:space="preserve">
-    <value>Rayon de recherche :</value>
+    <value>Promień wyszukiwania:</value>
   </data>
   <data name="Options" xml:space="preserve">
-    <value>Options</value>
+    <value>Opcje</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
   </data>
   <data name="OptionsPOIPickerBakeryText" xml:space="preserve">
-    <value>Boulangerie</value>
+    <value>Piekarnia</value>
   </data>
   <data name="OptionsPOIPickerBicycleRepairStationText" xml:space="preserve">
-    <value>Station de réparation de bicyclettes</value>
+    <value>Stacja naprawy rowerów</value>
   </data>
   <data name="OptionsPOIPickerBicycleShopText" xml:space="preserve">
-    <value>Magasin de bicyclettes</value>
+    <value>Sklep rowerowy</value>
   </data>
   <data name="OptionsPOIPickerCafeText" xml:space="preserve">
-    <value>Café</value>
+    <value>Kawiarnia</value>
   </data>
   <data name="OptionsPOIPickerCampsiteText" xml:space="preserve">
-    <value>Camping</value>
+    <value>Kemping</value>
   </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
-    <value>Eau potable</value>
+    <value>Woda pitna</value>
   </data>
   <data name="OptionsPOIPickerPicnicTableText" xml:space="preserve">
-    <value>Table de pique-nique</value>
+    <value>Stół piknikowy</value>
   </data>
   <data name="OptionsPOIPickerSupermarketText" xml:space="preserve">
-    <value>Supermarché</value>
+    <value>Supermarket</value>
   </data>
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
-    <value>Toilettes</value>
+    <value>Toaleta</value>
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
-    <value>Distance :</value>
+    <value>Odległość:</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
-    <value>Ouvert :</value>
+    <value>Otwarte:</value>
   </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
-    <value>Pompe</value>
+    <value>Pompa</value>
   </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
-    <value>Recharge de bouteille ici</value>
+    <value>Uzupełnianie butelek tutaj</value>
   </data>
   <data name="PinLabelSubtitleServices" xml:space="preserve">
-    <value>Services :</value>
+    <value>Usługi:</value>
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
-    <value>Outils</value>
+    <value>Narzędzia</value>
   </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
-    <value>Inconnu</value>
+    <value>Nieznany</value>
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
-    <value>Site web :</value>
+    <value>Strona internetowa:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>Importer des POI</value>
+    <value>Import punktów POI</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
-    <value>Nom du fichier POI :</value>
+    <value>Nazwa pliku POI:</value>
   </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
-    <value>Distance maximale :</value>
+    <value>Maksymalna odległość:</value>
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
-    <value>Choisir</value>
+    <value>Wybierz</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
-    <value>Chargement - veuillez patienter...</value>
+    <value>Ładowanie - proszę czekać...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
-    <value>POI :</value>
+    <value>POI:</value>
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
   <data name="RefreshButtonText" xml:space="preserve">
-    <value>Rafraîchir</value>
+    <value>Odświeżanie</value>
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
-    <value>Itinéraire :</value>
+    <value>Trasa:</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
-    <value>Zoom avant pour visualiser les POI</value>
+    <value>Zoom in to view POIs</value>
   </data>
 </root>

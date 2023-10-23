@@ -590,7 +590,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.DistanceMessageText}: {String.Format("{0:0.00}", distance)}km",
+                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText} {String.Format("{0:0.00}", distance)}km",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
@@ -611,21 +611,35 @@ public partial class MapViewPage : ContentPage
     private string GetSubTitleLang(POIData poi)
     {
         var subtitle = string.Empty;
-        if(poi.Subtitle.Contains("Open:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleOpen} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
         if (poi.Subtitle.Contains("Website:"))
         {
             subtitle = $"{AppResource.PinLabelSubtitleWebsite} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
         }
-        if (poi.Subtitle.Contains("Services:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleServices} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
-        if (poi.Subtitle.Contains("Refill Here"))
+        else if (poi.Subtitle.Contains("Refill Here"))
         {
             subtitle = $"{AppResource.PinLabelSubtitleRefill}";
+        }
+        if (poi.Subtitle.Contains("Services"))
+        {
+            subtitle = $"{AppResource.PinLabelSubtitleServices} ";
+            if (poi.Subtitle.Contains("Tools"))
+                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleTools}";
+            if(poi.Subtitle.Contains("Pump"))
+            {
+                subtitle = $"{subtitle}{(poi.Subtitle.Contains("Tools") ? "," : string.Empty)}{AppResource.PinLabelSubtitlePump}";
+            }
+            if (poi.Subtitle.Contains("Open"))
+            {
+                subtitle = $"{subtitle}\r{AppResource.PinLabelSubtitleOpen} {poi.Subtitle[(poi.Subtitle.LastIndexOf(":") + 2)..]}";
+            }
+            if (poi.Subtitle.Contains("Unknown"))
+            {
+                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleUnknown}";
+            }
+        }
+        else if (poi.Subtitle.Contains("Open:"))
+        {
+            subtitle = $"{AppResource.PinLabelSubtitleOpen} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
         }
         return subtitle;
     }

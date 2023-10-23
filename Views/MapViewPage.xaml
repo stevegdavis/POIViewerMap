@@ -67,8 +67,8 @@
                             </HorizontalStackLayout>
                         </ScrollView>
                         <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
-                            <Button Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
-                            <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                            <Button FontSize="13" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                            <Button FontSize="13" Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                         </HorizontalStackLayout>
                         <HorizontalStackLayout HorizontalOptions="StartAndExpand">
                             <CheckBox x:Name="AllowCenterMap" IsChecked="False"/>

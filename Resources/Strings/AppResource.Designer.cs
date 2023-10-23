@@ -79,15 +79,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distance.
-        /// </summary>
-        internal static string DistanceMessageText {
-            get {
-                return ResourceManager.GetString("DistanceMessageText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Distance &gt;.
         /// </summary>
         internal static string DistanceTooGreatToastMsg {
@@ -214,11 +205,29 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance:.
+        /// </summary>
+        internal static string PinLabelDistanceText {
+            get {
+                return ResourceManager.GetString("PinLabelDistanceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open:.
         /// </summary>
         internal static string PinLabelSubtitleOpen {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pump.
+        /// </summary>
+        internal static string PinLabelSubtitlePump {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitlePump", resourceCulture);
             }
         }
         
@@ -237,6 +246,24 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleServices {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        internal static string PinLabelSubtitleTools {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string PinLabelSubtitleUnknown {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleUnknown", resourceCulture);
             }
         }
         
