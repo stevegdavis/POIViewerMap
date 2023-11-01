@@ -132,6 +132,9 @@
   <data name="MaxRadiusLabelText" xml:space="preserve">
     <value>Suchradius:</value>
   </data>
+  <data name="Meters" xml:space="preserve">
+    <value>Zähler</value>
+  </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
   </data>

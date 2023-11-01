@@ -132,6 +132,9 @@
   <data name="MaxRadiusLabelText" xml:space="preserve">
     <value>Promień wyszukiwania:</value>
   </data>
+  <data name="Meters" xml:space="preserve">
+    <value>Mierniki</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Opcje</value>
   </data>

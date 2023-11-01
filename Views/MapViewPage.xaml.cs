@@ -40,12 +40,12 @@ public partial class MapViewPage : ContentPage
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int MaxRadius = 5; // km
+    static int MaxDistanceRefresh = 2; //km
     static readonly int MinZoomPOI = 290;
     static POIType currentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
-    private object minX;
-    private object minY;
+    private static Location CurrentLocationOnLoad = null;
     private CompassData CurrentCompassReading;
     private static bool IsCompassUpDateBusy = false; 
     private MyLocationLayer? _myLocationLayer;
@@ -180,7 +180,60 @@ public partial class MapViewPage : ContentPage
                         await GetCurrentDeviceLocationAsync();
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
+                    await CheckLoadingDistance();
                 });
+    }
+    // Have we moved since last poi load/search radius by more than 2km
+    // if so update all Pins on map but only if allow center map is checked
+    private async Task CheckLoadingDistance()
+    {
+        if(CurrentLocationOnLoad == null) return;
+        var distance = Location.CalculateDistance(CurrentLocationOnLoad.Latitude,
+                                                 CurrentLocationOnLoad.Longitude,
+                                                 new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                                                 DistanceUnits.Kilometers);
+        if(distance > MaxDistanceRefresh)
+        {
+            this.Loading.IsVisible = true;
+            this.picker.IsEnabled = false;
+            this.pickerRadius.IsEnabled = false;
+            await PopulateMapAsync(pois);
+            this.picker.IsEnabled = true;
+            this.pickerRadius.IsEnabled = true;
+            this.Loading.IsVisible = false;
+            CurrentLocationOnLoad = myCurrentLocation;
+        }        
+    }
+    private async Task UpdateVisiblePinsLabelDistanceText()
+    {
+        await Task.Factory.StartNew(async () =>
+        {
+            foreach (var pin in mapView.Pins)
+            {
+                var distance = Location.CalculateDistance(pin.Position.Latitude,
+                                                                pin.Position.Longitude,
+                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                                                                DistanceUnits.Kilometers);
+                if (pin != null && pin.IsVisible)
+                {
+                    var Idx = pin.Label.IndexOf(AppResource.PinLabelDistanceText);
+                    if (Idx > -1)
+                    {
+                        if (Idx + AppResource.PinLabelDistanceText.Length < pin.Label.Length)
+                        {
+                            // Remove previous distance value as we may have moved on the map so recalculate
+                            pin.Label = pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
+                            pin.Label += Format.FormatDistance(distance);
+                        }
+                        else
+                        {
+                            pin.Label += Format.FormatDistance(distance);
+                        }
+                    }
+                }
+
+            }
+        });
     }
     public virtual void Dispose()
     {
@@ -202,8 +255,10 @@ public partial class MapViewPage : ContentPage
     }
     private async Task GetCurrentDeviceLocationAsync()
     {
+        if (POIsMapUpdateIsBusy) return;
         await Task.Factory.StartNew(async () =>
         {
+            POIsMapUpdateIsBusy = true;
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
 
@@ -213,6 +268,8 @@ public partial class MapViewPage : ContentPage
             mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
             _myLocationLayer.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
             _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            await UpdateVisiblePinsLabelDistanceText();
+            POIsMapUpdateIsBusy = false;
         });
     }
     private void OnMapClicked(object sender, MapClickedEventArgs e)
@@ -239,10 +296,29 @@ public partial class MapViewPage : ContentPage
                 e.Pin.IsVisible = false;
             }
             if (e.NumOfTaps == 1)
+            {
                 if (e.Pin.Callout.IsVisible)
                     e.Pin.HideCallout();
                 else
+                {
+                    var distance = Location.CalculateDistance(e.Point.Latitude,
+                                                                e.Point.Longitude,
+                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                                                                DistanceUnits.Kilometers);
+                    var Idx = e.Pin.Label.IndexOf(AppResource.PinLabelDistanceText);
+                    if(Idx > -1)
+                    {
+                        if (Idx + AppResource.PinLabelDistanceText.Length < e.Pin.Label.Length)
+                        {
+                            // Remove previous distance value as we may have moved on the map so recalculate
+                            e.Pin.Label = e.Pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
+                            //e.Pin.Label += Format.FormatDistance(distance);
+                        }
+                        e.Pin.Label += Format.FormatDistance(distance);
+                    }
                     e.Pin.ShowCallout();
+                }
+            }
         }
         e.Handled = true;
     }
@@ -590,7 +666,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText} {String.Format("{0:0.00}", distance)}km",
+                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText}",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
@@ -601,11 +677,17 @@ public partial class MapViewPage : ContentPage
                     mapView.Pins.Add(myPin);
                 }
                 POIsReadIsBusy = false;
+                CurrentLocationOnLoad = myCurrentLocation;
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
-            finally { POIsReadIsBusy = false; }
+            finally
+            { 
+                POIsReadIsBusy = false;
+                CurrentLocationOnLoad = myCurrentLocation;
+            }
         });
     }
     private string GetSubTitleLang(POIData poi)
