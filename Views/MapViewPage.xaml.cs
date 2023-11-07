@@ -19,6 +19,7 @@ using POIViewerMap.Resources.Strings;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Reflection;
+using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
@@ -161,7 +162,6 @@ public partial class MapViewPage : ContentPage
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         ToggleCompass();
-        
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
@@ -181,6 +181,7 @@ public partial class MapViewPage : ContentPage
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
                     await CheckLoadingDistance();
+                    await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
                 });
     }
     // Have we moved since last poi load/search radius by more than 2km
@@ -233,6 +234,24 @@ public partial class MapViewPage : ContentPage
                 }
 
             }
+        });
+    }
+    private static async Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
+    {
+        await Task.Factory.StartNew(() =>
+        {
+            var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
+            var circle = new Circle
+            {
+                Center = new Mapsui.UI.Maui.Position(loc.Latitude, loc.Longitude),
+                Radius = Distance.FromKilometers(radius),
+                Quality = 100,
+                StrokeColor = new Color(36, 143, 116),
+                StrokeWidth = 1,
+                FillColor = new Color(36, 143, 116, 0.25313f),
+            };
+            mapView.Drawables.Clear();
+            mapView.Drawables.Add(circle);
         });
     }
     public virtual void Dispose()
@@ -399,6 +418,7 @@ public partial class MapViewPage : ContentPage
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                 }
+                await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
                 this.Loading.IsVisible = true;
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
@@ -678,7 +698,6 @@ public partial class MapViewPage : ContentPage
                 }
                 POIsReadIsBusy = false;
                 CurrentLocationOnLoad = myCurrentLocation;
-
             }
             catch (Exception ex)
             {
@@ -689,6 +708,7 @@ public partial class MapViewPage : ContentPage
                 CurrentLocationOnLoad = myCurrentLocation;
             }
         });
+        await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
     }
     private string GetSubTitleLang(POIData poi)
     {
