@@ -129,9 +129,6 @@
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Trasa importu</value>
   </data>
-  <data name="MaxRadiusLabelText" xml:space="preserve">
-    <value>Promień wyszukiwania:</value>
-  </data>
   <data name="Meters" xml:space="preserve">
     <value>Mierniki</value>
   </data>
@@ -216,8 +213,23 @@
   <data name="RefreshButtonText" xml:space="preserve">
     <value>Odświeżanie</value>
   </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Przywracanie opcji podczas uruchamiania</value>
+  </data>
+  <data name="RestoreUIStateMsg" xml:space="preserve">
+    <value>Opcje przywracania</value>
+  </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Trasa:</value>
+  </data>
+  <data name="SearchRadiusLabelText" xml:space="preserve">
+    <value>Promień wyszukiwania:</value>
+  </data>
+  <data name="UpdateUIStateCloseButtonText" xml:space="preserve">
+    <value>Zamknij</value>
+  </data>
+  <data name="UpdateUIStateGetLocationMsg" xml:space="preserve">
+    <value>Pobieranie lokalizacji urządzenia...</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>

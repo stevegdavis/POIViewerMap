@@ -61,7 +61,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Center map on my position.
+        ///   Looks up a localized string similar to Center Map On My Position.
         /// </summary>
         internal static string CenterMapLabelText {
             get {
@@ -93,15 +93,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string ImportRouteButtonText {
             get {
                 return ResourceManager.GetString("ImportRouteButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search Radius:.
-        /// </summary>
-        internal static string MaxRadiusLabelText {
-            get {
-                return ResourceManager.GetString("MaxRadiusLabelText", resourceCulture);
             }
         }
         
@@ -358,11 +349,65 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore Options On Startup.
+        /// </summary>
+        internal static string RestoreOptionsOnStartupLabelText {
+            get {
+                return ResourceManager.GetString("RestoreOptionsOnStartupLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restoring Options.
+        /// </summary>
+        internal static string RestoreUIStateMsg {
+            get {
+                return ResourceManager.GetString("RestoreUIStateMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route Filename:.
+        /// </summary>
+        internal static string RestoreUIStateRouteFilename {
+            get {
+                return ResourceManager.GetString("RestoreUIStateRouteFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Route:.
         /// </summary>
         internal static string RouteFilepathLabelText {
             get {
                 return ResourceManager.GetString("RouteFilepathLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Radius:.
+        /// </summary>
+        internal static string SearchRadiusLabelText {
+            get {
+                return ResourceManager.GetString("SearchRadiusLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string UpdateUIStateCloseButtonText {
+            get {
+                return ResourceManager.GetString("UpdateUIStateCloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting device location....
+        /// </summary>
+        internal static string UpdateUIStateGetLocationMsg {
+            get {
+                return ResourceManager.GetString("UpdateUIStateGetLocationMsg", resourceCulture);
             }
         }
         

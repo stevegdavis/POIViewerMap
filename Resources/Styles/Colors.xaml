@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <Color x:Key="AppBackgroundLightColor">#FAFAFA</Color>
+    <Color x:Key="AppBackgroundDarkColor">#050505</Color>
     <Color x:Key="Primary">#248f8f</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#248f8f</Color>

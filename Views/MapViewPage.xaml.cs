@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Layers;
@@ -15,8 +16,11 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
 using POIViewerMap.Helpers;
+using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
+using POIViewerMap.Stores;
 using ReactiveUI;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
 using Color = Microsoft.Maui.Graphics.Color;
@@ -40,10 +44,10 @@ public partial class MapViewPage : ContentPage
     static string picnictableStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
-    static int MaxRadius = 5; // km
+    static int SearchRadius = 5; // km
     static int MaxDistanceRefresh = 2; //km
     static readonly int MinZoomPOI = 290;
-    static POIType currentPOIType = POIType.DrinkingWater;
+    static POIType CurrentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = new();
     private static Location myCurrentLocation;
     private static Location CurrentLocationOnLoad = null;
@@ -51,13 +55,18 @@ public partial class MapViewPage : ContentPage
     private static bool IsCompassUpDateBusy = false; 
     private MyLocationLayer? _myLocationLayer;
     private bool _disposed;
-    private (MPoint, double, double, double, bool, bool, bool)[] _points = new (MPoint, double, double, double, bool, bool, bool)[0];
-    private int _count = 0;
-    
-    public MapViewPage()
+    public static bool IsAppStateSettingsBusy = false;
+    public static Popup popup;
+    readonly Stores.IAppStateSettings appStateSettings;
+    CompositeDisposable? deactivateWith;
+    protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
+    protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
+
+    public MapViewPage(IAppStateSettings appStateSettings)
 	{
 		InitializeComponent();
-
+        this.appStateSettings = appStateSettings;
+        //GetAppSettings();
         var items = new List<string>();
         items.Add(AppResource.OptionsPOIPickerDrinkingWaterText);
         items.Add(AppResource.OptionsPOIPickerCampsiteText);
@@ -162,6 +171,9 @@ public partial class MapViewPage : ContentPage
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         ToggleCompass();
+        CurrentPOIType = FormatHelper.GetPOIType(this.appStateSettings.POI);
+        AllowCenterMap.IsChecked = this.appStateSettings.CenterMap;
+        UpdateAppStateUI();
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
             GetCurrentDeviceLocation();
@@ -181,9 +193,92 @@ public partial class MapViewPage : ContentPage
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
                     await CheckLoadingDistance();
-                    await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
+                    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                 });
     }
+    private async void UpdateAppStateUI()
+    {
+        if (POIsReadIsBusy || POIsMapUpdateIsBusy || !appStateSettings.RestoreOptions)
+            return;
+        POIsReadIsBusy = true;
+        POIsMapUpdateIsBusy = true;
+        this.expander.IsExpanded = false;
+        popup = new LoadUIStatePopup(Path.GetFileName(appStateSettings.BINFilepath), Path.GetFileName(appStateSettings.RouteFilepath));
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            if (DeviceInfo.Current.Version.Major == 8 || DeviceInfo.Current.Version.Major == 9)
+            {
+                ShowUpdateUIStateToast();
+            }
+            else
+            {
+                this.ShowPopup(popup);
+            }
+        }
+        await GetCurrentLocation();
+        pois.Clear();
+        SearchRadius = appStateSettings.SearchRadius;
+        CurrentPOIType = FormatHelper.GetPOIType(appStateSettings.POI);
+        this.AllowCenterMap.IsChecked = appStateSettings.CenterMap;
+        this.picker.SelectedIndex = FormatHelper.GetSelectedIndexFromPOIType(CurrentPOIType);
+        this.picker.Title = FormatHelper.GetTitleLang(CurrentPOIType);
+        this.pickerRadius.SelectedIndex = FormatHelper.GetSelectedIndexFromRadius(SearchRadius);
+        this.RestoreOptionsOnStartup.IsChecked = appStateSettings.RestoreOptions;
+        if (!String.IsNullOrEmpty(appStateSettings.BINFilepath))
+        {
+            this.pickerRadius.Title = $"{SearchRadius}km";
+            this.Loading.IsVisible = true;
+            this.picker.IsEnabled = false;
+            this.pickerRadius.IsEnabled = false;
+            pois = await POIBinaryFormat.ReadAsync(appStateSettings.BINFilepath);
+            if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
+                await PopulateMapAsync(pois);
+            else
+            {
+                if (myCurrentLocation != null)
+                {
+                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                }
+                else
+                {
+                    var center = new MPoint(-2.218266, 51.745564);
+                    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                }
+                await PopulateMapAsync(pois);
+            }
+            this.Loading.IsVisible = false;
+            this.picker.IsEnabled = true;
+            this.pickerRadius.IsEnabled = true;
+        }
+        if (!String.IsNullOrEmpty(appStateSettings.RouteFilepath))
+        {
+            this.FullFilepathRoute = appStateSettings.RouteFilepath;
+            var line = await ImportRoutes.ImportGPXRouteAsync(appStateSettings.RouteFilepath);
+            try
+            {
+                var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
+                mapView.Map.Layers.Add(lineStringLayer);
+            }
+            catch { } // TODO
+        }
+        POIsReadIsBusy = false;
+        POIsMapUpdateIsBusy = false;
+        if (DeviceInfo.Current.Version.Major >= 11)
+        {
+            if (popup.Result.IsCompleted || popup.Result.IsCanceled || popup.Result.IsFaulted) { return; }
+            await popup.CloseAsync();
+        }
+    }
+    private async Task GetCurrentLocation()
+    {
+        var request = new GeolocationRequest(GeolocationAccuracy.Best);
+        var Location = await Geolocation.GetLocationAsync(request, new CancellationToken());
+        mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(Location.Latitude, Location.Longitude));
+    }
+
     // Have we moved since last poi load/search radius by more than 2km
     // if so update all Pins on map but only if allow center map is checked
     private async Task CheckLoadingDistance()
@@ -223,12 +318,12 @@ public partial class MapViewPage : ContentPage
                         if (Idx + AppResource.PinLabelDistanceText.Length < pin.Label.Length)
                         {
                             // Remove previous distance value as we may have moved on the map so recalculate
-                            pin.Label = pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
-                            pin.Label += Format.FormatDistance(distance);
+                            pin.Label = pin.Label[..(Idx + AppResource.PinLabelDistanceText.Length)];
+                            pin.Label += FormatHelper.FormatDistance(distance);
                         }
                         else
                         {
-                            pin.Label += Format.FormatDistance(distance);
+                            pin.Label += FormatHelper.FormatDistance(distance);
                         }
                     }
                 }
@@ -238,6 +333,7 @@ public partial class MapViewPage : ContentPage
     }
     private static async Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
     {
+        return;
         await Task.Factory.StartNew(() =>
         {
             var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
@@ -333,7 +429,7 @@ public partial class MapViewPage : ContentPage
                             e.Pin.Label = e.Pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
                             //e.Pin.Label += Format.FormatDistance(distance);
                         }
-                        e.Pin.Label += Format.FormatDistance(distance);
+                        e.Pin.Label += FormatHelper.FormatDistance(distance);
                     }
                     e.Pin.ShowCallout();
                 }
@@ -350,7 +446,8 @@ public partial class MapViewPage : ContentPage
 
         if (selectedIndex != -1)
         {
-            currentPOIType = MapViewPage.GetPOIType(selectedIndex);
+            CurrentPOIType = FormatHelper.GetPOIType(selectedIndex);
+            this.appStateSettings.POI = selectedIndex;
             if (pois.Count > 0)
             {
                 foreach (var pin in mapView.Pins)
@@ -391,11 +488,10 @@ public partial class MapViewPage : ContentPage
         { return; }
         var picker = (Picker)sender;
         int selectedIndex = picker.SelectedIndex;
-
         if (selectedIndex != -1)
         {
-            MaxRadius = GetRadiusType(selectedIndex);
-            this.pickerRadius.Title = $"{MaxRadius}km";
+            appStateSettings.SearchRadius = SearchRadius = FormatHelper.GetRadiusType(selectedIndex);
+            this.pickerRadius.Title = $"{SearchRadius}km";
             if (pois.Count > 0)
             {
                 foreach (var pin in mapView.Pins)
@@ -418,7 +514,7 @@ public partial class MapViewPage : ContentPage
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                 }
-                await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
+                await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                 this.Loading.IsVisible = true;
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
@@ -427,19 +523,6 @@ public partial class MapViewPage : ContentPage
                 this.pickerRadius.IsEnabled = true;
                 this.Loading.IsVisible = false;
             }
-        }
-    }
-    static int GetRadiusType(int selectedIndex)
-    {
-        switch(selectedIndex)
-        {
-            case 0: return 5; // Km
-            case 1: return 10; 
-            case 2: return 20;
-            case 3: return 50;
-            case 4: return 75;
-            case 5: return 100; 
-            default: return 5;
         }
     }
     async void BrowseButton_Clicked(object sender, EventArgs e)
@@ -456,9 +539,11 @@ public partial class MapViewPage : ContentPage
         await BrowsePOIs();
         if (!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
-            this.pickerRadius.Title = $"{MaxRadius}km";
+            appStateSettings.BINFilepath = FullFilepathPOIs;
+            this.pickerRadius.Title = $"{SearchRadius}km";
+            this.pickerRadius.SelectedIndex = 0;
             this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
-            currentPOIType = POIType.DrinkingWater;
+            CurrentPOIType = POIType.DrinkingWater;
             this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
@@ -489,27 +574,15 @@ public partial class MapViewPage : ContentPage
             POIsReadIsBusy = false;
         }
     }
-    private static void ShowZoomInToast()
+    private static void ShowUpdateUIStateToast()
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             // Code to run on the main thread
             CancellationTokenSource cancellationTokenSource = new();
-            ToastDuration duration = ToastDuration.Short;
+            ToastDuration duration = ToastDuration.Long;
             double fontSize = 15;
-            var toast = Toast.Make(AppResource.ZoomInToastMsg, duration, fontSize);
-            await toast.Show(cancellationTokenSource.Token);
-        });
-    }
-    private static void ShowDistanceToGreatToast()
-    {
-        MainThread.BeginInvokeOnMainThread(async () =>
-        {
-            // Code to run on the main thread
-            CancellationTokenSource cancellationTokenSource = new();
-            ToastDuration duration = ToastDuration.Short;
-            double fontSize = 15;
-            var toast = Toast.Make($"{AppResource.DistanceTooGreatToastMsg} {MaxRadius}km", duration, fontSize);
+            var toast = Toast.Make(AppResource.RestoreUIStateMsg, duration, fontSize);
             await toast.Show(cancellationTokenSource.Token);
         });
     }
@@ -520,6 +593,7 @@ public partial class MapViewPage : ContentPage
         await BrowseRoutes();
         if(!String.IsNullOrEmpty(this.FilepathRouteLabel.Text))
         {
+            appStateSettings.RouteFilepath = this.FullFilepathRoute;
             var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
             try
             {
@@ -650,6 +724,9 @@ public partial class MapViewPage : ContentPage
         var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
         return new MRect(minX, minY, maxX, maxY);
     }
+    // System.InvalidOperationException:
+    // 'Cannot change ObservableCollection during a CollectionChanged event.'
+
     private async Task PopulateMapAsync(List<POIData> pois)
     {
         await Task.Factory.StartNew(() =>
@@ -673,9 +750,9 @@ public partial class MapViewPage : ContentPage
                                                                 poi.Longitude,
                                                                 new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
                                                                 DistanceUnits.Kilometers);
-                    if (distance > MaxRadius)
+                    if (distance > SearchRadius)
                       continue;
-                    if (poi.POI != currentPOIType)
+                    if (poi.POI != CurrentPOIType)
                         continue;
                     var space = string.Empty;
                     if (!String.IsNullOrEmpty(poi.Subtitle))
@@ -686,7 +763,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{GetTitleLang(poi, poi.Title.Contains(':'))}\r{GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText}",
+                        Label = $"{FormatHelper.GetTitleLang(poi, poi.Title.Contains(':'))}\r{FormatHelper.GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText}",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
@@ -708,78 +785,33 @@ public partial class MapViewPage : ContentPage
                 CurrentLocationOnLoad = myCurrentLocation;
             }
         });
-        await UpdateSearchRadiusCircleOnMap(mapView, MaxRadius);
+        await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
     }
-    private string GetSubTitleLang(POIData poi)
+    private async void  RefreshButton_Clicked(object sender, EventArgs e)
     {
-        var subtitle = string.Empty;
-        if (poi.Subtitle.Contains("Website:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleWebsite} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
-        else if (poi.Subtitle.Contains("Refill Here"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleRefill}";
-        }
-        if (poi.Subtitle.Contains("Services"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleServices} ";
-            if (poi.Subtitle.Contains("Tools"))
-                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleTools}";
-            if(poi.Subtitle.Contains("Pump"))
-            {
-                subtitle = $"{subtitle}{(poi.Subtitle.Contains("Tools") ? "," : string.Empty)}{AppResource.PinLabelSubtitlePump}";
-            }
-            if (poi.Subtitle.Contains("Open"))
-            {
-                subtitle = $"{subtitle}\r{AppResource.PinLabelSubtitleOpen} {poi.Subtitle[(poi.Subtitle.LastIndexOf(":") + 2)..]}";
-            }
-            if (poi.Subtitle.Contains("Unknown"))
-            {
-                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleUnknown}";
-            }
-        }
-        else if (poi.Subtitle.Contains("Open:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleOpen} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
-        return subtitle;
+        Platforms.KeyboardHelper.HideKeyboard();
+        if (pois.Count > 0)
+            await PopulateMapAsync(pois);
     }
-    private static string GetTitleLang(POIData data, bool v)
+    private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        var Title = string.Empty;
-        switch(data.POI)
-        {
-            case POIType.DrinkingWater: 
-                Title = AppResource.OptionsPOIPickerDrinkingWaterText;
-                break;
-            case POIType.Campsite:
-                Title = AppResource.OptionsPOIPickerCampsiteText;
-                break;
-            case POIType.BicycleShop:
-                Title = AppResource.OptionsPOIPickerBicycleShopText;
-                break;
-            case POIType.BicycleRepairStation:
-                Title =  AppResource.OptionsPOIPickerBicycleRepairStationText;
-                break;
-            case POIType.Supermarket: Title =  AppResource.OptionsPOIPickerSupermarketText;
-                break; ;
-            case POIType.ATM: Title =  AppResource.OptionsPOIPickerATMText;
-                break;
-            case POIType.Toilet: Title =  AppResource.OptionsPOIPickerToiletText;
-                break;
-            case POIType.Cafe: Title =  AppResource.OptionsPOIPickerCafeText;
-                break;
-            case POIType.Bakery: Title =  AppResource.OptionsPOIPickerBakeryText;
-                break;
-            case POIType.PicnicTable: Title =  AppResource.OptionsPOIPickerPicnicTableText;
-                break;
-            default: Title =  string.Empty;
-                break;
-        }
-        return Title += v ? data.Title[data.Title.IndexOf(":")..] : string.Empty;
+        appStateSettings.CenterMap = e.Value;
     }
-
+    private void RestoreOptionsOnStartup_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        appStateSettings.RestoreOptions = e.Value;
+        if(!appStateSettings.RestoreOptions)
+        {
+            // Clear previous options
+            Preferences.Default.Set("search_radius", 5);
+            Preferences.Default.Set("poi_type", 0);
+            Preferences.Default.Set("bin_filepath", string.Empty);
+            Preferences.Default.Set("route_filepath", string.Empty);
+            Preferences.Default.Set("center_map", false);
+            Preferences.Default.Set("restore_options", false);
+            Preferences.Default.Set("zoom_level", 0);
+        }
+    }
     private static string GetPOIIcon(POIData poi)
     {
         switch (poi.POI)
@@ -798,30 +830,5 @@ public partial class MapViewPage : ContentPage
                 break;
         }
         return string.Empty;
-    }
-    private static POIType GetPOIType(int selectedIndex)
-    {
-        switch (selectedIndex)
-        {
-            case 0: return POIType.DrinkingWater;
-            case 1: return POIType.Campsite;
-            case 2: return POIType.BicycleShop;
-            case 3: return POIType.BicycleRepairStation;
-            case 4: return POIType.Supermarket;
-            case 5: return POIType.ATM;
-            case 6: return POIType.Toilet;
-            case 7: return POIType.Cafe;
-            case 8: return POIType.Bakery;
-            case 9: return POIType.PicnicTable;
-            default:
-                break;
-        }
-        return POIType.Unknown;
-    }
-    private async void  RefreshButton_Clicked(object sender, EventArgs e)
-    {
-        Platforms.KeyboardHelper.HideKeyboard();
-        if (pois.Count > 0)
-            await PopulateMapAsync(pois);
-    }
+    }    
 }

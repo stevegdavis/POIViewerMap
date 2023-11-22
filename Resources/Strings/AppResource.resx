@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CenterMapLabelText" xml:space="preserve">
-    <value>Center map on my position</value>
+    <value>Center Map On My Position</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
     <value>Choose</value>
@@ -128,9 +128,6 @@
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Import Route</value>
-  </data>
-  <data name="MaxRadiusLabelText" xml:space="preserve">
-    <value>Search Radius:</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Meters</value>
@@ -216,8 +213,26 @@
   <data name="RefreshButtonText" xml:space="preserve">
     <value>Refresh</value>
   </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Restore Options On Startup</value>
+  </data>
+  <data name="RestoreUIStateMsg" xml:space="preserve">
+    <value>Restoring Options</value>
+  </data>
+  <data name="RestoreUIStateRouteFilename" xml:space="preserve">
+    <value>Route Filename:</value>
+  </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
+  </data>
+  <data name="SearchRadiusLabelText" xml:space="preserve">
+    <value>Search Radius:</value>
+  </data>
+  <data name="UpdateUIStateCloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="UpdateUIStateGetLocationMsg" xml:space="preserve">
+    <value>Getting device location...</value>
   </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>

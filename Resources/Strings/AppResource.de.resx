@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CenterMapLabelText" xml:space="preserve">
-    <value>Karte auf meiner Position zentrieren</value>
+    <value>Karte auf meine Position zentrieren</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
     <value>Wählen Sie</value>
@@ -129,11 +129,11 @@
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Route importieren</value>
   </data>
-  <data name="MaxRadiusLabelText" xml:space="preserve">
-    <value>Suchradius:</value>
-  </data>
   <data name="Meters" xml:space="preserve">
     <value>Zähler</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Optionen</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -210,11 +210,26 @@
   <data name="RefreshButtonText" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Optionen beim Starten wiederherstellen</value>
+  </data>
+  <data name="RestoreUIStateMsg" xml:space="preserve">
+    <value>Wiederherstellungsoptionen</value>
+  </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
   </data>
+  <data name="SearchRadiusLabelText" xml:space="preserve">
+    <value>Suchradius:</value>
+  </data>
   <data name="Services" xml:space="preserve">
     <value>Dienstleistungen:</value>
+  </data>
+  <data name="UpdateUIStateCloseButtonText" xml:space="preserve">
+    <value>Schließen Sie</value>
+  </data>
+  <data name="UpdateUIStateGetLocationMsg" xml:space="preserve">
+    <value>Gerätestandort ermitteln...</value>
   </data>
   <data name="Website" xml:space="preserve">
     <value>Website:</value>
