@@ -1,3 +1,4 @@
+using AsyncAwaitBestPractices;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
@@ -23,6 +24,7 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
@@ -56,6 +58,7 @@ public partial class MapViewPage : ContentPage
     private MyLocationLayer? _myLocationLayer;
     private bool _disposed;
     public static bool IsAppStateSettingsBusy = false;
+    public static bool IsSearchRadiusCircleBusy = false;
     public static Popup popup;
     readonly Stores.IAppStateSettings appStateSettings;
     CompositeDisposable? deactivateWith;
@@ -173,15 +176,20 @@ public partial class MapViewPage : ContentPage
         ToggleCompass();
         CurrentPOIType = FormatHelper.GetPOIType(this.appStateSettings.POI);
         AllowCenterMap.IsChecked = this.appStateSettings.CenterMap;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         UpdateAppStateUI();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             GetCurrentDeviceLocation();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         _ = Observable
                 .Interval(TimeSpan.FromSeconds(10))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
+                    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius, appStateSettings.ShowSearchRadiusOnMap);
                     if (!this.AllowCenterMap.IsChecked)
                     {
                         mapView.MyLocationLayer.Enabled = true;
@@ -193,10 +201,9 @@ public partial class MapViewPage : ContentPage
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
                     await CheckLoadingDistance();
-                    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                 });
     }
-    private async void UpdateAppStateUI()
+    private async Task UpdateAppStateUI()
     {
         if (POIsReadIsBusy || POIsMapUpdateIsBusy || !appStateSettings.RestoreOptions)
             return;
@@ -223,6 +230,7 @@ public partial class MapViewPage : ContentPage
         this.picker.SelectedIndex = FormatHelper.GetSelectedIndexFromPOIType(CurrentPOIType);
         this.picker.Title = FormatHelper.GetTitleLang(CurrentPOIType);
         this.pickerRadius.SelectedIndex = FormatHelper.GetSelectedIndexFromRadius(SearchRadius);
+        this.ShowSearchRadiusOnMap.IsChecked = appStateSettings.ShowSearchRadiusOnMap;
         this.RestoreOptionsOnStartup.IsChecked = appStateSettings.RestoreOptions;
         if (!String.IsNullOrEmpty(appStateSettings.BINFilepath))
         {
@@ -264,6 +272,7 @@ public partial class MapViewPage : ContentPage
             }
             catch { } // TODO
         }
+        await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius, appStateSettings.ShowSearchRadiusOnMap);
         POIsReadIsBusy = false;
         POIsMapUpdateIsBusy = false;
         if (DeviceInfo.Current.Version.Major >= 11)
@@ -331,24 +340,34 @@ public partial class MapViewPage : ContentPage
             }
         });
     }
-    private static async Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
+    private static Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius, bool show)
     {
-        return;
-        await Task.Factory.StartNew(() =>
+        if (IsSearchRadiusCircleBusy)
+        { return Task.CompletedTask; }
+        try
         {
-            var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
-            var circle = new Circle
+            if(show)
             {
-                Center = new Mapsui.UI.Maui.Position(loc.Latitude, loc.Longitude),
-                Radius = Distance.FromKilometers(radius),
-                Quality = 100,
-                StrokeColor = new Color(36, 143, 116),
-                StrokeWidth = 1,
-                FillColor = new Color(36, 143, 116, 0.25313f),
-            };
-            mapView.Drawables.Clear();
-            mapView.Drawables.Add(circle);
-        });
+                var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
+                var circle = new Circle
+                {
+                    Center = new Mapsui.UI.Maui.Position(loc.Latitude, loc.Longitude),
+                    Radius = Distance.FromKilometers(radius),
+                    Quality = 100,
+                    StrokeColor = new Color(255, 153, 0),
+                    StrokeWidth = 2,
+                    FillColor = new Color(255, 153, 0, 0.0541f),
+                };
+                IsSearchRadiusCircleBusy = true;
+                mapView.Drawables.Clear();
+                mapView.Drawables.Add(circle);
+                IsSearchRadiusCircleBusy = false;
+            }
+            else
+            { mapView.Drawables.Clear(); return Task.CompletedTask; }
+        }
+        catch (Exception ex) { }
+        return Task.CompletedTask;
     }
     public virtual void Dispose()
     {
@@ -514,7 +533,7 @@ public partial class MapViewPage : ContentPage
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                 }
-                await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+                await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius, appStateSettings.ShowSearchRadiusOnMap);
                 this.Loading.IsVisible = true;
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
@@ -785,7 +804,7 @@ public partial class MapViewPage : ContentPage
                 CurrentLocationOnLoad = myCurrentLocation;
             }
         });
-        await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+        await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius, appStateSettings.ShowSearchRadiusOnMap);
     }
     private async void  RefreshButton_Clicked(object sender, EventArgs e)
     {
@@ -796,6 +815,10 @@ public partial class MapViewPage : ContentPage
     private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         appStateSettings.CenterMap = e.Value;
+    }
+    private void ShowSearchRadiusOnMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        appStateSettings.ShowSearchRadiusOnMap = e.Value;
     }
     private void RestoreOptionsOnStartup_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -830,5 +853,5 @@ public partial class MapViewPage : ContentPage
                 break;
         }
         return string.Empty;
-    }    
+    }
 }

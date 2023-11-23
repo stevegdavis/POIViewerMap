@@ -165,6 +165,9 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Servizi igienici</value>
   </data>
+  <data name="OptionsShowSearchRadiusOnMap" xml:space="preserve">
+    <value>Mostra il raggio di ricerca sulla mappa</value>
+  </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distanza:</value>
   </data>

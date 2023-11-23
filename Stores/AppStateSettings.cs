@@ -14,9 +14,9 @@ public interface IAppStateSettings
     bool CenterMap { get; set; }
     bool RestoreOptions { get; set; }
     string RouteFilepath { get; set; }
+    bool ShowSearchRadiusOnMap { get; set; }
     DateTime? LastUpdated { get; set; }
 }
-
 public class AppStateSettings : ReactiveObject, IAppStateSettings
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
@@ -31,8 +31,12 @@ public class AppStateSettings : ReactiveObject, IAppStateSettings
                 x => x.RouteFilepath,
                 x => x.CenterMap,
                 x => x.RestoreOptions
-            )
-            .Subscribe(_ =>
+            ).Subscribe(_ =>
+                UpdateAppStateSettings()
+            );
+        this.WhenAnyValue(
+                x => x.ShowSearchRadiusOnMap
+            ).Subscribe(_ =>
                 UpdateAppStateSettings()
             );
     }
@@ -43,6 +47,7 @@ public class AppStateSettings : ReactiveObject, IAppStateSettings
     [Reactive] public bool RestoreOptions { get; set; } = false;
     [Reactive] public string BINFilepath { get; set; } = null;
     [Reactive] public string RouteFilepath { get; set; } = null;
+    [Reactive] public bool ShowSearchRadiusOnMap { get; set; } = false;
     [Reactive] public DateTime? LastUpdated { get; set; }
 
     private void GetAppSettings()
@@ -75,6 +80,10 @@ public class AppStateSettings : ReactiveObject, IAppStateSettings
         {
             this.RestoreOptions = Preferences.Default.Get("restore_options", false);
         }
+        if (Preferences.Default.ContainsKey("show_search"))
+        {
+            this.ShowSearchRadiusOnMap = Preferences.Default.Get("show_search", false);
+        }
     }
     public void UpdateAppStateSettings()
     {
@@ -85,6 +94,7 @@ public class AppStateSettings : ReactiveObject, IAppStateSettings
         Preferences.Default.Set("center_map", this.CenterMap);
         Preferences.Default.Set("restore_options", this.RestoreOptions);
         Preferences.Default.Set("zoom_level", this.ZoomLevel);
+        Preferences.Default.Set("show_search", this.ShowSearchRadiusOnMap);
         this.LastUpdated = DateTime.Now;
     }
 }

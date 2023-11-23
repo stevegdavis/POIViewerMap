@@ -205,6 +205,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Search Radius On Map.
+        /// </summary>
+        internal static string OptionsShowSearchRadiusOnMap {
+            get {
+                return ResourceManager.GetString("OptionsShowSearchRadiusOnMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance:.
         /// </summary>
         internal static string PinLabelDistanceText {

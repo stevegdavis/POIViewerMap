@@ -165,6 +165,9 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Toilet</value>
   </data>
+  <data name="OptionsShowSearchRadiusOnMap" xml:space="preserve">
+    <value>Show Search Radius On Map</value>
+  </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance:</value>
   </data>
