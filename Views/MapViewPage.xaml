@@ -12,11 +12,11 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
-            <mct:Expander BackgroundColor="White" IsVisible="True" Padding="5" x:Name="expander">
+            <mct:Expander IsVisible="True" Padding="5" x:Name="expander">
                 <mct:Expander.Header>
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>
-                <mct:Expander.Content BackgroundColor="LightGrey">
+                <mct:Expander.Content>
                     <ScrollView VerticalScrollBarVisibility="Always" HeightRequest="148">
                         <VerticalStackLayout>
                             <BoxView Style="{StaticResource Divider}" />

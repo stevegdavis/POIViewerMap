@@ -7,6 +7,7 @@
     <Color x:Key="AppBackgroundLightColor">#FAFAFA</Color>
     <Color x:Key="AppBackgroundDarkColor">#050505</Color>
     <Color x:Key="Primary">#248f8f</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#248f8f</Color>
     <Color x:Key="MenuBar">#34cbcb</Color>
