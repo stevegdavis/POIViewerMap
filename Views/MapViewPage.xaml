@@ -17,11 +17,11 @@
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>
                 <mct:Expander.Content BackgroundColor="LightGrey">
-                    <ScrollView VerticalScrollBarVisibility="Always" HeightRequest="190">
+                    <ScrollView VerticalScrollBarVisibility="Always" HeightRequest="148">
                         <VerticalStackLayout>
                             <BoxView Style="{StaticResource Divider}" />
                             <StackLayout Margin="0,0,0,0" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                <Label Margin="5,12,2,0" FontAttributes="None">
+                                <Label Margin="5,10,2,0" FontAttributes="None">
                                     <OnPlatform x:TypeArguments="x:String">
                                         <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                         <On Platform="Windows" Value="" />
@@ -50,9 +50,6 @@
                                     </Picker.ItemsSource>
                                 </Picker>
                             </StackLayout>
-                            <StackLayout IsVisible="False" Margin="0,0,0,0" Orientation="Horizontal">
-                                <Button Margin="25,5,0,0" Text="{x:Static resource:AppResource.RefreshButtonText}" Clicked="RefreshButton_Clicked"/>
-                            </StackLayout>
                             <HorizontalStackLayout HorizontalOptions="Fill" IsVisible="False" >
                                 <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
                                 <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
@@ -70,6 +67,9 @@
                             </ScrollView>
                             <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
                                 <Button Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                                <HorizontalStackLayout x:Name="activityloadindicatorlayout" IsVisible="False">
+                                    <ActivityIndicator x:Name="activityload" HeightRequest="15" IsRunning="True"/>
+                                </HorizontalStackLayout>
                                 <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
@@ -78,20 +78,15 @@
                             </HorizontalStackLayout>
                             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                                 <CheckBox x:Name="AllowCenterMap" IsChecked="False" CheckedChanged="AllowCenterMap_CheckedChanged"/>
-                                <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
+                                <Label Margin="0,8,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                            <!--<HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                                 <CheckBox x:Name="ShowSearchRadiusOnMap" IsChecked="False" CheckedChanged="ShowSearchRadiusOnMap_CheckedChanged" />
                                 <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.OptionsShowSearchRadiusOnMap}" />
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                                <CheckBox x:Name="RestoreOptionsOnStartup" IsChecked="False" CheckedChanged="RestoreOptionsOnStartup_CheckedChanged" />
-                                <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.RestoreOptionsOnStartupLabelText}" />
-                            </HorizontalStackLayout>
+                            </HorizontalStackLayout>-->
                             <BoxView Style="{StaticResource Divider}" />
                         </VerticalStackLayout>
-                    </ScrollView>
-                    
+                    </ScrollView>                    
                 </mct:Expander.Content>
             </mct:Expander>
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
