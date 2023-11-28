@@ -205,6 +205,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string OptionsRouteDeleteButtonText {
+            get {
+                return ResourceManager.GetString("OptionsRouteDeleteButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Search Radius On Map.
         /// </summary>
         internal static string OptionsShowSearchRadiusOnMap {

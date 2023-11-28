@@ -55,22 +55,21 @@
                                 <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
                                 <Label Text="km" Margin="0,12,5,0"/>
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Margin="5,0,0,0" IsVisible="False">
-                                <Label FontSize="15" Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
-                                <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
-                            </HorizontalStackLayout>
-                            <ScrollView Orientation="Horizontal" Margin="5,0,5,0" IsVisible="False">
-                                <HorizontalStackLayout Margin="0,0,5,0">
-                                    <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
-                                    <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" LineBreakMode="TailTruncation" TextColor="{StaticResource Yellow100Accent}" FontAttributes="Bold"/>
-                                </HorizontalStackLayout>
-                            </ScrollView>
                             <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
                                 <Button Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
                                 <HorizontalStackLayout x:Name="activityloadindicatorlayout" IsVisible="False">
                                     <ActivityIndicator x:Name="activityload" HeightRequest="15" IsRunning="True"/>
                                 </HorizontalStackLayout>
                                 <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout x:Name="POIFilename" IsVisible="False" Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
+                                <Label Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
+                                <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" MaximumWidthRequest="220" LineBreakMode="MiddleTruncation"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout x:Name="RouteFilename" IsVisible="False" HorizontalOptions="CenterAndExpand">
+                                <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
+                                <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" MaximumWidthRequest="180" LineBreakMode="MiddleTruncation"/>
+                                <Button x:Name="OptionsRouteDeleteButton" IsVisible="False" Margin="5,0,0,0" Text="{x:Static resource:AppResource.OptionsRouteDeleteButtonText}" FontSize="8" MaximumHeightRequest="30" Clicked="DeleteButton_Clicked"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
                                 <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>

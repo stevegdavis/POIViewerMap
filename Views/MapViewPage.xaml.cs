@@ -57,6 +57,7 @@ public partial class MapViewPage : ContentPage
     public static bool IsAppStateSettingsBusy = false;
     public static bool IsSearchRadiusCircleBusy = false;
     public static Popup popup;
+    public static ILayer myRouteLayer;
     CompositeDisposable? deactivateWith;
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
@@ -470,6 +471,7 @@ public partial class MapViewPage : ContentPage
         await BrowsePOIs();
         if (!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
         {
+            this.POIFilename.IsVisible = true;
             this.pickerRadius.Title = $"{SearchRadius}km";
             this.pickerRadius.SelectedIndex = 0;
             this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
@@ -478,6 +480,7 @@ public partial class MapViewPage : ContentPage
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
+            this.FilepathPOILabel.Text = Path.GetFileName(FullFilepathPOIs);
             pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
             if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
                 await PopulateMapAsync(pois);
@@ -503,8 +506,8 @@ public partial class MapViewPage : ContentPage
             this.Loading.IsVisible = false;
             this.picker.SelectedIndex = -1;
             this.pickerRadius.SelectedIndex = -1;
-            POIsReadIsBusy = false;
         }
+        POIsReadIsBusy = false;
     }
     private static void ShowUpdateUIStateToast()
     {
@@ -522,17 +525,21 @@ public partial class MapViewPage : ContentPage
     {
         if (POIsReadIsBusy)
             return;
-        await BrowseRoutes();
-        if(!String.IsNullOrEmpty(this.FilepathRouteLabel.Text))
+        try
         {
-            var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
-            try
+            await BrowseRoutes();
+            if (!String.IsNullOrEmpty(this.FilepathRouteLabel.Text))
             {
-                var lineStringLayer = CreateLineStringLayer(line, CreateLineStringStyle());
-                mapView.Map.Layers.Add(lineStringLayer);
+                if (myRouteLayer != null)
+                    mapView.Map.Layers.Remove(myRouteLayer);
+                //this.OptionsRouteDeleteButton.IsVisible = true;
+                this.RouteFilename.IsVisible = true;
+                var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
+                myRouteLayer = CreateLineStringLayer(line, CreateLineStringStyle());
+                mapView.Map.Layers.Add(myRouteLayer);
             }
-            catch { } // TODO
         }
+        catch(Exception ex) { }
     }
     private void ToggleCompass()
     {
@@ -747,5 +754,14 @@ public partial class MapViewPage : ContentPage
                 break;
         }
         return string.Empty;
+    }
+    private void DeleteButton_Clicked(object sender, EventArgs e)
+    {
+        //this.OptionsRouteDeleteButton.IsVisible = false;
+        if(myRouteLayer!= null)
+        {
+            this.FilepathRouteLabel.Text = string.Empty;
+            mapView.Map.Layers.Remove(myRouteLayer);
+        }        
     }
 }

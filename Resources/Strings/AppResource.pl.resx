@@ -165,6 +165,9 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Toaleta</value>
   </data>
+  <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
   <data name="OptionsShowSearchRadiusOnMap" xml:space="preserve">
     <value>Pokaż promień wyszukiwania na mapie</value>
   </data>
