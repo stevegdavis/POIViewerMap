@@ -9,8 +9,5 @@ public partial class AppUsagePopup : Popup
         InitializeComponent();
     }
     void OnOKButtonClicked(object? sender, EventArgs e) => CloseAsync(this.ShowPopupAtStartup);
-    private void ShowAppUsage_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    {
-        this.ShowPopupAtStartup = !e.Value;
-    }
+    private void ShowAppUsage_CheckedChanged(object sender, CheckedChangedEventArgs e) => this.ShowPopupAtStartup = !e.Value;
 }
