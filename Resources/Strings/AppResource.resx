@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppUsageCloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
+    <value>The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app. The data is extracted from Open Street Maps and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge.</value>
+  </data>
+  <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
+    <value>Disclaimer</value>
+  </data>
+  <data name="AppUsageLabel2Text" xml:space="preserve">
+    <value>The following POI types can be searched.</value>
+  </data>
+  <data name="AppUsageLabel3Text" xml:space="preserve">
+    <value>The following Search Radius is possible.</value>
+  </data>
+  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
+    <value>POI Viewer Map</value>
+  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Center Map On My Position</value>
   </data>
@@ -125,6 +143,9 @@
   </data>
   <data name="DistanceTooGreatToastMsg" xml:space="preserve">
     <value>Distance &gt;</value>
+  </data>
+  <data name="DoNotShowAgainLabelText" xml:space="preserve">
+    <value>Do not show this message again</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Import Route</value>
@@ -233,14 +254,5 @@
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Search Radius:</value>
-  </data>
-  <data name="UpdateUIStateCloseButtonText" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="UpdateUIStateGetLocationMsg" xml:space="preserve">
-    <value>Getting device location...</value>
-  </data>
-  <data name="ZoomInToastMsg" xml:space="preserve">
-    <value>Zoom in to view POIs</value>
   </data>
 </root>

@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppUsageCloseButtonText" xml:space="preserve">
+    <value>Zamknij</value>
+  </data>
+  <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
+    <value>Autor aplikacji nie może zagwarantować dokładności punktów POI wyświetlanych na mapie. Podczas korzystania z aplikacji należy zawsze zachować ostrożność. Dane są pobierane z Open Street Maps i opierają się na wielu współpracownikach OSM. Szczególną uwagę należy zwrócić na punkty z wodą pitną, ponieważ nie ma gwarancji, że wszystkie pokazane na mapie nadają się do picia, a użytkownik musi zasięgnąć lokalnej wiedzy.</value>
+  </data>
+  <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
+    <value>Zastrzeżenie</value>
+  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Wyśrodkuj mapę na mojej pozycji</value>
   </data>
@@ -125,6 +134,9 @@
   </data>
   <data name="DistanceTooGreatToastMsg" xml:space="preserve">
     <value>Odległość &gt;</value>
+  </data>
+  <data name="DoNotShowAgainLabelText" xml:space="preserve">
+    <value>Nie pokazuj tego komunikatu ponownie</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Trasa importu</value>
@@ -230,14 +242,5 @@
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Promień wyszukiwania:</value>
-  </data>
-  <data name="UpdateUIStateCloseButtonText" xml:space="preserve">
-    <value>Zamknij</value>
-  </data>
-  <data name="UpdateUIStateGetLocationMsg" xml:space="preserve">
-    <value>Pobieranie lokalizacji urządzenia...</value>
-  </data>
-  <data name="ZoomInToastMsg" xml:space="preserve">
-    <value>Zoom in to view POIs</value>
   </data>
 </root>

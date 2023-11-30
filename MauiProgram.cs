@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using POIViewerMap.Popups;
+using POIViewerMap.Stores;
 using POIViewerMap.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
@@ -21,6 +23,8 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+        builder.Services.AddSingleton<IAppSettings, AppSettings>();
+        builder.Services.AddSingleton<MapViewPage>();
         return builder.Build();
 	}
 }

@@ -137,8 +137,8 @@
 	  <Compile Update="Platforms\Windows\KeyboardHelper.cs">
 	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
 	  </Compile>
-	  <Compile Update="Popups\LoadUIStatePopup.xaml.cs">
-	    <DependentUpon>LoadUIStatePopup.xaml</DependentUpon>
+	  <Compile Update="Popups\AppUsagePopup.xaml.cs">
+	    <DependentUpon>AppUsagePopup.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Resources\Strings\AppResource.de.Designer.cs">
 	    <DependentUpon>AppResource.de.resx</DependentUpon>
@@ -164,7 +164,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Popups\LoadUIStatePopup.xaml">
+	  <MauiXaml Update="Popups\AppUsagePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AppUsagePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MapViewPage.xaml">

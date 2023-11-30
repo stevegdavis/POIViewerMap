@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:resource="clr-namespace:POIViewerMap.Resources.Strings"
+               x:Class="POIViewerMap.Popups.AppUsagePopup"
+               Color="Transparent" CanBeDismissedByTappingOutsideOfPopup="False">
+
+    <ScrollView WidthRequest="355" HeightRequest="485" Padding="10">
+        <VerticalStackLayout Padding="5,10,0,0" VerticalOptions="StartAndExpand" HorizontalOptions="Start" BackgroundColor="Gray">
+            <Label Style="{StaticResource AppUsageLabelStyle}" Margin="5,5,5,5" HorizontalOptions="Start" FontAttributes="Bold" Text="{x:Static resource:AppResource.AppUsagePopupTitleMsg}" />
+            <BoxView Style="{StaticResource Divider}" />
+            <Label Style="{StaticResource AppUsageLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerTitleLabelText}" FontAttributes="Bold"/>
+            <Label Style="{StaticResource AppUsageLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerLabelText}"/>
+            <HorizontalStackLayout>
+                <CheckBox x:Name="Show" Style="{StaticResource AppUsageCheckBox}" IsChecked="False" CheckedChanged="ShowAppUsage_CheckedChanged"/>
+                <Label Style="{StaticResource AppUsageLabelStyle}" Margin="0,12,0,0" Text="{x:Static resource:AppResource.DoNotShowAgainLabelText}" />
+            </HorizontalStackLayout>
+            <Button Style="{StaticResource AppUsageButtonStyle}" Text="{x:Static resource:AppResource.AppUsageCloseButtonText}" VerticalOptions="EndAndExpand" HorizontalOptions="Center" WidthRequest="200" Margin="0,25,0,30" Clicked="OnOKButtonClicked"/>
+    </VerticalStackLayout>
+    </ScrollView>
+</toolkit:Popup>

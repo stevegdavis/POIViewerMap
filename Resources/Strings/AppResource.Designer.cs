@@ -61,6 +61,60 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string AppUsageCloseButtonText {
+            get {
+                return ResourceManager.GetString("AppUsageCloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app. The data is extracted from Open Street Maps and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge..
+        /// </summary>
+        internal static string AppUsageDisclaimerLabelText {
+            get {
+                return ResourceManager.GetString("AppUsageDisclaimerLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disclaimer.
+        /// </summary>
+        internal static string AppUsageDisclaimerTitleLabelText {
+            get {
+                return ResourceManager.GetString("AppUsageDisclaimerTitleLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following POI types can be searched..
+        /// </summary>
+        internal static string AppUsageLabel2Text {
+            get {
+                return ResourceManager.GetString("AppUsageLabel2Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following Search Radius is possible..
+        /// </summary>
+        internal static string AppUsageLabel3Text {
+            get {
+                return ResourceManager.GetString("AppUsageLabel3Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POI Viewer Map.
+        /// </summary>
+        internal static string AppUsagePopupTitleMsg {
+            get {
+                return ResourceManager.GetString("AppUsagePopupTitleMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Center Map On My Position.
         /// </summary>
         internal static string CenterMapLabelText {
@@ -84,6 +138,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string DistanceTooGreatToastMsg {
             get {
                 return ResourceManager.GetString("DistanceTooGreatToastMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not show this message again.
+        /// </summary>
+        internal static string DoNotShowAgainLabelText {
+            get {
+                return ResourceManager.GetString("DoNotShowAgainLabelText", resourceCulture);
             }
         }
         
@@ -408,33 +471,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string SearchRadiusLabelText {
             get {
                 return ResourceManager.GetString("SearchRadiusLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close.
-        /// </summary>
-        internal static string UpdateUIStateCloseButtonText {
-            get {
-                return ResourceManager.GetString("UpdateUIStateCloseButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Getting device location....
-        /// </summary>
-        internal static string UpdateUIStateGetLocationMsg {
-            get {
-                return ResourceManager.GetString("UpdateUIStateGetLocationMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom in to view POIs.
-        /// </summary>
-        internal static string ZoomInToastMsg {
-            get {
-                return ResourceManager.GetString("ZoomInToastMsg", resourceCulture);
             }
         }
     }

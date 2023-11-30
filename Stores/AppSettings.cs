@@ -5,7 +5,7 @@ namespace POIViewerMap.Stores;
 
 public interface IAppSettings
 {
-    bool ShowDisclaimer { get; set; }
+    bool ShowPopupAtStart { get; set; }
     DateTime? LastUpdated { get; set; }
 }
 public class AppSettings : ReactiveObject, IAppSettings
@@ -15,25 +15,25 @@ public class AppSettings : ReactiveObject, IAppSettings
     {
         GetAppSettings();
         this.WhenAnyValue(
-                x => x.ShowDisclaimer
+                x => x.ShowPopupAtStart
             ).Subscribe(_ =>
                 UpdateAppSettings()
             );
         
     }
-    [Reactive] public bool ShowDisclaimer { get; set; } = true;
+    [Reactive] public bool ShowPopupAtStart { get; set; } = true;
     [Reactive] public DateTime? LastUpdated { get; set; }
 
     private void GetAppSettings()
     {
-        if (Preferences.Default.ContainsKey("show_disclaimer"))
+        if (Preferences.Default.ContainsKey("show"))
         {
-            this.ShowDisclaimer = Preferences.Default.Get("show_disclaimer", true);
+            this.ShowPopupAtStart = Preferences.Default.Get("show", true);
         }       
     }
     public void UpdateAppSettings()
     {
-        Preferences.Default.Set("show_disclaimer", this.ShowDisclaimer);
+        Preferences.Default.Set("show", this.ShowPopupAtStart);
         this.LastUpdated = DateTime.Now;
     }
 }

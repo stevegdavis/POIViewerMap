@@ -18,6 +18,7 @@ using POIBinaryFormatLib;
 using POIViewerMap.Helpers;
 using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
+using POIViewerMap.Stores;
 using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -58,14 +59,15 @@ public partial class MapViewPage : ContentPage
     public static bool IsSearchRadiusCircleBusy = false;
     public static Popup popup;
     public static ILayer myRouteLayer;
+    public IAppSettings appSettings;
     CompositeDisposable? deactivateWith;
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 
-    public MapViewPage()
+    public MapViewPage(IAppSettings appSettings)
 	{
 		InitializeComponent();
-        //GetAppSettings();
+        this.appSettings = appSettings;
         var items = new List<string>();
         items.Add(AppResource.OptionsPOIPickerDrinkingWaterText);
         items.Add(AppResource.OptionsPOIPickerCampsiteText);
@@ -193,6 +195,18 @@ public partial class MapViewPage : ContentPage
                     _myLocationLayer.Enabled = true;
                     await CheckLoadingDistance();
                 });
+    }
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        if (!appSettings.ShowPopupAtStart) return;
+        AppUsagePopup popup = new ();
+        popup.ShowPopupAtStartup = appSettings.ShowPopupAtStart;
+        popup.Closed += Popup_Closed;
+        this.ShowPopup(popup);
+    }
+    private void Popup_Closed(object sender, PopupClosedEventArgs e)
+    {
+        appSettings.ShowPopupAtStart = (bool)e.Result;
     }
     private async Task GetCurrentLocation()
     {
