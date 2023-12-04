@@ -186,6 +186,9 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Toilet</value>
   </data>
+  <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
+    <value>Train Station</value>
+  </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Delete</value>
   </data>

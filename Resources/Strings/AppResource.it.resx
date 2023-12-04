@@ -177,6 +177,9 @@
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
     <value>Servizi igienici</value>
   </data>
+  <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
+    <value>Stazione ferroviaria</value>
+  </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Cancellare</value>
   </data>

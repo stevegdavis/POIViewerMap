@@ -268,6 +268,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Train Station.
+        /// </summary>
+        internal static string OptionsPOIPickerTrainStationText {
+            get {
+                return ResourceManager.GetString("OptionsPOIPickerTrainStationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string OptionsRouteDeleteButtonText {

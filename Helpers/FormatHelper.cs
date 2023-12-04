@@ -1,10 +1,5 @@
 ﻿using POIBinaryFormatLib;
 using POIViewerMap.Resources.Strings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POIViewerMap.Helpers;
 
@@ -16,47 +11,6 @@ public class FormatHelper
         if (distance < 1)
             distanceStr = $" {String.Format("{0:0}", distance * 1000)} {AppResource.Meters}";
         return distanceStr;
-    }
-    public static string GetTitleLang(POIType type)
-    {
-        var Title = string.Empty;
-        switch (type)
-        {
-            case POIType.DrinkingWater:
-                Title = AppResource.OptionsPOIPickerDrinkingWaterText;
-                break;
-            case POIType.Campsite:
-                Title = AppResource.OptionsPOIPickerCampsiteText;
-                break;
-            case POIType.BicycleShop:
-                Title = AppResource.OptionsPOIPickerBicycleShopText;
-                break;
-            case POIType.BicycleRepairStation:
-                Title = AppResource.OptionsPOIPickerBicycleRepairStationText;
-                break;
-            case POIType.Supermarket:
-                Title = AppResource.OptionsPOIPickerSupermarketText;
-                break; ;
-            case POIType.ATM:
-                Title = AppResource.OptionsPOIPickerATMText;
-                break;
-            case POIType.Toilet:
-                Title = AppResource.OptionsPOIPickerToiletText;
-                break;
-            case POIType.Cafe:
-                Title = AppResource.OptionsPOIPickerCafeText;
-                break;
-            case POIType.Bakery:
-                Title = AppResource.OptionsPOIPickerBakeryText;
-                break;
-            case POIType.PicnicTable:
-                Title = AppResource.OptionsPOIPickerPicnicTableText;
-                break;
-            default:
-                Title = string.Empty;
-                break;
-        }
-        return Title;
     }
     public static int GetSelectedIndexFromPOIType(POIType poi)
     {
@@ -72,6 +26,7 @@ public class FormatHelper
             POIType.Cafe => 7,
             POIType.Bakery => 8,
             POIType.PicnicTable => 9,
+            POIType.TrainStation => 10,
             _ => 0,
         };
     }
@@ -89,6 +44,7 @@ public class FormatHelper
             7 => POIType.Cafe,
             8 => POIType.Bakery,
             9 => POIType.PicnicTable,
+            10 => POIType.TrainStation,
             _ => POIType.DrinkingWater,
         };
     }
@@ -174,6 +130,9 @@ public class FormatHelper
                 break;
             case POIType.PicnicTable:
                 Title = AppResource.OptionsPOIPickerPicnicTableText;
+                break;
+            case POIType.TrainStation:
+                Title = AppResource.OptionsPOIPickerTrainStationText;
                 break;
             default:
                 Title = string.Empty;

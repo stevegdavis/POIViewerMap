@@ -63,6 +63,7 @@
 	  <MauiImage Remove="Resources\Images\shopping-cart.svg" />
 	  <MauiImage Remove="Resources\Images\spanner.svg" />
 	  <MauiImage Remove="Resources\Images\toilet.svg" />
+	  <MauiImage Remove="Resources\Images\train.svg" />
 	  <MauiImage Remove="Resources\Images\waterlightblue.svg" />
 	</ItemGroup>
 
@@ -83,6 +84,7 @@
 	  <None Remove="Resources\Images\shopping-cart.svg" />
 	  <None Remove="Resources\Images\spanner.svg" />
 	  <None Remove="Resources\Images\toilet.svg" />
+	  <None Remove="Resources\Images\train.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	  <None Remove="Resources\Splash\splash_bicycle.svg" />
 	</ItemGroup>
@@ -103,6 +105,7 @@
 	  <EmbeddedResource Include="Resources\Images\shopping-cart.svg" />
 	  <EmbeddedResource Include="Resources\Images\spanner.svg" />
 	  <EmbeddedResource Include="Resources\Images\toilet.svg" />
+	  <EmbeddedResource Include="Resources\Images\train.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterlightblue.svg" />
 	</ItemGroup>
 
@@ -112,7 +115,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="POIBinaryFormatLib" Version="1.1.0" />
+		<PackageReference Include="POIBinaryFormatLib" Version="1.1.1" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
 		<PackageReference Include="ReactiveUI.Maui" Version="19.5.1" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />

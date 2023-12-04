@@ -42,6 +42,7 @@ public partial class MapViewPage : ContentPage
     static string cupStr = null;
     static string bakeryStr = null;
     static string picnictableStr = null;
+    static string trainstationStr = null;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int SearchRadius = 5; // km
@@ -79,6 +80,7 @@ public partial class MapViewPage : ContentPage
         items.Add(AppResource.OptionsPOIPickerCafeText);
         items.Add(AppResource.OptionsPOIPickerBakeryText);
         items.Add(AppResource.OptionsPOIPickerPicnicTableText);
+        items.Add(AppResource.OptionsPOIPickerTrainStationText);
         this.picker.ItemsSource = items;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
@@ -144,6 +146,12 @@ public partial class MapViewPage : ContentPage
         {
             using StreamReader reader = new(picnictable!);
             picnictableStr = reader.ReadToEnd();
+        }
+        using var trainstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.train.svg");
+        if (trainstation != null)
+        {
+            using StreamReader reader = new(trainstation!);
+            trainstationStr = reader.ReadToEnd();
         }
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
@@ -764,6 +772,7 @@ public partial class MapViewPage : ContentPage
             case POIType.Cafe: return cupStr;
             case POIType.Bakery: return bakeryStr;
             case POIType.PicnicTable: return picnictableStr;
+            case POIType.TrainStation: return trainstationStr;
             case POIType.Unknown:
                 break;
         }
