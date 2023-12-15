@@ -334,6 +334,7 @@ public partial class MapViewPage : ContentPage
             mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
             _myLocationLayer.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
             _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer.UpdateMySpeed(1.6);
             await UpdateVisiblePinsLabelDistanceText();
             POIsMapUpdateIsBusy = false;
         });
