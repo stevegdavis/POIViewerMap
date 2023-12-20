@@ -68,7 +68,7 @@
                             </HorizontalStackLayout>
                             <HorizontalStackLayout x:Name="RouteFilename" IsVisible="False" HorizontalOptions="CenterAndExpand">
                                 <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
-                                <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" MaximumWidthRequest="180" LineBreakMode="MiddleTruncation"/>
+                                <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" MaximumWidthRequest="260" LineBreakMode="MiddleTruncation"/>
                                 <Button x:Name="OptionsRouteDeleteButton" IsVisible="False" Margin="5,0,0,0" Text="{x:Static resource:AppResource.OptionsRouteDeleteButtonText}" FontSize="8" MaximumHeightRequest="30" Clicked="DeleteButton_Clicked"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">

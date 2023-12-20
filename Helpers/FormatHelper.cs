@@ -61,40 +61,15 @@ public class FormatHelper
             _ => 0,//5km
         };
     }
-    public static string GetSubTitleLang(POIData poi)
+    public static string GetSubTitleLang(string subtitle)
     {
-        var subtitle = string.Empty;
-        if (poi.Subtitle.Contains("Website:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleWebsite} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
-        else if (poi.Subtitle.Contains("Refill Here"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleRefill}";
-        }
-        if (poi.Subtitle.Contains("Services"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleServices} ";
-            if (poi.Subtitle.Contains("Tools"))
-                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleTools}";
-            if (poi.Subtitle.Contains("Pump"))
-            {
-                subtitle = $"{subtitle}{(poi.Subtitle.Contains("Tools") ? "," : string.Empty)}{AppResource.PinLabelSubtitlePump}";
-            }
-            if (poi.Subtitle.Contains("Open"))
-            {
-                subtitle = $"{subtitle}\r{AppResource.PinLabelSubtitleOpen} {poi.Subtitle[(poi.Subtitle.LastIndexOf(":") + 2)..]}";
-            }
-            if (poi.Subtitle.Contains("Unknown"))
-            {
-                subtitle = $"{subtitle}{AppResource.PinLabelSubtitleUnknown}";
-            }
-        }
-        else if (poi.Subtitle.Contains("Open:"))
-        {
-            subtitle = $"{AppResource.PinLabelSubtitleOpen} {poi.Subtitle.Substring(poi.Subtitle.IndexOf(":") + 2)}";
-        }
-        return subtitle;
+        return subtitle.Replace("Open:", AppResource.PinLabelSubtitleOpen).
+            Replace("Website:", AppResource.PinLabelSubtitleWebsite).
+            Replace("Refill Here", AppResource.PinLabelSubtitleRefill).
+            Replace("Services:", AppResource.PinLabelSubtitleServices).
+            Replace("Tools", AppResource.PinLabelSubtitleTools).
+            Replace("Pump", AppResource.PinLabelSubtitlePump).
+            Replace("Unknown", AppResource.PinLabelSubtitleUnknown);
     }
     public static string GetTitleLang(POIData data, bool v)
     {

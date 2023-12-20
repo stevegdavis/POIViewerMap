@@ -721,7 +721,7 @@ public partial class MapViewPage : ContentPage
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{FormatHelper.GetTitleLang(poi, poi.Title.Contains(':'))}\r{FormatHelper.GetSubTitleLang(poi)}{space}{AppResource.PinLabelDistanceText}",
+                        Label = $"{FormatHelper.GetTitleLang(poi, poi.Title.Contains(':'))}\r{FormatHelper.GetSubTitleLang(poi.Subtitle)}{space}{AppResource.PinLabelDistanceText}",
                         Address = "",
                         Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
