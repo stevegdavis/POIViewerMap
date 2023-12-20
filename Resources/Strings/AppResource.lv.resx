@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppUsageCloseButtonText" xml:space="preserve">
+    <value>Aizvērt</value>
+  </data>
+  <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
+    <value>Šīs lietotnes autors nevar garantēt kartē redzamo POI precizitāti. Lietojot šo lietotni, vienmēr ir jāievēro piesardzība. Dati ir iegūti no Open Street Maps un balstās uz daudzajiem OSM sniedzējiem. Īpaša uzmanība jāpievērš dzeramā ūdens punktiem, jo nav garantijas, ka kartē norādītie punkti ir derīgi dzeršanai, un lietotājam ir jāinteresējas par to, vai tie ir pieejami uz vietas.</value>
+  </data>
+  <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
+    <value>Atruna</value>
+  </data>
+  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
+    <value>POI Viewer Map</value>
+  </data>
+  <data name="CenterMapLabelText" xml:space="preserve">
+    <value>Centra karte par manu poziciju</value>
+  </data>
+  <data name="ChooseText" xml:space="preserve">
+    <value>Izvēlieties</value>
+  </data>
+  <data name="DoNotShowAgainLabelText" xml:space="preserve">
+    <value>Neatkārtojiet šo ziņojumu vēlreiz</value>
+  </data>
+  <data name="ImportRouteButtonText" xml:space="preserve">
+    <value>Importa maršruts</value>
+  </data>
+  <data name="Meters" xml:space="preserve">
+    <value>Mērītāji</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Iespējas</value>
+  </data>
+  <data name="OptionsPOIPickerATMText" xml:space="preserve">
+    <value>BANKOMĀTS</value>
+  </data>
+  <data name="OptionsPOIPickerBakeryText" xml:space="preserve">
+    <value>Maiznīca</value>
+  </data>
+  <data name="OptionsPOIPickerBicycleRepairStationText" xml:space="preserve">
+    <value>Velosipēdu remonta stacija</value>
+  </data>
+  <data name="OptionsPOIPickerBicycleShopText" xml:space="preserve">
+    <value>Velosipēdu veikals</value>
+  </data>
+  <data name="OptionsPOIPickerCafeText" xml:space="preserve">
+    <value>Kafejnīca</value>
+  </data>
+  <data name="OptionsPOIPickerCampsiteText" xml:space="preserve">
+    <value>Kempings</value>
+  </data>
+  <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
+    <value>Dzeramais ūdens</value>
+  </data>
+  <data name="OptionsPOIPickerPicnicTableText" xml:space="preserve">
+    <value>Piknika galds</value>
+  </data>
+  <data name="OptionsPOIPickerSupermarketText" xml:space="preserve">
+    <value>Lielveikals</value>
+  </data>
+  <data name="OptionsPOIPickerToiletText" xml:space="preserve">
+    <value>Tualete</value>
+  </data>
+  <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
+    <value>Vilcienu stacija</value>
+  </data>
+  <data name="PinLabelDistanceText" xml:space="preserve">
+    <value>Attālums:</value>
+  </data>
+  <data name="PinLabelSubtitleOpen" xml:space="preserve">
+    <value>Atvērts:</value>
+  </data>
+  <data name="PinLabelSubtitlePump" xml:space="preserve">
+    <value>Sūknis</value>
+  </data>
+  <data name="PinLabelSubtitleRefill" xml:space="preserve">
+    <value>Pudeles uzpilde šeit</value>
+  </data>
+  <data name="PinLabelSubtitleServices" xml:space="preserve">
+    <value>Pakalpojumi:</value>
+  </data>
+  <data name="PinLabelSubtitleTools" xml:space="preserve">
+    <value>Instrumenti</value>
+  </data>
+  <data name="PinLabelSubtitleUnknown" xml:space="preserve">
+    <value>Nezināms</value>
+  </data>
+  <data name="PinLabelSubtitleWebsite" xml:space="preserve">
+    <value>Tīmekļa vietne:</value>
+  </data>
+  <data name="POIBrowseButtonText" xml:space="preserve">
+    <value>POI importēšana</value>
+  </data>
+  <data name="POIFilepathLabelText" xml:space="preserve">
+    <value>POI faila nosaukums:</value>
+  </data>
+  <data name="POIPickerTitleText" xml:space="preserve">
+    <value>Izvēlieties</value>
+  </data>
+  <data name="POIsLoadingLabelText" xml:space="preserve">
+    <value>Loading POIs - please wait...</value>
+  </data>
+  <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
+    <value>POI:</value>
+  </data>
+  <data name="POIViewerTitle" xml:space="preserve">
+    <value>POI Viewer Map</value>
+  </data>
+  <data name="RouteFilepathLabelText" xml:space="preserve">
+    <value>Maršruts:</value>
+  </data>
+  <data name="SearchRadiusLabelText" xml:space="preserve">
+    <value>Meklēšanas rādiuss:</value>
+  </data>
+</root>
