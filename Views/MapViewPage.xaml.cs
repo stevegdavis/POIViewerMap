@@ -555,14 +555,16 @@ public partial class MapViewPage : ContentPage
             {
                 if (myRouteLayer != null)
                     mapView.Map.Layers.Remove(myRouteLayer);
-                //this.OptionsRouteDeleteButton.IsVisible = true;
+                this.activityloadindicatorlayout.IsVisible = true;
                 this.RouteFilename.IsVisible = true;
                 var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
                 myRouteLayer = CreateLineStringLayer(line, CreateLineStringStyle());
                 mapView.Map.Layers.Add(myRouteLayer);
+                this.activityloadindicatorlayout.IsVisible = false;
             }
         }
         catch(Exception ex) { }
+        finally { this.activityloadindicatorlayout.IsVisible = false; }
     }
     private void ToggleCompass()
     {
