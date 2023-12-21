@@ -16,21 +16,58 @@ public class ImportRoutes
             using var sr = new StreamReader(path);
             while (!sr.EndOfStream)
             {
-                var line = string.Empty;
-                for (; ; )
+                var line = sr.ReadLine();
+                if(line.EndsWith("</gpx>"))
                 {
-                    char C = (char)sr.Read();
-                    line += C;
-                    if (line.Contains("</trkpt>") || line.Contains("/>") || sr.EndOfStream)
+                    var Idx = 0;
+                    for (; ; )
                     {
-                        break;
+                        if(Idx >= line.Length)
+                        { 
+                            break;
+                        }
+                        Idx = line.IndexOf("<trkseg>", Idx);
+                        //<trkseg><trkpt lat="56.296887" lon="21.538749"></trkpt></trkseg>
+                        if (Idx > -1)
+                        {
+                            var Idx2 = line.IndexOf("</trkseg>", Idx);
+                            if (Idx2 > -1)
+                            {
+                                var trkseg = line.Substring(Idx + "<trkseg>".Length, Idx2 - Idx);
+                                for (; ; )
+                                {
+                                    var Idx3 = trkseg.IndexOf("</trkpt>");
+                                    if (Idx3 > -1)
+                                    {
+                                        var trkpt = trkseg.Substring(0, Idx3);
+                                        if (trkpt.Contains("<trkpt lat="))
+                                        {
+                                            var result = ParseLatLonLine(trkpt);
+                                            list.Add(result.Item2);
+                                            trkseg = trkseg.Substring((result.Item1 + 2) + "<trkpt>".Length);
+                                        }//<trkpt lat="56.296104" lon="21.538877"></trkpt>
+                                    }
+                                    else
+                                    {
+                                        Idx += trkseg.Length;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
-                var Idx = line.IndexOf("<trkpt");
-                if(Idx > -1)
+                else
                 {
-                    var result = ParseLatLonLine(line);
-                    list.Add(result);
+                    if (line.Contains("<trkpt lat="))
+                    {
+                        var result = ParseLatLonLine(line);
+                        list.Add(result.Item2);
+                    }
                 }
             }
             sb.Append("LINESTRING(");
@@ -50,9 +87,7 @@ public class ImportRoutes
         });
         return result;
     }
-    // When tuple
-    //private static (int, RouteLineData) ParseLatLonLine(string latlon_line)
-    private static RouteLineData ParseLatLonLine(string latlon_line)
+    private static (int, RouteLineData) ParseLatLonLine(string latlon_line)
     {
         string lat = string.Empty, lon = string.Empty;
         var Idx = latlon_line.IndexOf("lat=\"");
@@ -82,8 +117,8 @@ public class ImportRoutes
                 Latitude = lat.TrimEnd(),
                 Longitude = lon.TrimEnd(),
             };
-            return data;
+            return (Idx2, data);
         }
-        return new RouteLineData();
+        return (0, new RouteLineData());
     }
 }
