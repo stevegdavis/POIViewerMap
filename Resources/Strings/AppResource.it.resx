@@ -214,7 +214,7 @@
     <value>Sito web:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>POI</value>
+    <value>POIs</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>Nome del file POI:</value>

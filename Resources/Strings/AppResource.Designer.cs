@@ -376,7 +376,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POI.
+        ///   Looks up a localized string similar to POIs.
         /// </summary>
         internal static string POIBrowseButtonText {
             get {
