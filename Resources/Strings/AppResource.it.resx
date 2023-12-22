@@ -139,13 +139,16 @@
     <value>Non mostrare più questo messaggio</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Percorso di importazione</value>
+    <value>Percorso</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Metri</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Opzioni</value>
+  </data>
+  <data name="OptionsImportLabelText" xml:space="preserve">
+    <value>Importazione</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>Bancomat</value>
@@ -211,7 +214,7 @@
     <value>Sito web:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>Importazione POIs</value>
+    <value>POI</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>Nome del file POI:</value>

@@ -148,13 +148,16 @@
     <value>Do not show this message again</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Import Route</value>
+    <value>Route</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Meters</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="OptionsImportLabelText" xml:space="preserve">
+    <value>Import</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -220,7 +223,7 @@
     <value>Website:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>Import POIs</value>
+    <value>POI</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI Filename:</value>

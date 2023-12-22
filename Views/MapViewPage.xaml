@@ -17,7 +17,7 @@
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>
                 <mct:Expander.Content>
-                    <ScrollView VerticalScrollBarVisibility="Always" HeightRequest="148">
+                    <ScrollView VerticalScrollBarVisibility="Default" HeightRequest="148">
                         <VerticalStackLayout>
                             <BoxView Style="{StaticResource Divider}" />
                             <StackLayout Margin="0,0,0,0" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
@@ -56,11 +56,12 @@
                                 <Label Text="km" Margin="0,12,5,0"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
-                                <Button Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
-                                <HorizontalStackLayout x:Name="activityloadindicatorlayout" IsVisible="False">
-                                    <ActivityIndicator x:Name="activityload" HeightRequest="15" IsRunning="True"/>
+                                <Label Text="{x:Static resource:AppResource.OptionsImportLabelText}" Margin="2,8,8,0" FontAttributes="Bold"/>
+                                <HorizontalStackLayout Margin="0,0,2,0" x:Name="activityloadindicatorlayout" IsVisible="False">
+                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
                                 </HorizontalStackLayout>
-                                <Button Margin="5,0,0,0" Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
+                                <Button Margin="0,0,5,0" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
+                                <Button Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout x:Name="POIFilename" IsVisible="False" Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
                                 <Label Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
@@ -71,18 +72,14 @@
                                 <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" MaximumWidthRequest="260" LineBreakMode="MiddleTruncation"/>
                                 <Button x:Name="OptionsRouteDeleteButton" IsVisible="False" Margin="5,0,0,0" Text="{x:Static resource:AppResource.OptionsRouteDeleteButtonText}" FontSize="8" MaximumHeightRequest="30" Clicked="DeleteButton_Clicked"/>
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
+                            <!--<HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
                                 <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>
                                 <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" FontAttributes="Bold"/>
-                            </HorizontalStackLayout>
+                            </HorizontalStackLayout>-->
                             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                                 <CheckBox x:Name="AllowCenterMap" IsChecked="False" CheckedChanged="AllowCenterMap_CheckedChanged"/>
                                 <Label Margin="0,8,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                             </HorizontalStackLayout>
-                            <!--<HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                                <CheckBox x:Name="ShowSearchRadiusOnMap" IsChecked="False" CheckedChanged="ShowSearchRadiusOnMap_CheckedChanged" />
-                                <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.OptionsShowSearchRadiusOnMap}" />
-                            </HorizontalStackLayout>-->
                             <BoxView Style="{StaticResource Divider}" />
                         </VerticalStackLayout>
                     </ScrollView>                    

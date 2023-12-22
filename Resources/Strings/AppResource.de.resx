@@ -139,13 +139,16 @@
     <value>Diese Meldung nicht mehr anzeigen</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Route importieren</value>
+    <value>Route</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Zähler</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Optionen</value>
+  </data>
+  <data name="OptionsImportLabelText" xml:space="preserve">
+    <value>Importieren</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -208,7 +211,7 @@
     <value>Unbekannt</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>POIs importieren</value>
+    <value>POIs</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI Dateiname:</value>

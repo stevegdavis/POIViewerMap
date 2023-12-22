@@ -139,13 +139,16 @@
     <value>Neatkārtojiet šo ziņojumu vēlreiz</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Importa maršruts</value>
+    <value>Maršruts</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mērītāji</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Iespējas</value>
+  </data>
+  <data name="OptionsImportLabelText" xml:space="preserve">
+    <value>Importēt</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>BANKOMĀTS</value>
@@ -205,7 +208,7 @@
     <value>Tīmekļa vietne:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
-    <value>POI importēšana</value>
+    <value>POI</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI faila nosaukums:</value>

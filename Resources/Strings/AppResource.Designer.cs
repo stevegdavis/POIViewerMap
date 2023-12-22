@@ -151,7 +151,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import Route.
+        ///   Looks up a localized string similar to Route.
         /// </summary>
         internal static string ImportRouteButtonText {
             get {
@@ -174,6 +174,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string Options {
             get {
                 return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        internal static string OptionsImportLabelText {
+            get {
+                return ResourceManager.GetString("OptionsImportLabelText", resourceCulture);
             }
         }
         
@@ -367,7 +376,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import POIs.
+        ///   Looks up a localized string similar to POI.
         /// </summary>
         internal static string POIBrowseButtonText {
             get {

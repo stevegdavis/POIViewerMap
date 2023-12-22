@@ -233,14 +233,12 @@ public partial class MapViewPage : ContentPage
                                                  DistanceUnits.Kilometers);
         if(distance > MaxDistanceRefresh)
         {
-            this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
             await PopulateMapAsync(pois);
             this.picker.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
-            this.Loading.IsVisible = false;
             this.activityloadindicatorlayout.IsVisible = false;
             CurrentLocationOnLoad = myCurrentLocation;
         }        
@@ -422,7 +420,6 @@ public partial class MapViewPage : ContentPage
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                 }
-                this.Loading.IsVisible = true;
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
@@ -430,7 +427,6 @@ public partial class MapViewPage : ContentPage
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
-                this.Loading.IsVisible = false;
                 this.picker.Title = picker.Items[selectedIndex];
             }
         }
@@ -468,7 +464,6 @@ public partial class MapViewPage : ContentPage
                     }
                 }
                 await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
-                this.Loading.IsVisible = true;
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
@@ -476,7 +471,6 @@ public partial class MapViewPage : ContentPage
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
-                this.Loading.IsVisible = false;
             }
         }
     }
@@ -499,7 +493,6 @@ public partial class MapViewPage : ContentPage
             this.pickerRadius.SelectedIndex = 0;
             this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
             CurrentPOIType = POIType.DrinkingWater;
-            this.Loading.IsVisible = true;
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
@@ -526,7 +519,6 @@ public partial class MapViewPage : ContentPage
             this.activityloadindicatorlayout.IsVisible = false;
             this.picker.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
-            this.Loading.IsVisible = false;
             this.picker.SelectedIndex = -1;
             this.pickerRadius.SelectedIndex = -1;
         }
