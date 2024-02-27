@@ -126,9 +126,6 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Atruna</value>
   </data>
-  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
-    <value>POI Viewer Map</value>
-  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Centra karte par manu poziciju</value>
   </data>
@@ -140,6 +137,9 @@
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Maršruts</value>
+  </data>
+  <data name="ImportRouteFailedMessage" xml:space="preserve">
+    <value>Maršruta imports neizdevās!!</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mērītāji</value>

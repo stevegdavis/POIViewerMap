@@ -23,6 +23,7 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Text;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
@@ -524,7 +525,7 @@ public partial class MapViewPage : ContentPage
         }
         POIsReadIsBusy = false;
     }
-    private static void ShowUpdateUIStateToast()
+    private static void ShowRouteLoadFailToastMessage(string mess)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
@@ -532,7 +533,7 @@ public partial class MapViewPage : ContentPage
             CancellationTokenSource cancellationTokenSource = new();
             ToastDuration duration = ToastDuration.Long;
             double fontSize = 15;
-            var toast = Toast.Make(AppResource.RestoreUIStateMsg, duration, fontSize);
+            var toast = Toast.Make($"{AppResource.ImportRouteFailedMessage} {mess}", duration, fontSize);
             await toast.Show(cancellationTokenSource.Token);
         });
     }
@@ -549,13 +550,23 @@ public partial class MapViewPage : ContentPage
                     mapView.Map.Layers.Remove(myRouteLayer);
                 this.activityloadindicatorlayout.IsVisible = true;
                 this.RouteFilename.IsVisible = true;
-                var line = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
-                myRouteLayer = CreateLineStringLayer(line, CreateLineStringStyle());
+                var list = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
+                var sb = new StringBuilder("LINESTRING(");
+                foreach (var data in list)
+                {
+                    sb.Append($"{data.Latitude} {data.Longitude},");
+                }
+                sb.Append(")");
+                myRouteLayer = CreateLineStringLayer(sb.ToString().Replace(",)", ")"), CreateLineStringStyle());
                 mapView.Map.Layers.Add(myRouteLayer);
                 this.activityloadindicatorlayout.IsVisible = false;
             }
         }
-        catch(Exception ex) { }
+        catch(Exception ex) 
+        {
+            ShowRouteLoadFailToastMessage(this.FilepathRouteLabel.Text);
+            this.FilepathRouteLabel.Text = string.Empty;
+        }
         finally { this.activityloadindicatorlayout.IsVisible = false; }
     }
     private void ToggleCompass()

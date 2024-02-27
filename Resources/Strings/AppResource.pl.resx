@@ -132,14 +132,14 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Wybierz</value>
   </data>
-  <data name="DistanceTooGreatToastMsg" xml:space="preserve">
-    <value>Odległość &gt;</value>
-  </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Nie pokazuj tego komunikatu ponownie</value>
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Trasa</value>
+  </data>
+  <data name="ImportRouteFailedMessage" xml:space="preserve">
+    <value>Import trasy nie powiódł się!!!</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mierniki</value>

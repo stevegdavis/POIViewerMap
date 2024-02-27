@@ -88,24 +88,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following POI types can be searched..
-        /// </summary>
-        internal static string AppUsageLabel2Text {
-            get {
-                return ResourceManager.GetString("AppUsageLabel2Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The following Search Radius is possible..
-        /// </summary>
-        internal static string AppUsageLabel3Text {
-            get {
-                return ResourceManager.GetString("AppUsageLabel3Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to POI Viewer Map.
         /// </summary>
         internal static string AppUsagePopupTitleMsg {
@@ -156,6 +138,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string ImportRouteButtonText {
             get {
                 return ResourceManager.GetString("ImportRouteButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route import failed!!.
+        /// </summary>
+        internal static string ImportRouteFailedMessage {
+            get {
+                return ResourceManager.GetString("ImportRouteFailedMessage", resourceCulture);
             }
         }
         
@@ -453,15 +444,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string RestoreOptionsOnStartupLabelText {
             get {
                 return ResourceManager.GetString("RestoreOptionsOnStartupLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restoring Options.
-        /// </summary>
-        internal static string RestoreUIStateMsg {
-            get {
-                return ResourceManager.GetString("RestoreUIStateMsg", resourceCulture);
             }
         }
         

@@ -126,12 +126,6 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Disclaimer</value>
   </data>
-  <data name="AppUsageLabel2Text" xml:space="preserve">
-    <value>The following POI types can be searched.</value>
-  </data>
-  <data name="AppUsageLabel3Text" xml:space="preserve">
-    <value>The following Search Radius is possible.</value>
-  </data>
   <data name="AppUsagePopupTitleMsg" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
@@ -149,6 +143,9 @@
   </data>
   <data name="ImportRouteButtonText" xml:space="preserve">
     <value>Route</value>
+  </data>
+  <data name="ImportRouteFailedMessage" xml:space="preserve">
+    <value>Route import failed!!</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Meters</value>
@@ -248,9 +245,6 @@
   </data>
   <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
     <value>Restore Options On Startup</value>
-  </data>
-  <data name="RestoreUIStateMsg" xml:space="preserve">
-    <value>Restoring Options</value>
   </data>
   <data name="RestoreUIStateRouteFilename" xml:space="preserve">
     <value>Route Filename:</value>
