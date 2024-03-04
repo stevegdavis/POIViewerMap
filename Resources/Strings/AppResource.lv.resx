@@ -219,6 +219,12 @@
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI faila nosaukums:</value>
   </data>
+  <data name="POIImportPhoneStorageText" xml:space="preserve">
+    <value>Tālruņa glabāšana</value>
+  </data>
+  <data name="POIImportServerText" xml:space="preserve">
+    <value>Serveris</value>
+  </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Izvēlieties</value>
   </data>

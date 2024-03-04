@@ -222,6 +222,12 @@
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI Dateiname:</value>
   </data>
+  <data name="POIImportPhoneStorageText" xml:space="preserve">
+    <value>Telefon-Speicher</value>
+  </data>
+  <data name="POIImportServerText" xml:space="preserve">
+    <value>Server</value>
+  </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Maximale Entfernung:</value>
   </data>

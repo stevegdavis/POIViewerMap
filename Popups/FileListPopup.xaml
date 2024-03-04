@@ -7,7 +7,7 @@
                CanBeDismissedByTappingOutsideOfPopup="False">
     <ScrollView WidthRequest="345" HeightRequest="450" Padding="10">
         <VerticalStackLayout>
-            <Label Text="Phone Storage" FontSize="22" />
+            <Label Text="{x:Static resource:AppResource.POIImportPhoneStorageText}" FontSize="22" />
             <Picker x:Name="localfilenamepicker" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseCountryText}" SelectedIndexChanged="localpicker_SelectedIndexChanged">
                 <Picker.Items>
                     <x:String>No Data</x:String>
@@ -18,7 +18,7 @@
                 <Button x:Name="POILocalFileCancelButton" FontSize="18" Style="{StaticResource POIFileDownButtonStyle}" IsEnabled="True" Text="{x:Static resource:AppResource.CancelButtonText}" VerticalOptions="EndAndExpand" HorizontalOptions="Center" Clicked="POIFileCancelButton_Clicked"/>
             </HorizontalStackLayout>
             <BoxView Style="{StaticResource Divider}" Margin="0,50,0,50" />
-                <Label Text="Server" FontSize="22" />
+            <Label Text="{x:Static resource:AppResource.POIImportServerText}" FontSize="22" />
                 <Picker x:Name="serverfilenamepicker" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseCountryText}" SelectedIndexChanged="serverpicker_SelectedIndexChanged">
                 <Picker.Items>
                     <x:String>No Data</x:String>

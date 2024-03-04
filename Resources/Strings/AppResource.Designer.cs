@@ -403,6 +403,24 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phone Storage.
+        /// </summary>
+        internal static string POIImportPhoneStorageText {
+            get {
+                return ResourceManager.GetString("POIImportPhoneStorageText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        internal static string POIImportServerText {
+            get {
+                return ResourceManager.GetString("POIImportServerText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max Distance:.
         /// </summary>
         internal static string POIMaxDistanceLabel {
