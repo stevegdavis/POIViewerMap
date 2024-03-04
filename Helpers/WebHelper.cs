@@ -12,7 +12,7 @@ namespace POIViewerMap.Helpers;
 
 class WebHelper
 {
-    private static readonly string ServerUrl = "https://sdsdevelopment.w5.lt/poidata-server";//"http://192.168.1.182:4000/poidata-server";
+    private static readonly string ServerUrl = "http://192.168.1.182:4000/poidata-server";
     private static readonly string Download = "uploads/france.bin";
     private static readonly string FILES = "client/index.php";
     public static readonly string PARAM_ACTION = "action";
@@ -124,8 +124,8 @@ class WebHelper
                 {
                     var Idx2 = field.IndexOf("T");
                     ff.Name = field.Substring(Idx1 + 1, Idx2 - 1);
-                    var ts = field.Substring(Idx2 + 1).Replace("\\", string.Empty).TrimEnd('"');
-                    ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture)); ;
+                    var ts = field.Substring(Idx2 + 1).Replace("\\", string.Empty).TrimEnd(']').TrimEnd('"');
+                    ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
             list.Add(ff);
