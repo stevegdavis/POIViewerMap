@@ -129,8 +129,14 @@
   <data name="AppUsagePopupTitleMsg" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Center Map On My Position</value>
+  </data>
+  <data name="ChooseCountryText" xml:space="preserve">
+    <value>Choose Country</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
     <value>Choose</value>

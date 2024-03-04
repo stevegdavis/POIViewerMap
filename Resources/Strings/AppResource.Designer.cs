@@ -97,11 +97,29 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelButtonText {
+            get {
+                return ResourceManager.GetString("CancelButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Center Map On My Position.
         /// </summary>
         internal static string CenterMapLabelText {
             get {
                 return ResourceManager.GetString("CenterMapLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Country.
+        /// </summary>
+        internal static string ChooseCountryText {
+            get {
+                return ResourceManager.GetString("ChooseCountryText", resourceCulture);
             }
         }
         

@@ -170,6 +170,9 @@
 	  <MauiXaml Update="Popups\AppUsagePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Popups\FileListPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\AppUsagePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

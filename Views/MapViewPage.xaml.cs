@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Views;
 using Mapsui;
 using Mapsui.Extensions;
@@ -12,14 +13,17 @@ using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
+using Microsoft.Maui.Storage;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
+using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
 using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -63,6 +67,8 @@ public partial class MapViewPage : ContentPage
     public static ILayer myRouteLayer;
     public IAppSettings appSettings;
     CompositeDisposable? deactivateWith;
+    private static FileSaverResult filesaverresult;
+
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 
@@ -213,9 +219,36 @@ public partial class MapViewPage : ContentPage
         popup.Closed += Popup_Closed;
         this.ShowPopup(popup);
     }
-    private void Popup_Closed(object sender, PopupClosedEventArgs e)
+    private async void Popup_Closed(object sender, PopupClosedEventArgs e)
     {
-        appSettings.ShowPopupAtStart = (bool)e.Result;
+        if(sender is AppUsagePopup)
+            appSettings.ShowPopupAtStart = (bool)e.Result;
+        else if(sender is FileListPopup)
+        {
+            if (FileListPopup.SelectedFilename == null || FileListPopup.IsCancelled) return; // No file or Cancelled
+            this.picker.IsEnabled = false;
+            this.pickerRadius.IsEnabled = false;
+            this.activityloadindicatorlayout.IsVisible = true;
+            // Download chosen file or local?
+            if(FileListPopup.LocalAccess)
+            {
+                pois = await POIBinaryFormat.ReadAsync(Path.Combine(FileSystem.AppDataDirectory, FileListPopup.SelectedFilename.ToLower()));
+                await PopulateMapAsync(pois);
+            }
+            else 
+            {
+                var webhelper = new WebHelper();
+                await webhelper.DownloadPOIFileAsync(FileListPopup.SelectedFilename);
+                if (File.Exists(WebHelper.localPath))
+                {
+                    pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
+                    await PopulateMapAsync(pois);
+                }
+            }
+            this.picker.IsEnabled = true;
+            this.pickerRadius.IsEnabled = true;
+            this.activityloadindicatorlayout.IsVisible = false;
+        }
     }
     private async Task GetCurrentLocation()
     {
@@ -486,43 +519,37 @@ public partial class MapViewPage : ContentPage
             pin.HideCallout();
         }
         mapView.Pins.Clear();
-        await BrowsePOIs();
-        if (!String.IsNullOrEmpty(this.FilepathPOILabel.Text))
+        FileListPopup popup = new FileListPopup();
+        // Local check
+        string [] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
+        if(files.Length > 0)
         {
-            this.POIFilename.IsVisible = true;
-            this.pickerRadius.Title = $"{SearchRadius}km";
-            this.pickerRadius.SelectedIndex = 0;
-            this.picker.Title = AppResource.OptionsPOIPickerDrinkingWaterText;// "Drinking Water";
-            CurrentPOIType = POIType.DrinkingWater;
-            this.picker.IsEnabled = false;
-            this.pickerRadius.IsEnabled = false;
-            this.activityloadindicatorlayout.IsVisible = true;
-            this.FilepathPOILabel.Text = Path.GetFileName(FullFilepathPOIs);
-            pois = await POIBinaryFormat.ReadAsync(FullFilepathPOIs);
-            if (mapView.Map.Navigator.Viewport.Resolution < MinZoomPOI)
-                await PopulateMapAsync(pois);
-            else
+            // Local files found
+            var list = new List<FileFetch>();
+            foreach (var item in files)
             {
-                if(myCurrentLocation != null)
+                list.Add(new FileFetch
                 {
-                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                }
-                else
-                {
-                    var center = new MPoint(-2.218266, 51.745564);
-                    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-                    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
-                    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                }
-                await PopulateMapAsync(pois);
+                    Name = Path.GetFileName(item).ToLower(),
+                    LastUpdated = new DateTime() 
+                });
             }
-            this.activityloadindicatorlayout.IsVisible = false;
-            this.picker.IsEnabled = true;
-            this.pickerRadius.IsEnabled = true;
-            this.picker.SelectedIndex = -1;
-            this.pickerRadius.SelectedIndex = -1;
+            popup.AddList(list, true);
         }
+        // Online download from server (when connected)
+        var webhelper = new WebHelper();
+        var parameters = new Dictionary<string, string>
+        {
+            { WebHelper.PARAM_ACTION, WebHelper.ACTION_FILES },
+            { WebHelper.PARAM_FILE_NAME, "Show All" }
+        };
+        var serverlist = await webhelper.FilenamesFetchAsync(parameters);
+        if (serverlist != null && serverlist.Count > 0)
+        {
+            popup.AddList(serverlist, false);
+        }
+        popup.Closed += Popup_Closed;
+        this.ShowPopup(popup);
         POIsReadIsBusy = false;
     }
     private static void ShowRouteLoadFailToastMessage(string mess)
@@ -614,7 +641,7 @@ public partial class MapViewPage : ContentPage
             Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
         };
     }
-    private async Task BrowsePOIs()
+    private async Task BrowseLocalPOIs()
     {
         var customFileType = new FilePickerFileType(
              new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -630,9 +657,10 @@ public partial class MapViewPage : ContentPage
         {
             PickerTitle = "Please select a POI file",
             FileTypes = customFileType,
+            
         };
-        var result = await MapViewPage.PickAndShow(options);//, "route");
-        if (Path.GetExtension(result.FileName).Equals(".bin"))
+        var result = await PickAndShow(options);//, "route");
+        if (result != null && Path.GetExtension(result.FileName).Equals(".bin"))
         {
             this.FullFilepathPOIs = result?.FullPath;
             this.FilepathPOILabel.Text = result?.FileName;
@@ -666,10 +694,10 @@ public partial class MapViewPage : ContentPage
     {
         try
         {
-            var result = await FilePicker.Default.PickAsync(options);
+            var result = await FilePicker.PickAsync(options);
             return result;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // The user canceled or something went wrong
         }

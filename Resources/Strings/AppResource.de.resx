@@ -126,8 +126,14 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Haftungsausschluss</value>
   </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Karte auf meine Position zentrieren</value>
+  </data>
+  <data name="ChooseCountryText" xml:space="preserve">
+    <value>Land wählen</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
     <value>Wählen Sie</value>

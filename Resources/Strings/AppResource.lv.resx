@@ -126,8 +126,14 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Atruna</value>
   </data>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Atcelt</value>
+  </data>
   <data name="CenterMapLabelText" xml:space="preserve">
     <value>Centra karte par manu poziciju</value>
+  </data>
+  <data name="ChooseCountryText" xml:space="preserve">
+    <value>Izvēlieties valsti</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
     <value>Izvēlieties</value>
