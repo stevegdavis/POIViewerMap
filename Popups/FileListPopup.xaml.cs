@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using POIViewerMap.DataClasses;
+using POIViewerMap.Helpers;
 
 namespace POIViewerMap.Popups;
 
@@ -30,7 +31,12 @@ public partial class FileListPopup : Popup
         }
         //this.LabelLocalPOIPopup.Text = labelText;
         if (isLocal)
+        {
+            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+            files.Sort(FilenameComparer.Name);
             this.localfilenamepicker.ItemsSource = files;
+        }
+            
         else
             this.serverfilenamepicker.ItemsSource = files;
 
