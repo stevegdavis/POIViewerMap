@@ -27,6 +27,7 @@ public class FormatHelper
             POIType.Bakery => 8,
             POIType.PicnicTable => 9,
             POIType.TrainStation => 10,
+            POIType.VendingMachine => 11,
             _ => 0,
         };
     }
@@ -45,6 +46,7 @@ public class FormatHelper
             8 => POIType.Bakery,
             9 => POIType.PicnicTable,
             10 => POIType.TrainStation,
+            11 => POIType.VendingMachine,
             _ => POIType.DrinkingWater,
         };
     }
@@ -69,7 +71,9 @@ public class FormatHelper
             Replace("Services:", AppResource.PinLabelSubtitleServices).
             Replace("Tools", AppResource.PinLabelSubtitleTools).
             Replace("Pump", AppResource.PinLabelSubtitlePump).
-            Replace("Unknown", AppResource.PinLabelSubtitleUnknown);
+            Replace("Unknown", AppResource.PinLabelSubtitleUnknown).
+            Replace("Type:", AppResource.PinLabelSubtitleTypeText).
+            Replace("Bicycle tubes", AppResource.PinLabelSubtitleBicycleTubeText);
     }
     public static string GetTitleLang(POIData data, bool v)
     {
@@ -108,6 +112,9 @@ public class FormatHelper
                 break;
             case POIType.TrainStation:
                 Title = AppResource.OptionsPOIPickerTrainStationText;
+                break;
+            case POIType.VendingMachine:
+                Title = AppResource.OptionsPOIPickerVendingMachineText;
                 break;
             default:
                 Title = string.Empty;
