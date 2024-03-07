@@ -189,6 +189,9 @@
   <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
     <value>Stazione ferroviaria</value>
   </data>
+  <data name="OptionsPOIPickerVendingMachineText" xml:space="preserve">
+    <value>Distributore automatico</value>
+  </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Cancellare</value>
   </data>
@@ -197,6 +200,15 @@
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distanza:</value>
+  </data>
+  <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
+    <value>Tubi per biciclette</value>
+  </data>
+  <data name="PinLabelSubtitleBreadText" xml:space="preserve">
+    <value>Pane</value>
+  </data>
+  <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
+    <value>Elettronica</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Aperto:</value>
@@ -230,6 +242,9 @@
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
+  </data>
+  <data name="POILabelSubtitleTypeText" xml:space="preserve">
+    <value>Tipo:</value>
   </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Distanza massima:</value>

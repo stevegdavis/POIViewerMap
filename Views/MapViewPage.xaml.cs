@@ -13,7 +13,6 @@ using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
-using Microsoft.Maui.Storage;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -23,10 +22,8 @@ using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
-using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reflection;
 using System.Text;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -37,17 +34,7 @@ public partial class MapViewPage : ContentPage
 {
     private string FullFilepathPOIs;
     private string FullFilepathRoute;
-    static string drinkingwaterStr = null;
-    static string campsiteStr = null;
-    static string bicycleshopStr = null;
-    static string supermarketStr = null;
-    static string bicyclerepairstationStr = null;
-    static string atmStr = null;
-    static string toiletStr = null;
-    static string cupStr = null;
-    static string bakeryStr = null;
-    static string picnictableStr = null;
-    static string trainstationStr = null;
+    
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int SearchRadius = 5; // km
@@ -88,78 +75,12 @@ public partial class MapViewPage : ContentPage
         items.Add(AppResource.OptionsPOIPickerBakeryText);
         items.Add(AppResource.OptionsPOIPickerPicnicTableText);
         items.Add(AppResource.OptionsPOIPickerTrainStationText);
+        items.Add(AppResource.OptionsPOIPickerVendingMachineText);
         this.picker.ItemsSource = items;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
-        var assembly = typeof(App).GetTypeInfo().Assembly;
-        var assemblyName = assembly.GetName().Name;
-        using var drinkingwater = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.waterlightblue.svg");
-        if (drinkingwater != null)
-        {
-            using StreamReader reader = new(drinkingwater!);
-            drinkingwaterStr = reader.ReadToEnd();
-        }
-        using var campsite = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.camping.svg");
-        if (campsite != null)
-        {
-            using StreamReader reader = new(campsite!);
-            campsiteStr = reader.ReadToEnd();
-        }
-        using var bicycleshop = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.bicycle.svg");
-        if (bicycleshop != null)
-        {
-            using StreamReader reader = new(bicycleshop!);
-            bicycleshopStr = reader.ReadToEnd();
-        }
-        using var bicyclerepairstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.spanner.svg");
-        if (bicyclerepairstation != null)
-        {
-            using StreamReader reader = new(bicyclerepairstation!);
-            bicyclerepairstationStr = reader.ReadToEnd();
-        }
-        using var supermarket = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.shopping-cart.svg");
-        if (supermarket != null)
-        {
-            using StreamReader reader = new(supermarket!);
-            supermarketStr = reader.ReadToEnd();
-        }
-        using var atm = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.atm.svg");
-        if (atm != null)
-        {
-            using StreamReader reader = new(atm!);
-            atmStr = reader.ReadToEnd();
-        }
-        using var toilet = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.toilet.svg");
-        if (toilet != null)
-        {
-            using StreamReader reader = new(toilet!);
-            toiletStr = reader.ReadToEnd();
-        }
-        using var cup = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.coffee-cup.svg");
-        if (cup != null)
-        {
-            using StreamReader reader = new(cup!);
-            cupStr = reader.ReadToEnd();
-        }
-        using var bakery = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.cupcake.svg");
-        if (bakery != null)
-        {
-            using StreamReader reader = new(bakery!);
-            bakeryStr = reader.ReadToEnd();
-        }
-        using var picnictable = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.picnic-table.svg");
-        if (picnictable != null)
-        {
-            using StreamReader reader = new(picnictable!);
-            picnictableStr = reader.ReadToEnd();
-        }
-        using var trainstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.train.svg");
-        if (trainstation != null)
-        {
-            using StreamReader reader = new(trainstation!);
-            trainstationStr = reader.ReadToEnd();
-        }
+        AppIconHelper.InitializeIcons();
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
         {
@@ -225,7 +146,11 @@ public partial class MapViewPage : ContentPage
             appSettings.ShowPopupAtStart = (bool)e.Result;
         else if(sender is FileListPopup)
         {
-            if (FileListPopup.SelectedFilename == null || FileListPopup.IsCancelled) return; // No file or Cancelled
+            if (FileListPopup.SelectedFilename == null || FileListPopup.IsCancelled)
+            {
+                this.activityloadindicatorlayout.IsVisible = false;
+                return; // No file or Cancelled
+            }
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
@@ -513,6 +438,7 @@ public partial class MapViewPage : ContentPage
         if (POIsReadIsBusy)
             return;
         POIsReadIsBusy = true;
+        this.activityloadindicatorlayout.IsVisible = true;
         pois.Clear();
         foreach (var pin in mapView.Pins)
         {
@@ -756,7 +682,7 @@ public partial class MapViewPage : ContentPage
                         Type = PinType.Svg,
                         Label = $"{FormatHelper.GetTitleLang(poi, poi.Title.Contains(':'))}\r{FormatHelper.GetSubTitleLang(poi.Subtitle)}{space}{AppResource.PinLabelDistanceText}",
                         Address = "",
-                        Svg = MapViewPage.GetPOIIcon(poi),// eg. drinkingwaterStr,
+                        Svg = AppIconHelper.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F
                     };
                     myPin.Callout.TitleTextAlignment = TextAlignment.Start;
@@ -791,26 +717,6 @@ public partial class MapViewPage : ContentPage
     private void ShowSearchRadiusOnMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         
-    }
-    private static string GetPOIIcon(POIData poi)
-    {
-        switch (poi.POI)
-        {
-            case POIType.DrinkingWater: return drinkingwaterStr;
-            case POIType.Campsite: return campsiteStr;
-            case POIType.BicycleShop: return bicycleshopStr;
-            case POIType.BicycleRepairStation: return bicyclerepairstationStr;
-            case POIType.Supermarket: return supermarketStr;
-            case POIType.ATM: return atmStr;
-            case POIType.Toilet: return toiletStr;
-            case POIType.Cafe: return cupStr;
-            case POIType.Bakery: return bakeryStr;
-            case POIType.PicnicTable: return picnictableStr;
-            case POIType.TrainStation: return trainstationStr;
-            case POIType.Unknown:
-                break;
-        }
-        return string.Empty;
     }
     private void DeleteButton_Clicked(object sender, EventArgs e)
     {

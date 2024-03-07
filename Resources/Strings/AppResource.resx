@@ -195,6 +195,9 @@
   <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
     <value>Train Station</value>
   </data>
+  <data name="OptionsPOIPickerVendingMachineText" xml:space="preserve">
+    <value>Vending Machine</value>
+  </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -203,6 +206,15 @@
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance:</value>
+  </data>
+  <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
+    <value>Bicycle tubes</value>
+  </data>
+  <data name="PinLabelSubtitleBreadText" xml:space="preserve">
+    <value>Bread</value>
+  </data>
+  <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
+    <value>Electronics</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Open:</value>
@@ -218,6 +230,9 @@
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
     <value>Tools</value>
+  </data>
+  <data name="PinLabelSubtitleTypeText" xml:space="preserve">
+    <value>Type:</value>
   </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
     <value>Unknown</value>
