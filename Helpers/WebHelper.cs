@@ -55,12 +55,12 @@ class WebHelper
             {
                 // handle errors
                 responseCode = await response.ResponseMessage.Content.ReadAsStringAsync();
-                await Toast.Make($"File access Failed: - {responseCode}").Show();
+                await Toast.Make($"Server Access Failed: - {responseCode}").Show();
             }
         }
         catch (Exception ex)
         {
-            await Toast.Make($"File access Failed: - {ex.Message}").Show();
+            await Toast.Make($"Server Access Failed: - {ex.Message}").Show();
         }
         return null;
     }

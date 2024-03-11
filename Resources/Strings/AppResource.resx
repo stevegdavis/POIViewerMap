@@ -246,6 +246,9 @@
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI Filename:</value>
   </data>
+  <data name="POIImportCountryLabelText" xml:space="preserve">
+    <value>Import POIs for Country</value>
+  </data>
   <data name="POIImportPhoneStorageText" xml:space="preserve">
     <value>Phone Storage</value>
   </data>
@@ -281,5 +284,8 @@
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Search Radius:</value>
+  </data>
+  <data name="ServerAccessFailedMsg" xml:space="preserve">
+    <value>Server Access Failed</value>
   </data>
 </root>

@@ -448,6 +448,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import POIs for Country.
+        /// </summary>
+        internal static string POIImportCountryLabelText {
+            get {
+                return ResourceManager.GetString("POIImportCountryLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone Storage.
         /// </summary>
         internal static string POIImportPhoneStorageText {
@@ -552,6 +561,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string SearchRadiusLabelText {
             get {
                 return ResourceManager.GetString("SearchRadiusLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server Access Failed.
+        /// </summary>
+        internal static string ServerAccessFailedMsg {
+            get {
+                return ResourceManager.GetString("ServerAccessFailedMsg", resourceCulture);
             }
         }
     }

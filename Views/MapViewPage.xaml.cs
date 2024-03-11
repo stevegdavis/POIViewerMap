@@ -25,7 +25,9 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using Color = Microsoft.Maui.Graphics.Color;
+using Font = Microsoft.Maui.Font;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
@@ -51,6 +53,7 @@ public partial class MapViewPage : ContentPage
     public static bool IsAppStateSettingsBusy = false;
     public static bool IsSearchRadiusCircleBusy = false;
     public static Popup popup;
+    private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
     public IAppSettings appSettings;
     CompositeDisposable? deactivateWith;
@@ -154,8 +157,14 @@ public partial class MapViewPage : ContentPage
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
+            pois.Clear();
+            foreach (var pin in mapView.Pins)
+            {
+                pin.HideCallout();
+            }
+            mapView.Pins.Clear();
             // Download chosen file or local?
-            if(FileListPopup.LocalAccess)
+            if (FileListLocalAccess)
             {
                 pois = await POIBinaryFormat.ReadAsync(Path.Combine(FileSystem.AppDataDirectory, FileListPopup.SelectedFilename.ToLower()));
                 await PopulateMapAsync(pois);
@@ -439,29 +448,8 @@ public partial class MapViewPage : ContentPage
             return;
         POIsReadIsBusy = true;
         this.activityloadindicatorlayout.IsVisible = true;
-        pois.Clear();
-        foreach (var pin in mapView.Pins)
-        {
-            pin.HideCallout();
-        }
-        mapView.Pins.Clear();
+        
         FileListPopup popup = new FileListPopup();
-        // Local check
-        string [] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
-        if(files.Length > 0)
-        {
-            // Local files found
-            var list = new List<FileFetch>();
-            foreach (var item in files)
-            {
-                list.Add(new FileFetch
-                {
-                    Name = Path.GetFileName(item).ToLower(),
-                    LastUpdated = new DateTime() 
-                });
-            }
-            popup.AddList(list, true);
-        }
         // Online download from server (when connected)
         var webhelper = new WebHelper();
         var parameters = new Dictionary<string, string>
@@ -470,9 +458,32 @@ public partial class MapViewPage : ContentPage
             { WebHelper.PARAM_FILE_NAME, "Show All" }
         };
         var serverlist = await webhelper.FilenamesFetchAsync(parameters);
-        if (serverlist != null && serverlist.Count > 0)
+        if(serverlist == null)
         {
-            popup.AddList(serverlist, false);
+            // Try local storage
+            string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
+            if (files.Length > 0)
+            {
+                // Local files found
+                FileListLocalAccess = true;
+                var list = new List<FileFetch>();
+                foreach (var item in files)
+                {
+                    list.Add(new FileFetch
+                    {
+                        Name = Path.GetFileName(item).ToLower(),
+                        LastUpdated = new DateTime()
+                    });
+                }
+                FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+                list.Sort(FilenameComparer.NameArray);
+                popup.AddList(list);
+            }
+        }
+        else if (serverlist.Count > 0)
+        {
+            FileListLocalAccess = false;
+            popup.AddList(serverlist);
         }
         popup.Closed += Popup_Closed;
         this.ShowPopup(popup);
