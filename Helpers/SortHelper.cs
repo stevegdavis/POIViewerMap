@@ -17,14 +17,14 @@ internal class FilenameComparer
         get { return m_filenameSortOrder; }
         set { m_filenameSortOrder = value; }
     }
-    public static int NameArray(FileFetch ffA, FileFetch ffB)
+    public static int NameArray(string ffA, string ffB)
     {
         int RC = 0;
         try
         {
-            if (ffA.Name.Equals(ffB.Name))
+            if (ffA.Equals(ffB))
                 return 0;
-            if (ffA.Name.CompareTo(ffB.Name) > 0)
+            if (ffA.CompareTo(ffB) > 0)
                 return 1;
             else
                 return -1;

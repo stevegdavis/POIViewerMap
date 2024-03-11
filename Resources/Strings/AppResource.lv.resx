@@ -258,4 +258,7 @@
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Meklēšanas rādiuss:</value>
   </data>
+  <data name="ServerAccessFailedMsg" xml:space="preserve">
+    <value>Piekļuve serverim neizdevās</value>
+  </data>
 </root>

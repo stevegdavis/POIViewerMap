@@ -458,7 +458,11 @@ public partial class MapViewPage : ContentPage
             { WebHelper.PARAM_FILE_NAME, "Show All" }
         };
         var serverlist = await webhelper.FilenamesFetchAsync(parameters);
-        if(serverlist == null)
+        if(serverlist.Error)
+        {
+            await Toast.Make($"{serverlist.ErrorMsg}").Show();
+        }
+        if(serverlist.Error)
         {
             // Try local storage
             string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
@@ -466,21 +470,18 @@ public partial class MapViewPage : ContentPage
             {
                 // Local files found
                 FileListLocalAccess = true;
-                var list = new List<FileFetch>();
+                var ff = new FileFetch();
                 foreach (var item in files)
                 {
-                    list.Add(new FileFetch
-                    {
-                        Name = Path.GetFileName(item).ToLower(),
-                        LastUpdated = new DateTime()
-                    });
+                    ff.Names.Add(Path.GetFileName(item).ToLower());
                 }
+                ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-                list.Sort(FilenameComparer.NameArray);
-                popup.AddList(list);
+                ff.Names.Sort(FilenameComparer.NameArray);
+                popup.AddList(ff);
             }
         }
-        else if (serverlist.Count > 0)
+        else if (serverlist.Names.Count > 0)
         {
             FileListLocalAccess = false;
             popup.AddList(serverlist);

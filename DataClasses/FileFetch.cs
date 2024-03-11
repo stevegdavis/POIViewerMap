@@ -8,6 +8,9 @@ namespace POIViewerMap.DataClasses;
 
 public class FileFetch
 {
-    public string Name { get; set; }
+    public List<string> Names { get; set; } = new();
+    //public string Name { get; set; }
     public DateTime LastUpdated { get; set; }
+    public bool Error { get; set; } = false;
+    public string ErrorMsg { get; set; }
 }

@@ -276,6 +276,9 @@
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Raggio di ricerca:</value>
   </data>
+  <data name="ServerAccessFailedMsg" xml:space="preserve">
+    <value>Accesso al server non riuscito</value>
+  </data>
   <data name="ZoomInToastMsg" xml:space="preserve">
     <value>Zoom in to view POIs</value>
   </data>

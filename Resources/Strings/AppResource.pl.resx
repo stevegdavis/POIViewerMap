@@ -276,4 +276,7 @@
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Promień wyszukiwania:</value>
   </data>
+  <data name="ServerAccessFailedMsg" xml:space="preserve">
+    <value>Dostęp do serwera nie powiódł się</value>
+  </data>
 </root>

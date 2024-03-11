@@ -12,20 +12,20 @@ public partial class FileListPopup : Popup
     {
         InitializeComponent();
     }
-    public void AddList(List<FileFetch> list)
+    public void AddList(FileFetch list)
     {
         this.POIServerFileDownloadButton.IsEnabled = false;
         List<string> files = new List<string>();
-        foreach (var item in list)
+        foreach (var item in list.Names)
         {
-            if (item.Name == null) continue;
-            if (!Char.IsUpper(item.Name[0]))
+            if (item == null) continue;
+            if (!Char.IsUpper(item[0]))
             {
-                var uC = Char.ToUpper(item.Name[0]);
-                files.Add(Path.GetFileNameWithoutExtension($"{uC}{item.Name.Substring(1)}"));
+                var uC = Char.ToUpper(item[0]);
+                files.Add(Path.GetFileNameWithoutExtension($"{uC}{item.Substring(1)}"));
             }
             else
-                files.Add(Path.GetFileNameWithoutExtension(item.Name));
+                files.Add(Path.GetFileNameWithoutExtension(item));
         }
         this.serverfilenamepicker.ItemsSource = files;
 

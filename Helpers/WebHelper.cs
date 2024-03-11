@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Storage;
 using Flurl.Http;
 using Microsoft.Maui.Storage;
 using POIViewerMap.DataClasses;
+using POIViewerMap.Resources.Strings;
 using ShimSkiaSharp;
 using System.Globalization;
 using System.Text;
@@ -33,11 +34,11 @@ class WebHelper
     {
         await FileDownloadPostForm(filename);
     }
-    public async Task<List<FileFetch>> FilenamesFetchAsync(Dictionary<string, string> parameters)
+    public async Task<FileFetch> FilenamesFetchAsync(Dictionary<string, string> parameters)
     {
         return await FilenamesFetchPostForm(parameters);
     }
-    private async Task<List<FileFetch>> FilenamesFetchPostForm(Dictionary<string, string> keyValuePairs)
+    private async Task<FileFetch> FilenamesFetchPostForm(Dictionary<string, string> keyValuePairs)
     {
         string responseCode = string.Empty;
         try
@@ -55,14 +56,21 @@ class WebHelper
             {
                 // handle errors
                 responseCode = await response.ResponseMessage.Content.ReadAsStringAsync();
-                await Toast.Make($"Server Access Failed: - {responseCode}").Show();
+                return new FileFetch()
+                {
+                    ErrorMsg = $"{AppResource.ServerAccessFailedMsg} {responseCode}",
+                    Error = true
+                };
             }
         }
         catch (Exception ex)
         {
-            await Toast.Make($"Server Access Failed: - {ex.Message}").Show();
+            return new FileFetch()
+            {
+                ErrorMsg = $"{AppResource.ServerAccessFailedMsg} {responseCode}",
+                Error = true
+            };
         }
-        return null;
     }
     private async Task FileDownloadPostForm(string filename)
     {
@@ -82,9 +90,43 @@ class WebHelper
             await Toast.Make($"The file download failed: {filename.ToLower()} - {ex.Message}").Show();
         }
     }
-    public List<FileFetch> ParseJsonContent(string content)
+    //private string HandleError(string error) TODO
+    //{
+    //    var result = string.Empty;
+    //    if (error.ToLower().Contains("timed out"))
+    //    {
+    //        var url = this.appSettings.ServerUrl.ToLower().Replace("http://", string.Empty);
+    //        result = $"{AppResource.WebConnectionErrorMsg} {AppResource.WebConnectionErrorInformMsg}{url}";
+    //    }
+    //    else if (error.ToLower().Contains("unauthorized") || error.Contains("401"))
+    //    {
+    //        result = $"{AppResource.WebAuthorizationErrorMsg} 401";
+    //    }
+    //    else if (error.Equals("Server error"))
+    //    {
+    //        result = AppResource.WebConnectionServerResponseErrorMsg;
+    //    }
+    //    else if (error.ToLower().Contains("an invalid request uri was provided"))
+    //    {
+    //        result = $"{AppResource.WebConnectionErrorMsg} {error}";
+    //    }
+    //    else if (error.ToLower().Contains("http error code: 503"))
+    //    {
+    //        result = $"{AppResource.WebConnectionErrorMsg} {AppResource.WebConnectionErrorInformMsg} {error}";
+    //    }
+    //    else
+    //    {
+    //        var url = string.Empty;
+    //        if (!string.IsNullOrEmpty(this.appSettings.ServerUrl))
+    //            url = this.appSettings.ServerUrl.ToLower().Replace("http://", string.Empty);
+    //        result = $"{AppResource.WebConnectionErrorMsg} {AppResource.WebConnectionErrorInformMsg}{url}";
+    //    }
+
+    //    return result;
+    //}
+    public FileFetch ParseJsonContent(string content)
     {
-        var fileFetch = new List<FileFetch>();
+        var ff = new FileFetch();
         byte[] byteArray = Encoding.ASCII.GetBytes(content);
         var stream = new MemoryStream(byteArray);
 
@@ -101,18 +143,17 @@ class WebHelper
                 var files = line.Split(",");
                 foreach (var item in files)
                 {
-                    AddFile(item, ref fileFetch);
+                    AddFile(item, ref ff);
                 }
             }
-        return fileFetch;
+        return ff;
     }
-    private void AddFile(string file, ref List<FileFetch> list)
+    private void AddFile(string file, ref FileFetch ff)
     {
         // ["gloucestershire-bicyclerepairstations.binT26\/02\/2024 11:33:27","gloucestershire-bakeries.binT26\/02\/2024 11:27:04","gloucestershire-atms.binT26\/02\/2024 11:26:07","croatia.binT27\/02\/2024 08:10:12","..T27\/02\/2024 08:27:41",".T27\/02\/2024 08:12:59"],"msg":"Success."}
         file = file.Replace("[", string.Empty);
         var fields = file.Split(',');
         //var data = new DataClasses.Device();
-        var ff = new FileFetch();
         foreach (var field in fields)
         {
             if (field.ToLower().Contains("msg") || field.StartsWith('.') || field.StartsWith(".."))
@@ -123,12 +164,11 @@ class WebHelper
                 if (Idx1 > -1)
                 {
                     var Idx2 = field.IndexOf("T");
-                    ff.Name = field.Substring(Idx1 + 1, Idx2 - 1);
+                    ff.Names.Add(field.Substring(Idx1 + 1, Idx2 - 1));
                     var ts = field.Substring(Idx2 + 1).Replace("\\", string.Empty).TrimEnd(']').TrimEnd('"');
                     ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
-            list.Add(ff);
         }
     }
 }

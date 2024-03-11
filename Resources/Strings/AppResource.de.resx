@@ -273,6 +273,9 @@
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Suchradius:</value>
   </data>
+  <data name="ServerAccessFailedMsg" xml:space="preserve">
+    <value>Serverzugriff fehlgeschlagen</value>
+  </data>
   <data name="Services" xml:space="preserve">
     <value>Dienstleistungen:</value>
   </data>
