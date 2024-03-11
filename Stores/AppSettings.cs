@@ -13,6 +13,7 @@ public class AppSettings : ReactiveObject, IAppSettings
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
     public AppSettings()
     {
+        //Preferences.Default.Clear();
         GetAppSettings();
         this.WhenAnyValue(
                 x => x.ShowPopupAtStart
@@ -29,7 +30,9 @@ public class AppSettings : ReactiveObject, IAppSettings
         if (Preferences.Default.ContainsKey("show"))
         {
             this.ShowPopupAtStart = Preferences.Default.Get("show", true);
-        }       
+        }
+        else
+            this.ShowPopupAtStart = true;
     }
     public void UpdateAppSettings()
     {
