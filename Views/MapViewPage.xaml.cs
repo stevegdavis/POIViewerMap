@@ -12,7 +12,9 @@ using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
+using Mapsui.Widgets.ButtonWidget;
 using Mapsui.Widgets.ScaleBar;
+using Microsoft.Maui.ApplicationModel;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -25,9 +27,9 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using System.Threading;
+using The49.Maui.BottomSheet;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 using Color = Microsoft.Maui.Graphics.Color;
-using Font = Microsoft.Maui.Font;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
@@ -110,7 +112,27 @@ public partial class MapViewPage : ContentPage
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center });
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
+
         ToggleCompass();
+        var clickMeButton = CreateButton("Options", Mapsui.Widgets.VerticalAlignment.Bottom, Mapsui.Widgets.HorizontalAlignment.Right);
+        clickMeButton.WidgetTouched += (s, a) =>
+        {
+            //((ButtonWidget?)s!).Text = $"Clicked {++clickCount} times";
+            var options = new Options();
+            options.HasHandle = true;
+            options.ShowAsync();
+            mapView.Map.RefreshGraphics();
+        };
+        //mapView.Map.Widgets.Add(clickMeButton);
+        var imagebtn = CreateButtonWithImage(Mapsui.Widgets.VerticalAlignment.Top, Mapsui.Widgets.HorizontalAlignment.Right);
+        imagebtn.WidgetTouched += (s, a) =>
+        {
+            var options = new Options();
+            options.HasHandle = true;
+            options.ShowAsync();
+            mapView.Map.RefreshGraphics();
+        };
+        mapView.Map.Widgets.Add(imagebtn);
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -183,6 +205,41 @@ public partial class MapViewPage : ContentPage
             this.pickerRadius.IsEnabled = true;
             this.activityloadindicatorlayout.IsVisible = false;
         }
+    }
+    private static ButtonWidget CreateButton(string text,
+        Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
+    {
+        return new ButtonWidget()
+        {
+            Text = text,
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            MarginX = 10,
+            MarginY = 30,
+            PaddingX = 18,
+            PaddingY = 18,
+            CornerRadius = 8,
+            Width = 100,
+            BackColor = new Mapsui.Styles.Color(36, 143, 143),
+            TextColor = Mapsui.Styles.Color.White,
+        };
+    }
+    private static ButtonWidget CreateButtonWithImage(
+        Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
+    {
+        return new ButtonWidget()
+        {
+            Text = "hi", // This text is apparently needed to update to position of the button
+            SvgImage = AppIconHelper.optionsStr,
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            MarginX = 25,
+            MarginY = 160,
+            PaddingX = 10,
+            PaddingY = 8,
+            CornerRadius = 8,
+            Envelope = new MRect(0, 0, 64, 64)
+        };
     }
     private async Task GetCurrentLocation()
     {
@@ -738,5 +795,12 @@ public partial class MapViewPage : ContentPage
             this.FilepathRouteLabel.Text = string.Empty;
             mapView.Map.Layers.Remove(myRouteLayer);
         }        
+    }
+
+    private void OptionsButton_Clicked(object sender, EventArgs e)
+    {
+        BottomSheet bottomsheet = new Options();
+        bottomsheet.HasHandle = true;
+        bottomsheet.ShowAsync();
     }
 }

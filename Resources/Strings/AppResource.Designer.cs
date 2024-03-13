@@ -196,6 +196,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import Route.
+        /// </summary>
+        internal static string OptionsImportRouteButtonext {
+            get {
+                return ResourceManager.GetString("OptionsImportRouteButtonext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ATM.
         /// </summary>
         internal static string OptionsPOIPickerATMText {

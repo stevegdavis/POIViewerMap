@@ -10,6 +10,7 @@ namespace POIViewerMap.Helpers;
 
 internal class AppIconHelper
 {
+    public static string optionsStr = null;
     public static string drinkingwaterStr = null;
     public static string campsiteStr = null;
     public static string bicycleshopStr = null;
@@ -97,6 +98,12 @@ internal class AppIconHelper
         {
             using StreamReader reader = new(vendingmachine!);
             vendingmachineStr = reader.ReadToEnd();
+        }
+        using var options = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.options.svg");
+        if (options != null)
+        {
+            using StreamReader reader = new(options!);
+            optionsStr = reader.ReadToEnd();
         }
     }
     internal static string GetPOIIcon(POIData poi)

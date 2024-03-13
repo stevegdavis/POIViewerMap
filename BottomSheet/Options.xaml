@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the48:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:the48="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:resource="clr-namespace:POIViewerMap.Resources.Strings"
+             x:Class="POIViewerMap.Options" HasBackdrop="True" HasHandle="True">
+    <the48:BottomSheet.Detents>
+        <the48:HeightDetent Height="450"></the48:HeightDetent>
+    </the48:BottomSheet.Detents>
+
+    <ScrollView VerticalScrollBarVisibility="Default">
+        <VerticalStackLayout>
+            <Label Text="Options" HorizontalOptions="CenterAndExpand"/>
+            <StackLayout Margin="10">
+                <Label FontSize="16" Text="{x:Static resource:AppResource.POIImportCountryLabelText}"/>
+                <Picker x:Name="serverfilenamepicker" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseCountryText}" SelectedIndexChanged="serverfilenamepicker_SelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>No Data</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Button x:Name="POIServerFileDownloadButton" FontSize="16" Margin="0,5,10,0" Style="{StaticResource POIFileDownButtonStyle}" IsEnabled="False" Text="{x:Static resource:AppResource.OptionsImportLabelText}" Clicked="POIServerFileDownloadButton_Clicked" />
+                <HorizontalStackLayout Margin="0,0,2,0" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
+                </HorizontalStackLayout>
+            </StackLayout>
+            <BoxView Style="{StaticResource Divider}" />
+            <StackLayout Margin="5,0,0,0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                <Label Margin="5,10,2,0" FontAttributes="None" FontSize="16" >
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
+                        <On Platform="Windows" Value="" />
+                    </OnPlatform>
+                </Label>
+                <Picker x:Name="picker" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" >
+                </Picker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                <Label FontSize="16" Margin="5,10,2,0" FontAttributes="None">
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
+                        <On Platform="Windows" Value="" />
+                    </OnPlatform>
+                </Label>
+                <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" >
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>5km</x:String>
+                            <x:String>10km</x:String>
+                            <x:String>20km</x:String>
+                            <x:String>50km</x:String>
+                            <x:String>75km</x:String>
+                            <x:String>100km</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </StackLayout>
+            <BoxView Style="{StaticResource Divider}" />
+            <StackLayout>
+                <Button Text="{x:Static resource:AppResource.OptionsImportRouteButtonext}" Margin="10" />
+                <HorizontalStackLayout>
+                    <Label Margin="5" Text="Route:" FontSize="16" />
+                    <Label x:Name="RouteImported" Margin="5" Text="Helloworld.gpx" FontSize="16" />
+                </HorizontalStackLayout>
+            </StackLayout>
+            <BoxView Style="{StaticResource Divider}" />
+            <HorizontalStackLayout Margin="5" HorizontalOptions="StartAndExpand">
+                <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
+                <Label Margin="0,8,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
+            </HorizontalStackLayout>
+            <!--<BoxView Style="{StaticResource Divider}" />-->
+        </VerticalStackLayout>
+    </ScrollView>
+</the48:BottomSheet>

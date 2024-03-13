@@ -12,7 +12,8 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
-            <mct:Expander IsVisible="True" Padding="5" x:Name="expander">
+            <Button IsVisible="False" Text="Options" Clicked="OptionsButton_Clicked"/>
+            <mct:Expander IsVisible="False" Padding="5" x:Name="expander">
                 <mct:Expander.Header>
                     <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                 </mct:Expander.Header>

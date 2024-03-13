@@ -58,6 +58,7 @@
 	  <MauiImage Remove="Resources\Images\cupcake.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
+	  <MauiImage Remove="Resources\Images\options.svg" />
 	  <MauiImage Remove="Resources\Images\picnic-table.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-basket.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-cart.svg" />
@@ -80,6 +81,7 @@
 	  <None Remove="Resources\Images\drinkingwater.svg" />
 	  <None Remove="Resources\Images\map.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\options.svg" />
 	  <None Remove="Resources\Images\picnic-table.svg" />
 	  <None Remove="Resources\Images\shopping-basket.svg" />
 	  <None Remove="Resources\Images\shopping-cart.svg" />
@@ -102,6 +104,7 @@
 	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
+	  <EmbeddedResource Include="Resources\Images\options.svg" />
 	  <EmbeddedResource Include="Resources\Images\picnic-table.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-basket.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-cart.svg" />
@@ -125,10 +128,12 @@
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Mapsui.Maui" Version="4.1.1" />
-		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.1" />
-		<PackageReference Include="Mapsui.Tiling" Version="4.1.1" />		
+		<PackageReference Include="Mapsui.Maui" Version="4.1.4" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.4" />
+		<PackageReference Include="Mapsui.Tiling" Version="4.1.4" />		
 		<PackageReference Include="Flurl.Http" Version="3.2.4" />
+		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.1" />
+		<PackageReference Include="The49.Maui.ContextMenu" Version="1.0.0-alpha1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -137,6 +142,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="BottomSheet\Options.xaml.cs">
+	    <DependentUpon>Options.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Platforms\iOS\KeyboardHelper.cs">
 	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
 	  </Compile>
@@ -170,6 +178,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="BottomSheet\Options.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Popups\AppUsagePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

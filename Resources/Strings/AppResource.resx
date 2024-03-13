@@ -162,6 +162,9 @@
   <data name="OptionsImportLabelText" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="OptionsImportRouteButtonext" xml:space="preserve">
+    <value>Import Route</value>
+  </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
   </data>
