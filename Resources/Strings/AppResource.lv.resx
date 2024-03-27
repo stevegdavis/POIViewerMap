@@ -141,9 +141,6 @@
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Neatkārtojiet šo ziņojumu vēlreiz</value>
   </data>
-  <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Maršruts</value>
-  </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
     <value>Maršruta imports neizdevās!!</value>
   </data>
@@ -155,6 +152,9 @@
   </data>
   <data name="OptionsImportLabelText" xml:space="preserve">
     <value>Importēt</value>
+  </data>
+  <data name="OptionsImportRouteButtonText" xml:space="preserve">
+    <value>GPX maršruta importēšana</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>BANKOMĀTS</value>
@@ -231,8 +231,8 @@
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>POI faila nosaukums:</value>
   </data>
-  <data name="POIImportPhoneStorageText" xml:space="preserve">
-    <value>Tālruņa glabāšana</value>
+  <data name="POIImportCountryLabelText" xml:space="preserve">
+    <value>POI importēšana valstij</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Serveris</value>
@@ -254,6 +254,9 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Maršruts:</value>
+  </data>
+  <data name="RouteLoadingLabelText" xml:space="preserve">
+    <value>GPX maršruta importēšana...</value>
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Meklēšanas rādiuss:</value>

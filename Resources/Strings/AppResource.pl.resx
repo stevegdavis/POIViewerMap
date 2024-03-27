@@ -141,9 +141,6 @@
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Nie pokazuj tego komunikatu ponownie</value>
   </data>
-  <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Trasa</value>
-  </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
     <value>Import trasy nie powiódł się!!!</value>
   </data>
@@ -155,6 +152,9 @@
   </data>
   <data name="OptionsImportLabelText" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="OptionsImportRouteButtonText" xml:space="preserve">
+    <value>Importuj trasę GPX</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -194,9 +194,6 @@
   </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Usuń</value>
-  </data>
-  <data name="OptionsShowSearchRadiusOnMap" xml:space="preserve">
-    <value>Pokaż promień wyszukiwania na mapie</value>
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Odległość:</value>
@@ -240,8 +237,8 @@
   <data name="POIFilepathLabelText" xml:space="preserve">
     <value>Nazwa pliku POI:</value>
   </data>
-  <data name="POIImportPhoneStorageText" xml:space="preserve">
-    <value>Przechowywanie telefonu</value>
+  <data name="POIImportCountryLabelText" xml:space="preserve">
+    <value>Import punktów POI dla kraju</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Serveris</value>
@@ -272,6 +269,9 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Trasa:</value>
+  </data>
+  <data name="RouteLoadingLabelText" xml:space="preserve">
+    <value>GPX maršruta importēšana...</value>
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Promień wyszukiwania:</value>

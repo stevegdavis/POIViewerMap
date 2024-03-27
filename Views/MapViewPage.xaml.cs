@@ -12,6 +12,7 @@ using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
+using Mapsui.Widgets.ButtonWidget;
 using Mapsui.Widgets.ScaleBar;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
@@ -25,18 +26,14 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using System.Threading;
 using Color = Microsoft.Maui.Graphics.Color;
-using Font = Microsoft.Maui.Font;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
 
 public partial class MapViewPage : ContentPage
 {
-    private string FullFilepathPOIs;
     private string FullFilepathRoute;
-    
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int SearchRadius = 5; // km
@@ -57,7 +54,9 @@ public partial class MapViewPage : ContentPage
     public static ILayer myRouteLayer;
     public IAppSettings appSettings;
     CompositeDisposable? deactivateWith;
-    private static FileSaverResult filesaverresult;
+    //private static FileSaverResult filesaverresult;
+
+    private string SelectedFilename { get; set; } = string.Empty;
 
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
@@ -84,6 +83,7 @@ public partial class MapViewPage : ContentPage
         {
         };// todo: Write to your own logger;
         AppIconHelper.InitializeIcons();
+        
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
         {
@@ -111,6 +111,24 @@ public partial class MapViewPage : ContentPage
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         ToggleCompass();
+        //this.expander.IsExpanded = true;
+        this.expander.IsVisible = false;
+        var imagebtn = CreateButtonWithImage(Mapsui.Widgets.VerticalAlignment.Top, Mapsui.Widgets.HorizontalAlignment.Right);
+        imagebtn.WidgetTouched += (s, a) =>
+        {
+            if(this.expander.IsExpanded)
+            {
+                this.expander.IsExpanded = false;
+                this.expander.IsVisible = false;
+            }
+            else
+            {
+                this.expander.IsExpanded = true;
+                this.expander.IsVisible = true;
+            }
+            mapView.Map.RefreshGraphics();
+        };
+        mapView.Map.Widgets.Add(imagebtn);
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -143,46 +161,27 @@ public partial class MapViewPage : ContentPage
         popup.Closed += Popup_Closed;
         this.ShowPopup(popup);
     }
-    private async void Popup_Closed(object sender, PopupClosedEventArgs e)
+    private void Popup_Closed(object sender, PopupClosedEventArgs e)
     {
         if(sender is AppUsagePopup)
             appSettings.ShowPopupAtStart = (bool)e.Result;
-        else if(sender is FileListPopup)
+    }
+    private static ButtonWidget CreateButtonWithImage(
+        Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
+    {
+        return new ButtonWidget()
         {
-            if (FileListPopup.SelectedFilename == null || FileListPopup.IsCancelled)
-            {
-                this.activityloadindicatorlayout.IsVisible = false;
-                return; // No file or Cancelled
-            }
-            this.picker.IsEnabled = false;
-            this.pickerRadius.IsEnabled = false;
-            this.activityloadindicatorlayout.IsVisible = true;
-            pois.Clear();
-            foreach (var pin in mapView.Pins)
-            {
-                pin.HideCallout();
-            }
-            mapView.Pins.Clear();
-            // Download chosen file or local?
-            if (FileListLocalAccess)
-            {
-                pois = await POIBinaryFormat.ReadAsync(Path.Combine(FileSystem.AppDataDirectory, FileListPopup.SelectedFilename.ToLower()));
-                await PopulateMapAsync(pois);
-            }
-            else 
-            {
-                var webhelper = new WebHelper();
-                await webhelper.DownloadPOIFileAsync(FileListPopup.SelectedFilename);
-                if (File.Exists(WebHelper.localPath))
-                {
-                    pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
-                    await PopulateMapAsync(pois);
-                }
-            }
-            this.picker.IsEnabled = true;
-            this.pickerRadius.IsEnabled = true;
-            this.activityloadindicatorlayout.IsVisible = false;
-        }
+            Text = "hi", // This text is apparently needed to update to position of the button
+            SvgImage = AppIconHelper.optionsStr,
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            MarginX = 25,
+            MarginY = 160,
+            PaddingX = 10,
+            PaddingY = 8,
+            CornerRadius = 8,
+            Envelope = new MRect(0, 0, 64, 64)
+        };
     }
     private async Task GetCurrentLocation()
     {
@@ -316,6 +315,7 @@ public partial class MapViewPage : ContentPage
                 pin.HideCallout();
             }
             this.expander.IsExpanded = false;
+            this.expander.IsVisible = false;
         }
         catch (Exception) { }
     }
@@ -509,12 +509,13 @@ public partial class MapViewPage : ContentPage
         try
         {
             await BrowseRoutes();
-            if (!String.IsNullOrEmpty(this.FilepathRouteLabel.Text))
+            if (!String.IsNullOrEmpty(this.FullFilepathRoute))
             {
                 if (myRouteLayer != null)
                     mapView.Map.Layers.Remove(myRouteLayer);
-                this.activityloadindicatorlayout.IsVisible = true;
-                this.RouteFilename.IsVisible = true;
+                this.activityrouteloadindicatorlayout.IsVisible = true;
+                this.RouteImported.IsVisible = true;
+                this.RouteImported.Text = Path.GetFileName(this.FullFilepathRoute);
                 var list = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
                 var sb = new StringBuilder("LINESTRING(");
                 foreach (var data in list)
@@ -524,15 +525,15 @@ public partial class MapViewPage : ContentPage
                 sb.Append(")");
                 myRouteLayer = CreateLineStringLayer(sb.ToString().Replace(",)", ")"), CreateLineStringStyle());
                 mapView.Map.Layers.Add(myRouteLayer);
-                this.activityloadindicatorlayout.IsVisible = false;
+                this.activityrouteloadindicatorlayout.IsVisible = false;
             }
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
-            ShowRouteLoadFailToastMessage(this.FilepathRouteLabel.Text);
-            this.FilepathRouteLabel.Text = string.Empty;
+            ShowRouteLoadFailToastMessage(this.FullFilepathRoute);
+            this.FullFilepathRoute = string.Empty;
         }
-        finally { this.activityloadindicatorlayout.IsVisible = false; }
+        finally { this.activityrouteloadindicatorlayout.IsVisible = false; }
     }
     private void ToggleCompass()
     {
@@ -579,31 +580,6 @@ public partial class MapViewPage : ContentPage
             Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
         };
     }
-    private async Task BrowseLocalPOIs()
-    {
-        var customFileType = new FilePickerFileType(
-             new Dictionary<DevicePlatform, IEnumerable<string>>
-             {
-                    { DevicePlatform.iOS, new[] { "public.my.bin.extension" } }, // UTType values
-                    { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
-                    { DevicePlatform.WinUI, new[] { ".bin" } }, // file extension
-                    { DevicePlatform.Tizen, new[] { "*/*" } },
-                    { DevicePlatform.macOS, new[] { "bin" } }, // UTType values
-             });
-
-        PickOptions options = new()
-        {
-            PickerTitle = "Please select a POI file",
-            FileTypes = customFileType,
-            
-        };
-        var result = await PickAndShow(options);//, "route");
-        if (result != null && Path.GetExtension(result.FileName).Equals(".bin"))
-        {
-            this.FullFilepathPOIs = result?.FullPath;
-            this.FilepathPOILabel.Text = result?.FileName;
-        }
-    }
     private async Task BrowseRoutes()
     {
         var customFileType = new FilePickerFileType(
@@ -622,10 +598,10 @@ public partial class MapViewPage : ContentPage
             FileTypes = customFileType,
         };
         var result = await MapViewPage.PickAndShow(options);
+        if (result is null) return;
         if (Path.GetExtension(result.FileName).Equals(".gpx"))
         {
             this.FullFilepathRoute = result?.FullPath;
-            this.FilepathRouteLabel.Text = result?.FileName;
         }
     }
     public static async Task<FileResult> PickAndShow(PickOptions options)
@@ -716,11 +692,61 @@ public partial class MapViewPage : ContentPage
         });
         await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
     }
-    private async void  RefreshButton_Clicked(object sender, EventArgs e)
+    private async void InitializeServerFilenamePicker()
     {
-        Platforms.KeyboardHelper.HideKeyboard();
-        if (pois.Count > 0)
-            await PopulateMapAsync(pois);
+        //this.POIServerFileDownloadButton.IsEnabled = false;
+        var webhelper = new WebHelper();
+        var parameters = new Dictionary<string, string>
+        {
+            { WebHelper.PARAM_ACTION, WebHelper.ACTION_FILES },
+            { WebHelper.PARAM_FILE_NAME, "Show All" }
+        };
+        var serverlist = await webhelper.FilenamesFetchAsync(parameters);
+        if (serverlist.Error)
+        {
+            await Toast.Make($"{serverlist.ErrorMsg}").Show();
+            // Try local storage
+            string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
+            if (files.Length > 0)
+            {
+                // Local files found
+                FileListLocalAccess = true;
+                var ff = new FileFetch();
+                foreach (var item in files)
+                {
+                    if (item == null) continue;
+                    var filename = Path.GetFileNameWithoutExtension(item);
+                    if (!Char.IsUpper(filename[0]))
+                    {
+                        var uC = Char.ToUpper(filename[0]);
+                        ff.Names.Add(($"{uC}{filename.Substring(1)}"));
+                    }
+                    else
+                        ff.Names.Add(Path.GetFileNameWithoutExtension(filename));
+                }
+                ff.LastUpdated = new DateTime();
+                FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+                ff.Names.Sort(FilenameComparer.NameArray);
+                this.serverfilenamepicker.ItemsSource = ff.Names;
+            }
+        }
+        else if (serverlist.Names.Count > 0)
+        {
+            FileListLocalAccess = false;
+            List<string> files = new List<string>();
+            foreach (var item in serverlist.Names)
+            {
+                if (item == null) continue;
+                if (!Char.IsUpper(item[0]))
+                {
+                    var uC = Char.ToUpper(item[0]);
+                    files.Add(Path.GetFileNameWithoutExtension($"{uC}{item.Substring(1)}"));
+                }
+                else
+                    files.Add(Path.GetFileNameWithoutExtension(item));
+            }
+            this.serverfilenamepicker.ItemsSource = files;
+        }        
     }
     private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -735,8 +761,71 @@ public partial class MapViewPage : ContentPage
         //this.OptionsRouteDeleteButton.IsVisible = false;
         if(myRouteLayer!= null)
         {
-            this.FilepathRouteLabel.Text = string.Empty;
+            //this.FilepathRouteLabel.Text = string.Empty;
             mapView.Map.Layers.Remove(myRouteLayer);
         }        
+    }
+    private void serverfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var v = serverfilenamepicker.SelectedIndex;
+        var s = serverfilenamepicker.SelectedItem as string;
+        if (v == -1 || s.Equals("No Data"))
+        {
+            this.SelectedFilename = string.Empty;
+            return;
+        }
+        this.SelectedFilename = $"{s}.bin";
+        POIServerFileDownload();
+    }
+    private async void POIServerFileDownload()
+    {
+        if (String.IsNullOrEmpty(this.SelectedFilename))
+        {
+            this.activityloadindicatorlayout.IsVisible = false;
+            return; // No file
+        }
+        serverfilenamepicker.IsEnabled = false;
+        this.picker.IsEnabled = false;
+        this.pickerRadius.IsEnabled = false;
+        this.activityloadindicatorlayout.IsVisible = true;
+        pois.Clear();
+        foreach (var pin in mapView.Pins)
+        {
+            pin.HideCallout();
+        }
+        mapView.Pins.Clear();
+        // Download chosen file or local?
+        if (FileListLocalAccess)
+        {
+            pois = await POIBinaryFormat.ReadAsync(Path.Combine(FileSystem.AppDataDirectory, this.SelectedFilename.ToLower()));
+            await PopulateMapAsync(pois);
+        }
+        else
+        {
+            var webhelper = new WebHelper();
+            await webhelper.DownloadPOIFileAsync(this.SelectedFilename);
+            if (File.Exists(WebHelper.localPath))
+            {
+                pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
+                await PopulateMapAsync(pois);
+            }
+        }
+        this.picker.IsEnabled = true;
+        this.pickerRadius.IsEnabled = true;
+        this.serverfilenamepicker.IsEnabled=true;
+        this.activityloadindicatorlayout.IsVisible = false;
+    }
+    private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
+    {
+        if (e.IsExpanded)
+        {
+            InitializeServerFilenamePicker();
+            if(this.serverfilenamepicker.SelectedItem != null)
+            {
+                this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
+            }
+        }
+        else
+            this.expander.IsVisible = false;
     }
 }

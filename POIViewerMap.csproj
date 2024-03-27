@@ -58,6 +58,7 @@
 	  <MauiImage Remove="Resources\Images\cupcake.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
+	  <MauiImage Remove="Resources\Images\options.svg" />
 	  <MauiImage Remove="Resources\Images\picnic-table.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-basket.svg" />
 	  <MauiImage Remove="Resources\Images\shopping-cart.svg" />
@@ -80,6 +81,7 @@
 	  <None Remove="Resources\Images\drinkingwater.svg" />
 	  <None Remove="Resources\Images\map.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\options.svg" />
 	  <None Remove="Resources\Images\picnic-table.svg" />
 	  <None Remove="Resources\Images\shopping-basket.svg" />
 	  <None Remove="Resources\Images\shopping-cart.svg" />
@@ -102,6 +104,7 @@
 	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
+	  <EmbeddedResource Include="Resources\Images\options.svg" />
 	  <EmbeddedResource Include="Resources\Images\picnic-table.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-basket.svg" />
 	  <EmbeddedResource Include="Resources\Images\shopping-cart.svg" />

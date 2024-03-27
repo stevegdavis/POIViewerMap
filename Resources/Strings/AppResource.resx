@@ -147,9 +147,6 @@
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Do not show this message again</value>
   </data>
-  <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Route</value>
-  </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
     <value>Route import failed!!</value>
   </data>
@@ -161,6 +158,9 @@
   </data>
   <data name="OptionsImportLabelText" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="OptionsImportRouteButtonText" xml:space="preserve">
+    <value>Import GPX Route</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -200,9 +200,6 @@
   </data>
   <data name="OptionsRouteDeleteButtonText" xml:space="preserve">
     <value>Delete</value>
-  </data>
-  <data name="OptionsShowSearchRadiusOnMap" xml:space="preserve">
-    <value>Show Search Radius On Map</value>
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance:</value>
@@ -249,9 +246,6 @@
   <data name="POIImportCountryLabelText" xml:space="preserve">
     <value>Import POIs for Country</value>
   </data>
-  <data name="POIImportPhoneStorageText" xml:space="preserve">
-    <value>Phone Storage</value>
-  </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
   </data>
@@ -281,6 +275,9 @@
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
+  </data>
+  <data name="RouteLoadingLabelText" xml:space="preserve">
+    <value>Importing GPX route...</value>
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
     <value>Search Radius:</value>

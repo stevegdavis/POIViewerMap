@@ -12,79 +12,7 @@
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
-            <mct:Expander IsVisible="True" Padding="5" x:Name="expander">
-                <mct:Expander.Header>
-                    <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
-                </mct:Expander.Header>
-                <mct:Expander.Content>
-                    <ScrollView VerticalScrollBarVisibility="Default" HeightRequest="148">
-                        <VerticalStackLayout>
-                            <BoxView Style="{StaticResource Divider}" />
-                            <StackLayout Margin="0,0,0,0" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                <Label Margin="5,10,2,0" FontAttributes="None">
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
-                                        <On Platform="Windows" Value="" />
-                                    </OnPlatform>
-                                </Label>
-                                <Picker x:Name="picker" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
-                                </Picker>
-                            </StackLayout>
-                            <StackLayout Margin="0,0,0,0" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                <Label Margin="1,10,2,0" FontAttributes="None">
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
-                                        <On Platform="Windows" Value="" />
-                                    </OnPlatform>
-                                </Label>
-                                <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged">
-                                    <Picker.ItemsSource>
-                                        <x:Array Type="{x:Type x:String}">
-                                            <x:String>5km</x:String>
-                                            <x:String>10km</x:String>
-                                            <x:String>20km</x:String>
-                                            <x:String>50km</x:String>
-                                            <x:String>75km</x:String>
-                                            <x:String>100km</x:String>
-                                        </x:Array>
-                                    </Picker.ItemsSource>
-                                </Picker>
-                            </StackLayout>
-                            <HorizontalStackLayout HorizontalOptions="Fill" IsVisible="False" >
-                                <Label Text="{x:Static resource:AppResource.POIMaxDistanceLabel}" Margin="5,12,0,0"/>
-                                <Label x:Name="MaxDistanceLabel" Text="10" Margin="0,12,0,0"/>
-                                <Label Text="km" Margin="0,12,5,0"/>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
-                                <Label Text="{x:Static resource:AppResource.OptionsImportLabelText}" Margin="2,8,8,0" FontAttributes="Bold"/>
-                                <HorizontalStackLayout Margin="0,0,2,0" x:Name="activityloadindicatorlayout" IsVisible="False">
-                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
-                                </HorizontalStackLayout>
-                                <Button Margin="0,0,5,0" Text="{x:Static resource:AppResource.POIBrowseButtonText}" Clicked="BrowseButton_Clicked"/>
-                                <Button Text="{x:Static resource:AppResource.ImportRouteButtonText}" Clicked="BrowseRoutesButton_Clicked"/>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout x:Name="POIFilename" IsVisible="False" Margin="0,10,0,0" HorizontalOptions="CenterAndExpand">
-                                <Label Text="{x:Static resource:AppResource.POIFilepathLabelText}"/>
-                                <Label x:Name="FilepathPOILabel" Margin="5,0,0,0" MaximumWidthRequest="220" LineBreakMode="MiddleTruncation"/>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout x:Name="RouteFilename" IsVisible="False" HorizontalOptions="CenterAndExpand">
-                                <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}"/>
-                                <Label x:Name="FilepathRouteLabel" Margin="5,0,0,0" MaximumWidthRequest="260" LineBreakMode="MiddleTruncation"/>
-                                <Button x:Name="OptionsRouteDeleteButton" IsVisible="False" Margin="5,0,0,0" Text="{x:Static resource:AppResource.OptionsRouteDeleteButtonText}" FontSize="8" MaximumHeightRequest="30" Clicked="DeleteButton_Clicked"/>
-                            </HorizontalStackLayout>
-                            <!--<HorizontalStackLayout Margin="5" x:Name="Loading" IsVisible="False" HorizontalOptions="Start">
-                                <ActivityIndicator x:Name="activity" HeightRequest="25" IsRunning="True"/>
-                                <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" FontAttributes="Bold"/>
-                            </HorizontalStackLayout>-->
-                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                                <CheckBox x:Name="AllowCenterMap" IsChecked="False" CheckedChanged="AllowCenterMap_CheckedChanged"/>
-                                <Label Margin="0,8,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
-                            </HorizontalStackLayout>
-                            <BoxView Style="{StaticResource Divider}" />
-                        </VerticalStackLayout>
-                    </ScrollView>                    
-                </mct:Expander.Content>
-            </mct:Expander>
+            
             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -101,7 +29,78 @@
                             BackgroundColor="Gray" 
                             Margin="0" />
             </Grid>
-            
+            <mct:Expander IsVisible="True" Padding="5" x:Name="expander" ExpandedChanged="expander_ExpandedChanged">
+                <mct:Expander.Header>
+                    <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
+                </mct:Expander.Header>
+                <mct:Expander.Content>
+                    <ScrollView HeightRequest="300" VerticalScrollBarVisibility="Default">
+                        <VerticalStackLayout>
+                            <StackLayout Margin="10">
+                                <Label FontSize="16" Text="{x:Static resource:AppResource.POIImportCountryLabelText}"/>
+                                <Picker x:Name="serverfilenamepicker" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseCountryText}" SelectedIndexChanged="serverfilenamepicker_SelectedIndexChanged">
+                                    <Picker.Items>
+                                        <x:String>No Data</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                                <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                                    <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}" />
+                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                            <BoxView IsVisible="False" Style="{StaticResource Divider}" />
+                            <StackLayout Margin="5,0,0,0" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                <Label Margin="5,10,2,0" FontAttributes="None" FontSize="16" >
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
+                                        <On Platform="Windows" Value="" />
+                                    </OnPlatform>
+                                </Label>
+                                <Picker x:Name="picker" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                </Picker>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                <Label FontSize="16" Margin="5,10,2,0" FontAttributes="None">
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
+                                        <On Platform="Windows" Value="" />
+                                    </OnPlatform>
+                                </Label>
+                                <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>5km</x:String>
+                                            <x:String>10km</x:String>
+                                            <x:String>20km</x:String>
+                                            <x:String>50km</x:String>
+                                            <x:String>75km</x:String>
+                                            <x:String>100km</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                            </StackLayout>
+                            <BoxView Style="{StaticResource Divider}" />
+                            <StackLayout>
+                                <Button Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" Margin="10" Clicked="BrowseRoutesButton_Clicked" />
+                                <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityrouteloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                                    <Label Text="{x:Static resource:AppResource.RouteLoadingLabelText}" />
+                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityroute" HeightRequest="30" IsRunning="True"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Margin="5" Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
+                                    <Label x:Name="RouteImported" Margin="5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                            <BoxView Style="{StaticResource Divider}" />
+                            <HorizontalStackLayout Margin="5" HorizontalOptions="StartAndExpand">
+                                <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
+                                <Label Margin="0,8,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
+                            </HorizontalStackLayout>
+                            <!--<BoxView Style="{StaticResource Divider}" />-->
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </mct:Expander.Content>
+            </mct:Expander>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

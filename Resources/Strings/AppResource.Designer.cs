@@ -151,15 +151,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Route.
-        /// </summary>
-        internal static string ImportRouteButtonText {
-            get {
-                return ResourceManager.GetString("ImportRouteButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Route import failed!!.
         /// </summary>
         internal static string ImportRouteFailedMessage {
@@ -192,6 +183,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string OptionsImportLabelText {
             get {
                 return ResourceManager.GetString("OptionsImportLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import GPX Route.
+        /// </summary>
+        internal static string OptionsImportRouteButtonText {
+            get {
+                return ResourceManager.GetString("OptionsImportRouteButtonText", resourceCulture);
             }
         }
         
@@ -309,15 +309,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string OptionsRouteDeleteButtonText {
             get {
                 return ResourceManager.GetString("OptionsRouteDeleteButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show Search Radius On Map.
-        /// </summary>
-        internal static string OptionsShowSearchRadiusOnMap {
-            get {
-                return ResourceManager.GetString("OptionsShowSearchRadiusOnMap", resourceCulture);
             }
         }
         
@@ -457,15 +448,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone Storage.
-        /// </summary>
-        internal static string POIImportPhoneStorageText {
-            get {
-                return ResourceManager.GetString("POIImportPhoneStorageText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Server.
         /// </summary>
         internal static string POIImportServerText {
@@ -552,6 +534,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string RouteFilepathLabelText {
             get {
                 return ResourceManager.GetString("RouteFilepathLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importing GPX route....
+        /// </summary>
+        internal static string RouteLoadingLabelText {
+            get {
+                return ResourceManager.GetString("RouteLoadingLabelText", resourceCulture);
             }
         }
         
