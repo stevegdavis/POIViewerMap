@@ -60,7 +60,7 @@
                                 </Picker>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                                <Label FontSize="16" Margin="5,10,2,0" FontAttributes="None">
+                                <Label FontSize="16" Margin="7,10,2,0" FontAttributes="None">
                                     <OnPlatform x:TypeArguments="x:String">
                                         <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
                                         <On Platform="Windows" Value="" />
