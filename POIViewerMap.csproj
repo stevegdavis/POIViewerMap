@@ -137,6 +137,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="RolandK.Formats.Gpx" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

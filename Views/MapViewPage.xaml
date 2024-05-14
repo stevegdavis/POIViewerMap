@@ -87,8 +87,8 @@
                                     <ActivityIndicator Style="{StaticResource Import}" x:Name="activityroute" HeightRequest="30" IsRunning="True"/>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout>
-                                    <Label Margin="5" Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
-                                    <Label x:Name="RouteImported" Margin="5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
+                                    <Label Margin="5,0,0,0" Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
+                                    <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
                                 </HorizontalStackLayout>
                             </StackLayout>
                             <BoxView Style="{StaticResource Divider}" />

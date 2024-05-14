@@ -23,6 +23,7 @@ using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
+using RolandK.Formats.Gpx;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
@@ -442,54 +443,6 @@ public partial class MapViewPage : ContentPage
             }
         }
     }
-    async void BrowseButton_Clicked(object sender, EventArgs e)
-    {
-        if (POIsReadIsBusy)
-            return;
-        POIsReadIsBusy = true;
-        this.activityloadindicatorlayout.IsVisible = true;
-        
-        FileListPopup popup = new FileListPopup();
-        // Online download from server (when connected)
-        var webhelper = new WebHelper();
-        var parameters = new Dictionary<string, string>
-        {
-            { WebHelper.PARAM_ACTION, WebHelper.ACTION_FILES },
-            { WebHelper.PARAM_FILE_NAME, "Show All" }
-        };
-        var serverlist = await webhelper.FilenamesFetchAsync(parameters);
-        if(serverlist.Error)
-        {
-            await Toast.Make($"{serverlist.ErrorMsg}").Show();
-        }
-        if(serverlist.Error)
-        {
-            // Try local storage
-            string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
-            if (files.Length > 0)
-            {
-                // Local files found
-                FileListLocalAccess = true;
-                var ff = new FileFetch();
-                foreach (var item in files)
-                {
-                    ff.Names.Add(Path.GetFileName(item).ToLower());
-                }
-                ff.LastUpdated = new DateTime();
-                FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-                ff.Names.Sort(FilenameComparer.NameArray);
-                popup.AddList(ff);
-            }
-        }
-        else if (serverlist.Names.Count > 0)
-        {
-            FileListLocalAccess = false;
-            popup.AddList(serverlist);
-        }
-        popup.Closed += Popup_Closed;
-        this.ShowPopup(popup);
-        POIsReadIsBusy = false;
-    }
     private static void ShowRouteLoadFailToastMessage(string mess)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
@@ -515,17 +468,26 @@ public partial class MapViewPage : ContentPage
                     mapView.Map.Layers.Remove(myRouteLayer);
                 this.activityrouteloadindicatorlayout.IsVisible = true;
                 this.RouteImported.IsVisible = true;
-                this.RouteImported.Text = Path.GetFileName(this.FullFilepathRoute);
-                var list = await ImportRoutes.ImportGPXRouteAsync(this.FullFilepathRoute);
+                this.RouteImported.Text = Path.GetFileNameWithoutExtension(this.FullFilepathRoute);
+                var gpxFile = await GpxFile.LoadAsync(FullFilepathRoute);
+                var countTracks = gpxFile.Tracks.Count;
+                var countRoutes = gpxFile.Routes.Count;
+                var countWaypoints = gpxFile.Waypoints.Count;
+                var data = new RouteLineData();
                 var sb = new StringBuilder("LINESTRING(");
-                foreach (var data in list)
+                foreach (var track in gpxFile.Tracks)
                 {
-                    sb.Append($"{data.Latitude} {data.Longitude},");
+                    foreach (var seg in track.Segments)
+                    {
+                        foreach (var point in seg.Points)
+                        {
+                            sb.Append($"{point.Latitude} {point.Longitude},");
+                        }
+                    }
                 }
                 sb.Append(")");
                 myRouteLayer = CreateLineStringLayer(sb.ToString().Replace(",)", ")"), CreateLineStringStyle());
                 mapView.Map.Layers.Add(myRouteLayer);
-                this.activityrouteloadindicatorlayout.IsVisible = false;
             }
         }
         catch (Exception ex)
