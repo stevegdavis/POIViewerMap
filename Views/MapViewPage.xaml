@@ -79,6 +79,10 @@
                                     </Picker.ItemsSource>
                                 </Picker>
                             </StackLayout>
+                            <HorizontalStackLayout Margin="5">
+                                <Label Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
+                                <Label Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
+                            </HorizontalStackLayout>
                             <BoxView Style="{StaticResource Divider}" />
                             <StackLayout>
                                 <Button Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" Margin="10" Clicked="BrowseRoutesButton_Clicked" />

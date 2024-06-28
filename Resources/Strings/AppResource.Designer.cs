@@ -475,6 +475,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to POIs Found:.
+        /// </summary>
+        internal static string POIsFoundLabelText {
+            get {
+                return ResourceManager.GetString("POIsFoundLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading POIs - please wait....
         /// </summary>
         internal static string POIsLoadingLabelText {

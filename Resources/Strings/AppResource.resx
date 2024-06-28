@@ -255,6 +255,9 @@
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Choose</value>
   </data>
+  <data name="POIsFoundLabelText" xml:space="preserve">
+    <value>POIs Found:</value>
+  </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
     <value>Loading POIs - please wait...</value>
   </data>

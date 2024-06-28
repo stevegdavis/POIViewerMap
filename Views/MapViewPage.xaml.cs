@@ -140,6 +140,7 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
+                    this.POIsFoundLabel.Text = Convert.ToString(mapView.Pins.Count);
                     await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
@@ -152,6 +153,13 @@ public partial class MapViewPage : ContentPage
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
                     await CheckLoadingDistance();
+                });
+        _ = Observable
+                .Interval(TimeSpan.FromSeconds(1))
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(_ =>
+                {
+                    this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
