@@ -189,7 +189,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Screenshots\Android\" />
 	  <Folder Include="Screenshots\iPhone\" />
 	</ItemGroup>
 
