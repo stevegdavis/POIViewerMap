@@ -1,5 +1,5 @@
 # POIViewerMap  
-Place Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
+Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
 It is orientated towards cycling and hiking.  
 
 **Options:**  
