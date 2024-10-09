@@ -1,4 +1,4 @@
-# POI Viewer Map  
+# POIViewerMap  
 Place Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
 It is orientated towards cycling and hiking.  
 
@@ -54,10 +54,16 @@ It is orientated towards cycling and hiking.
 * 20km  
 * 75km  
 * 100km  
-
+## App Languages  
+* English
+* French (Français)
+* German (Deutsch)
+* Polish (Polski)
+* Italian (Italiano)
+* Latvian (Latviešu)
 ## Screenshots  
 **Andriod**  
-<img src="Screenshots/Android/OptionsPanel.jpg" width="300" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="300" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="300" />
+<img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />
 
 ## Minimum Requirments  
 * Android 8
