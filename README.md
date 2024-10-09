@@ -1,5 +1,6 @@
-POI Viewer Map is a .NET MAUI app for Android devices (iOS to follow). It allows the user to choose a Place Of Interest from a fixed list and display them on a map. 
-It is orientated towards cyling and hiking.  
+# POI Viewer Map  
+Place Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
+It is orientated towards cycling and hiking.  
 
 **Options:**  
 * Import POIs for Country
@@ -55,8 +56,35 @@ It is orientated towards cyling and hiking.
 * 100km  
 
 ## Screenshots  
-<img src="Screenshots/Android/OptionsPanel.jpg" width="300" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="300" />
+**Andriod**  
+<img src="Screenshots/Android/OptionsPanel.jpg" width="300" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="300" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="300" />
 
-ReactiveObject
-RolandK.Formats.Gpx
+## Minimum Requirments  
+* Android 8
+* iOS (Work in progress)
+## Libraries Used  
+* ReactiveUI https://www.reactiveui.net/  
+* Flurl.Http (v3.2.4 only)  https://flurl.dev/   
+* RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
+* Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
+* POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/  
+## Licence
+Copyright © 2024 SDSDevelopment
+
+> This program is free software: you can redistribute it and/or modify
+> it under the terms of the GNU General Public License as published by
+> the Free Software Foundation, either version 3 of the License, or
+> (at your option) any later version.
+> 
+> This program is distributed in the hope that it will be useful,
+> but WITHOUT ANY WARRANTY; without even the implied warranty of
+> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> GNU General Public License for more details.
+> 
+> You should have received a copy of the GNU General Public License
+> along with this program.  If not, see <https://www.gnu.org/licenses/>.
+> 
+> The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app.
+ The data is extracted from [OpenStreetMap](https://www.openstreetmap.org) and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water Points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge.
+
 Icons from: https://www.svgrepo.com/
