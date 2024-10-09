@@ -35,12 +35,12 @@ It is orientated towards cycling and hiking.
 * UK  
 
 **POIs Supported:**   
-* Drinking Water Point  
-* Campsite  
+* <img src="Resources/Images/waterlightblue.svg" width="20" height="20"/> Drinking Water Point  
+* <img src="Resources/Images/campsite.svg" width="20"/> Campsite  
 * Bicycle Shop  
 * Bicycle Repair Station  
 * Supermarket  
-* ATM (Cash Machine)  
+* <img src="Resources/Images/atm.svg" width="20"/> ATM (Cash Machine)  
 * Toilet  
 * Cafe  
 * Bakery  
@@ -63,7 +63,7 @@ It is orientated towards cycling and hiking.
 * Latvian (Latviešu)
 ## Screenshots  
 **Andriod**  
-<img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />
+<img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />  
 
 ## Minimum Requirments  
 * Android 8
