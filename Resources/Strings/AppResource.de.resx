@@ -121,7 +121,7 @@
     <value>Schließen Sie</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>Der Autor dieser App kann nicht für die Richtigkeit der auf der Karte angezeigten POI garantieren. Bei der Nutzung der App ist jederzeit Vorsicht geboten. Die Daten werden von Open Street Maps extrahiert und beruhen auf den vielen OSM-Mitwirkenden. Besondere Vorsicht ist bei Trinkwasserstellen geboten, da es keine Garantie dafür gibt, dass die auf der Karte gezeigten Stellen zum Trinken geeignet sind, und der Benutzer sich vor Ort informieren muss.</value>
+    <value>Der Autor dieser App kann nicht für die Richtigkeit der auf der Karte angezeigten POI garantieren. Bei der Nutzung der App ist jederzeit Vorsicht geboten. Die Daten werden von Open Street Maps extrahiert und beruhen auf den vielen OSM-Mitwirkenden. Besondere Vorsicht ist bei Trinkwasserstellen geboten, da es keine Garantie dafür gibt, dass die auf der Karte gezeigten Stellen zum Trinken geeignet sind, und der Benutzer muss sich vor Ort informieren.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Haftungsausschluss</value>

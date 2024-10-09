@@ -121,7 +121,7 @@
     <value>Zamknij</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>Autor aplikacji nie może zagwarantować dokładności punktów POI wyświetlanych na mapie. Podczas korzystania z aplikacji należy zawsze zachować ostrożność. Dane są pobierane z Open Street Maps i opierają się na wielu współpracownikach OSM. Szczególną uwagę należy zwrócić na punkty z wodą pitną, ponieważ nie ma gwarancji, że wszystkie pokazane na mapie nadają się do picia, a użytkownik musi zasięgnąć lokalnej wiedzy.</value>
+    <value>Autor aplikacji nie może zagwarantować dokładności punktów POI wyświetlanych na mapie. Podczas korzystania z aplikacji należy zawsze zachować ostrożność. Dane są pobierane z Open Street Maps i opierają się na wielu współpracownikach OSM. Szczególną uwagę należy zwrócić na punkty poboru wody pitnej, ponieważ nie ma gwarancji, że punkty pokazane na mapie nadają się do picia, a użytkownik musi zasięgnąć lokalnej wiedzy.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Zastrzeżenie</value>

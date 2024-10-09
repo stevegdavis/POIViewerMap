@@ -70,7 +70,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app. The data is extracted from Open Street Maps and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge..
+        ///   Looks up a localized string similar to The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app. The data is extracted from Open Street Maps and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water Points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge..
         /// </summary>
         internal static string AppUsageDisclaimerLabelText {
             get {

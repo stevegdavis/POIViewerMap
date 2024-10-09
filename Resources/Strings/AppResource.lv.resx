@@ -121,7 +121,7 @@
     <value>Aizvērt</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>Šīs lietotnes autors nevar garantēt kartē redzamo POI precizitāti. Lietojot šo lietotni, vienmēr ir jāievēro piesardzība. Dati ir iegūti no Open Street Maps un balstās uz daudzajiem OSM sniedzējiem. Īpaša uzmanība jāpievērš dzeramā ūdens punktiem, jo nav garantijas, ka kartē norādītie punkti ir derīgi dzeršanai, un lietotājam ir jāinteresējas par to, vai tie ir pieejami uz vietas.</value>
+    <value>Šīs lietotnes autors nevar garantēt kartē redzamo POI precizitāti. Lietojot šo lietotni, vienmēr ir jāievēro piesardzība. Dati ir iegūti no Open Street Maps un balstās uz daudzajiem OSM sniedzējiem. Īpaša uzmanība jāpievērš dzeramā ūdens punktiem, jo nav garantijas, ka kartē norādītie punkti ir derīgi dzeršanai, un lietotājam ir jāinteresējas par to, kas ir zināms uz vietas.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Atruna</value>

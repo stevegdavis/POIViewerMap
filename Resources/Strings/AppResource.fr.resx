@@ -121,7 +121,7 @@
     <value>Fermer</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>L'auteur de cette application ne peut pas garantir l'exactitude des POI qui apparaissent sur la carte. La discrétion est de rigueur à tout moment lors de l'utilisation de l'application. Les données sont extraites d'Open Street Maps et dépendent des nombreux contributeurs OSM. Les points d'eau potable doivent faire l'objet d'une attention particulière, car il n'est pas garanti que ceux qui figurent sur la carte soient propres à la consommation et l'utilisateur doit s'informer auprès des autorités locales.</value>
+    <value>L'auteur de cette application ne peut pas garantir l'exactitude des POI qui apparaissent sur la carte. La discrétion est de rigueur à tout moment lors de l'utilisation de l'application. Les données sont extraites d'Open Street Maps et dépendent des nombreux contributeurs OSM. Les points d'eau potable doivent faire l'objet d'une attention particulière, car il n'est pas garanti que les points d'eau figurant sur la carte soient propres à la consommation et l'utilisateur doit s'informer sur place.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Clause de non-responsabilité</value>
