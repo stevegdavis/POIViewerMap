@@ -35,18 +35,18 @@ It is orientated towards cycling and hiking.
 * UK  
 
 **POIs Supported:**   
-* <img src="Resources/Images/waterlightblue.svg" width="20" height="20"/> Drinking Water Point  
-* <img src="Resources/Images/campsite.svg" width="20"/> Campsite  
-* Bicycle Shop  
-* Bicycle Repair Station  
-* Supermarket  
-* <img src="Resources/Images/atm.svg" width="20"/> ATM (Cash Machine)  
-* Toilet  
-* Cafe  
-* Bakery  
-* Picnic Table  
-* Train Station  
-* Vending Machine (Bread, Bicycle Tubes and Electronics only)  
+* <img src="Resources/Images/waterlightblue.svg" align="center" width="20" height="20"/> Drinking Water Point  
+* <img src="Resources/Images/campsite.svg" align="center" width="20"/> Campsite  
+* <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
+* <img src="Resources/Images/spanner.svg" align="center" width="20"/> Bicycle Repair Station  
+* <img src="Resources/Images/shopping-basket.svg" align="center" width="20"/> Supermarket  
+* <img src="Resources/Images/atm.svg" align="center" width="20"/> ATM (Cash Machine)  
+* <img src="Resources/Images/toilet.svg" align="center" width="20"/> Toilet  
+* <img src="Resources/Images/coffee-cup.svg" align="center" width="20"/> Cafe  
+* <img src="Resources/Images/cupcake.svg" align="center" width="20"/> Bakery  
+* <img src="Resources/Images/picnic-table.svg" align="center" width="20"/> Picnic Table  
+* <img src="Resources/Images/train.svg" align="center" width="20"/> Train Station  
+* <img src="Resources/Images/vending-machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)  
 
 **Search Radius Supported:**  
 * 5km  
