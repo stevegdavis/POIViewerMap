@@ -48,6 +48,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Screenshots\iPhone\**" />
+	  <Compile Remove="Screenshots\iPhone\**" />
+	  <EmbeddedResource Remove="Screenshots\iPhone\**" />
+	  <MauiCss Remove="Screenshots\iPhone\**" />
+	  <MauiXaml Remove="Screenshots\iPhone\**" />
+	  <None Remove="Screenshots\iPhone\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\atm.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle-pin.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
@@ -186,10 +195,6 @@
 	  <MauiXaml Update="Views\MapViewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Screenshots\iPhone\" />
 	</ItemGroup>
 
 </Project>
