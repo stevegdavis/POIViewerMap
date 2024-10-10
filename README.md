@@ -46,7 +46,8 @@ It is orientated towards cycling and hiking.
 * <img src="Resources/Images/cupcake.svg" align="center" width="20"/> Bakery  
 * <img src="Resources/Images/picnic-table.svg" align="center" width="20"/> Picnic Table  
 * <img src="Resources/Images/train.svg" align="center" width="20"/> Train Station  
-* <img src="Resources/Images/vending-machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)  
+* <img src="Resources/Images/vending-machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
+* <img src="Resources/Images/laundry.svg" align="center" width="20"/> Laundry  
 
 **Search Radius Supported:**  
 * 5km  
