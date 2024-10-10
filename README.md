@@ -54,7 +54,7 @@ It is orientated towards cycling and hiking.
 * 20km  
 * 75km  
 * 100km  
-## App Languages  
+## App Languages (Translations by DeepL)
 * English
 * French (Français)
 * German (Deutsch)
