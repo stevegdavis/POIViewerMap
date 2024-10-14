@@ -66,6 +66,7 @@
 	  <MauiImage Remove="Resources\Images\coffee-cup.svg" />
 	  <MauiImage Remove="Resources\Images\cupcake.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
+	  <MauiImage Remove="Resources\Images\laundry.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
 	  <MauiImage Remove="Resources\Images\options.svg" />
 	  <MauiImage Remove="Resources\Images\picnic-table.svg" />
@@ -88,6 +89,7 @@
 	  <None Remove="Resources\Images\coffee-cup.svg" />
 	  <None Remove="Resources\Images\cupcake.svg" />
 	  <None Remove="Resources\Images\drinkingwater.svg" />
+	  <None Remove="Resources\Images\laundry.svg" />
 	  <None Remove="Resources\Images\map.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\options.svg" />
@@ -112,6 +114,7 @@
 	  <EmbeddedResource Include="Resources\Images\coffee-cup.svg" />
 	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
+	  <EmbeddedResource Include="Resources\Images\laundry.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
 	  <EmbeddedResource Include="Resources\Images\options.svg" />
 	  <EmbeddedResource Include="Resources\Images\picnic-table.svg" />
@@ -130,7 +133,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="POIBinaryFormatLib" Version="1.2.3" />
+		<PackageReference Include="POIBinaryFormatLib" Version="1.2.4" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
 		<PackageReference Include="ReactiveUI.Maui" Version="19.5.1" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />

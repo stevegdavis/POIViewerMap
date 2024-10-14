@@ -79,6 +79,7 @@ public partial class MapViewPage : ContentPage
         items.Add(AppResource.OptionsPOIPickerPicnicTableText);
         items.Add(AppResource.OptionsPOIPickerTrainStationText);
         items.Add(AppResource.OptionsPOIPickerVendingMachineText);
+        items.Add(AppResource.OptionsPOIPickerLaundryText);
         this.picker.ItemsSource = items;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {

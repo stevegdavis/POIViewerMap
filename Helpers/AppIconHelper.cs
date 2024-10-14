@@ -23,6 +23,7 @@ internal class AppIconHelper
     public static string picnictableStr = null;
     public static string trainstationStr = null;
     public static string vendingmachineStr = null;
+    public static string laundryStr = null;
     internal static void InitializeIcons()
     {
         var assembly = typeof(App).GetTypeInfo().Assembly;
@@ -105,6 +106,12 @@ internal class AppIconHelper
             using StreamReader reader = new(options!);
             optionsStr = reader.ReadToEnd();
         }
+        using var laundry = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.laundry.svg");
+        if (laundry != null)
+        {
+            using StreamReader reader = new(laundry!);
+            laundryStr = reader.ReadToEnd();
+        }
     }
     internal static string GetPOIIcon(POIData poi)
     {
@@ -122,6 +129,7 @@ internal class AppIconHelper
             case POIType.PicnicTable: return picnictableStr;
             case POIType.TrainStation: return trainstationStr;
             case POIType.VendingMachine: return vendingmachineStr;
+            case POIType.Laundry: return laundryStr;
             case POIType.Unknown:
                 break;
         }
