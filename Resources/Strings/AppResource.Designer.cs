@@ -259,6 +259,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Laundry.
+        /// </summary>
+        internal static string OptionsPOIPickerLaundryText {
+            get {
+                return ResourceManager.GetString("OptionsPOIPickerLaundryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Picnic Table.
         /// </summary>
         internal static string OptionsPOIPickerPicnicTableText {

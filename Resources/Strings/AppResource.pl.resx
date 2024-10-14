@@ -177,6 +177,9 @@
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Woda pitna</value>
   </data>
+  <data name="OptionsPOIPickerLaundryText" xml:space="preserve">
+    <value>Pranie</value>
+  </data>
   <data name="OptionsPOIPickerPicnicTableText" xml:space="preserve">
     <value>Stół piknikowy</value>
   </data>

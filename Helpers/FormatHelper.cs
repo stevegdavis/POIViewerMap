@@ -47,6 +47,7 @@ public class FormatHelper
             9 => POIType.PicnicTable,
             10 => POIType.TrainStation,
             11 => POIType.VendingMachine,
+            12 => POIType.Laundry,
             _ => POIType.DrinkingWater,
         };
     }
@@ -115,6 +116,9 @@ public class FormatHelper
                 break;
             case POIType.VendingMachine:
                 Title = AppResource.OptionsPOIPickerVendingMachineText;
+                break;
+            case POIType.Laundry:
+                Title = AppResource.OptionsPOIPickerLaundryText;
                 break;
             default:
                 Title = string.Empty;

@@ -177,6 +177,9 @@
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Dzeramais ūdens</value>
   </data>
+  <data name="OptionsPOIPickerLaundryText" xml:space="preserve">
+    <value>Veļas mazgātava</value>
+  </data>
   <data name="OptionsPOIPickerPicnicTableText" xml:space="preserve">
     <value>Piknika galds</value>
   </data>
