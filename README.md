@@ -1,17 +1,17 @@
 # POIViewerMap  
 Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
-It is orientated towards cycling and hiking.  
+POIs are orientated towards cycling and hiking. The app also supports import of any GPX route for display on the map.  
 
 **Options:**  
 * Import POIs for Country
 * POI (To View)
 * Search Radius (Kilometers)
-* POIs Found (Visible On Map)
+* POIs Found (Visible on Map)
 * Import GPX Route
-* Route (Name If Imported)
-* Center Map On My Position (Option)
+* Route (GPX name If Imported)
+* Center Map On My Position (Optional, uses more battery power)
 
- **Countries Supported:**
+ **Countries Covered:**
 * Austria  
 * Belguim  
 * Bosnia-Herzegovina  
@@ -55,13 +55,17 @@ It is orientated towards cycling and hiking.
 * 20km  
 * 75km  
 * 100km  
-## App Languages (Translations by DeepL)
+## App Languages 
 * English
 * French (Français)
 * German (Deutsch)
 * Polish (Polski)
 * Italian (Italiano)
 * Latvian (Latviešu)
+* 
+## App Language Translations
+https://hnd.www.deepl.com/  
+
 ## Screenshots  
 **Andriod**  
 <img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />  
@@ -74,7 +78,8 @@ It is orientated towards cycling and hiking.
 * Flurl.Http (v3.2.4 only)  https://flurl.dev/   
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
 * Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
-* POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/  
+* POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/
+
 ## Licence
 Copyright © 2024 SDSDevelopment
 
