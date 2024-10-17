@@ -1,6 +1,6 @@
 # POIViewerMap  
 Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
-POIs are orientated towards cycling and hiking. The app also supports import of any GPX route for display on the map.  
+POIs are orientated towards cycling and hiking. The app also supports import of a GPX route for display on the map.  
 
 **Options:**  
 * Import POIs for Country
@@ -79,6 +79,10 @@ https://hnd.www.deepl.com/
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
 * Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
 * POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/
+## Road Map
+* Work Offline
+* Add more countries
+* MVVM
 
 ## Licence
 Copyright © 2024 SDSDevelopment
