@@ -1,28 +1,29 @@
 # POIViewerMap  
-Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map. 
-POIs are orientated towards cycling and hiking. The app also supports import of a GPX route for display on the map.  
+Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map within a search radius from the users current location. 
+POIs are orientated towards cycling and hiking.  
+The app also supports import of a GPX route for display on the map.  
 
-**Options:**  
-* Import POIs for Country
+**Map**  
+Open Street Map - Online only  
+
+**Options Panel:**  
+* Import POIs for Country from server
 * POI (To View)
 * Search Radius (Kilometers)
-* POIs Found (Visible on Map)
+* POIs Found (Visible on map)
 * Import GPX Route
-* Route (GPX name If Imported)
+* Route (GPX name when imported)
 * Center Map On My Position (Optional, uses more battery power)
 
  **Countries Covered:**
-* Austria  
-* Belguim  
-* Bosnia-Herzegovina  
+* Bosnia-herzegovina  
 * Bulgaia  
-* Croatia  
-* Czech Republic  
+* Croatia
 * Estonia  
 * France  
 * Hungary  
 * Iceland  
-* Ireland and NI  
+* Ireland and northern ireland  
 * Latvia  
 * Lithuania  
 * Luxembourg  
@@ -61,8 +62,7 @@ POIs are orientated towards cycling and hiking. The app also supports import of 
 * German (Deutsch)
 * Polish (Polski)
 * Italian (Italiano)
-* Latvian (Latviešu)
-* 
+* Latvian (Latviešu)  
 ## App Language Translations
 https://hnd.www.deepl.com/  
 
@@ -72,14 +72,15 @@ https://hnd.www.deepl.com/
 
 ## Minimum Requirments  
 * Android 8
-* iOS (Work in progress)
+* iOS (TBC)
 ## Libraries Used  
 * ReactiveUI https://www.reactiveui.net/  
 * Flurl.Http (v3.2.4 only)  https://flurl.dev/   
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
 * Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
 * POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/
-## Road Map
+## Road Map  
+* Work on iOS devices
 * Work Offline
 * Add more countries
 * MVVM
