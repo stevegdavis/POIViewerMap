@@ -7,23 +7,24 @@ The app also supports import of a GPX route for display on the map.
 Open Street Map - Online only  
 
 **Options Panel:**  
-* Import POIs for Country from server
+* Import POIs for Country from remote server
 * POI (To View)
 * Search Radius (Kilometers)
 * POIs Found (Visible on map)
 * Import GPX Route
-* Route (GPX name when imported)
-* Center Map On My Position (Optional, uses more battery power)
+* Route (GPX file name when imported)
+* Center Map On My Position (Uses more battery power)
 
  **Countries Covered:**
-* Bosnia-herzegovina  
+* Bosnia-herzegovina
+* Britain and Ireland (incl. NI)
 * Bulgaia  
 * Croatia
 * Estonia  
-* France  
+* France
+* Germany  
 * Hungary  
 * Iceland  
-* Ireland and northern ireland  
 * Latvia  
 * Lithuania  
 * Luxembourg  
@@ -33,7 +34,6 @@ Open Street Map - Online only
 * Serbia  
 * Slovenia  
 * Switzerland  
-* UK  
 
 **POIs Supported:**   
 * <img src="Resources/Images/waterlightblue.svg" align="center" width="20" height="20"/> Drinking Water Point  
