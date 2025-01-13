@@ -147,6 +147,9 @@
   <data name="Meters" xml:space="preserve">
     <value>Zähler</value>
   </data>
+  <data name="NameText" xml:space="preserve">
+    <value>Name:</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Optionen</value>
   </data>
@@ -201,11 +204,20 @@
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Entfernung :</value>
   </data>
+  <data name="PinLabelSubtitleAccessText" xml:space="preserve">
+    <value>Zugang:</value>
+  </data>
   <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
     <value>Fahrradschläuche</value>
   </data>
   <data name="PinLabelSubtitleBreadText" xml:space="preserve">
     <value>Brot</value>
+  </data>
+  <data name="PinLabelSubtitleCustomersText" xml:space="preserve">
+    <value>Kunden</value>
+  </data>
+  <data name="PinLabelSubtitleDietText" xml:space="preserve">
+    <value>Diät:</value>
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Elektronik</value>
@@ -213,8 +225,11 @@
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Offen:</value>
   </data>
-  <data name="PinLabelSubtitleOptions" xml:space="preserve">
-    <value>Optionen</value>
+  <data name="PinLabelSubtitlePermissiveText" xml:space="preserve">
+    <value>Permissiv</value>
+  </data>
+  <data name="PinLabelSubtitlePrivateText" xml:space="preserve">
+    <value>Privat</value>
   </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
     <value>Pumpe</value>
@@ -222,11 +237,29 @@
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
     <value>Flasche hier nachfüllen</value>
   </data>
+  <data name="PinLabelSubtitleServicesText" xml:space="preserve">
+    <value>Dienstleistungen:</value>
+  </data>
+  <data name="PinLabelSubtitleStand" xml:space="preserve">
+    <value>Stand:</value>
+  </data>
+  <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
+    <value>Telefon:</value>
+  </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
     <value>Werkzeuge</value>
   </data>
+  <data name="PinLabelSubtitleTypeText" xml:space="preserve">
+    <value>Art:</value>
+  </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
     <value>Unbekannt</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOnlyText" xml:space="preserve">
+    <value>Nur Veganer</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOptionText" xml:space="preserve">
+    <value>Vegane Option</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs</value>
@@ -240,14 +273,14 @@
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
   </data>
-  <data name="POILabelSubtitleTypeText" xml:space="preserve">
-    <value>Art:</value>
-  </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Maximale Entfernung:</value>
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Wählen Sie</value>
+  </data>
+  <data name="POIsFoundLabelText" xml:space="preserve">
+    <value>POIs gefunden:</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
     <value>Laden - bitte warten...</value>
@@ -278,14 +311,5 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Serverzugriff fehlgeschlagen</value>
-  </data>
-  <data name="Services" xml:space="preserve">
-    <value>Dienstleistungen:</value>
-  </data>
-  <data name="Website" xml:space="preserve">
-    <value>Website:</value>
-  </data>
-  <data name="ZoomInToastMsg" xml:space="preserve">
-    <value>Zum Anzeigen von POIs heranzoomen</value>
   </data>
 </root>

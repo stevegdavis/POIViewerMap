@@ -126,6 +126,9 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Atruna</value>
   </data>
+  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
+    <value>POI Viewer Map</value>
+  </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Atcelt</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mērītāji</value>
+  </data>
+  <data name="NameText" xml:space="preserve">
+    <value>Vārds un uzvārds:</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Iespējas</value>
@@ -198,11 +204,20 @@
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Attālums:</value>
   </data>
+  <data name="PinLabelSubtitleAccessText" xml:space="preserve">
+    <value>Piekļuve:</value>
+  </data>
   <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
     <value>Velosipēdu caurules</value>
   </data>
   <data name="PinLabelSubtitleBreadText" xml:space="preserve">
     <value>Maize</value>
+  </data>
+  <data name="PinLabelSubtitleCustomersText" xml:space="preserve">
+    <value>Klienti</value>
+  </data>
+  <data name="PinLabelSubtitleDietText" xml:space="preserve">
+    <value>Diēta:</value>
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Elektronika</value>
@@ -210,20 +225,41 @@
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Atvērts:</value>
   </data>
+  <data name="PinLabelSubtitlePermissiveText" xml:space="preserve">
+    <value>Atļauts</value>
+  </data>
+  <data name="PinLabelSubtitlePrivateText" xml:space="preserve">
+    <value>Privāts</value>
+  </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
     <value>Sūknis</value>
   </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
     <value>Pudeles uzpilde šeit</value>
   </data>
-  <data name="PinLabelSubtitleServices" xml:space="preserve">
+  <data name="PinLabelSubtitleServicesText" xml:space="preserve">
     <value>Pakalpojumi:</value>
+  </data>
+  <data name="PinLabelSubtitleStand" xml:space="preserve">
+    <value>Stends:</value>
+  </data>
+  <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
+    <value>Telefono:</value>
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
     <value>Instrumenti</value>
   </data>
+  <data name="PinLabelSubtitleTypeText" xml:space="preserve">
+    <value>Veids:</value>
+  </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
     <value>Nezināms</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOnlyText" xml:space="preserve">
+    <value>Tikai vegāns</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOptionText" xml:space="preserve">
+    <value>Vegānu variants</value>
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
     <value>Tīmekļa vietne:</value>
@@ -245,6 +281,9 @@
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Izvēlieties</value>
+  </data>
+  <data name="POIsFoundLabelText" xml:space="preserve">
+    <value>Atrastie punkti:</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
     <value>Loading POIs - please wait...</value>

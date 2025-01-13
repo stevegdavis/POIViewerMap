@@ -126,6 +126,9 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Clause de non-responsabilité</value>
   </data>
+  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
+    <value>POI Viewer Map</value>
+  </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -141,20 +144,20 @@
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Ne plus afficher ce message</value>
   </data>
-  <data name="ImportRouteButtonText" xml:space="preserve">
-    <value>Itinéraire</value>
-  </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
     <value>L'importation de l'itinéraire a échoué !</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mètres</value>
   </data>
+  <data name="NameText" xml:space="preserve">
+    <value>Nom :</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
-  <data name="OptionsImportLabelText" xml:space="preserve">
-    <value>Importation</value>
+  <data name="OptionsImportRouteButtonText" xml:space="preserve">
+    <value>Importuj trasę GPX</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
     <value>ATM</value>
@@ -201,11 +204,20 @@
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance :</value>
   </data>
+  <data name="PinLabelSubtitleAccessText" xml:space="preserve">
+    <value>Accès :</value>
+  </data>
   <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
     <value>Tubes de bicyclette</value>
   </data>
   <data name="PinLabelSubtitleBreadText" xml:space="preserve">
     <value>Pain</value>
+  </data>
+  <data name="PinLabelSubtitleCustomersText" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="PinLabelSubtitleDietText" xml:space="preserve">
+    <value>Régime :</value>
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Électronique</value>
@@ -213,20 +225,41 @@
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Ouvert :</value>
   </data>
+  <data name="PinLabelSubtitlePermissiveText" xml:space="preserve">
+    <value>Permissif</value>
+  </data>
+  <data name="PinLabelSubtitlePrivateText" xml:space="preserve">
+    <value>Privé</value>
+  </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
     <value>Pompe</value>
   </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
     <value>Recharge de bouteille ici</value>
   </data>
-  <data name="PinLabelSubtitleServices" xml:space="preserve">
+  <data name="PinLabelSubtitleServicesText" xml:space="preserve">
     <value>Services :</value>
+  </data>
+  <data name="PinLabelSubtitleStand" xml:space="preserve">
+    <value>Support :</value>
+  </data>
+  <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
+    <value>Téléphone :</value>
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
     <value>Outils</value>
   </data>
+  <data name="PinLabelSubtitleTypeText" xml:space="preserve">
+    <value>Type :</value>
+  </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
     <value>Inconnu</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOnlyText" xml:space="preserve">
+    <value>Vegan uniquement</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOptionText" xml:space="preserve">
+    <value>Option végane</value>
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
     <value>Site web :</value>
@@ -243,14 +276,14 @@
   <data name="POIImportServerText" xml:space="preserve">
     <value>Serveur</value>
   </data>
-  <data name="POILabelSubtitleTypeText" xml:space="preserve">
-    <value>Type :</value>
-  </data>
   <data name="POIMaxDistanceLabel" xml:space="preserve">
     <value>Distance maximale :</value>
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Choisir</value>
+  </data>
+  <data name="POIsFoundLabelText" xml:space="preserve">
+    <value>POIs trouvés :</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
     <value>Chargement - veuillez patienter...</value>
@@ -281,8 +314,5 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Échec de l'accès au serveur</value>
-  </data>
-  <data name="ZoomInToastMsg" xml:space="preserve">
-    <value>Zoom avant pour visualiser les POI</value>
   </data>
 </root>

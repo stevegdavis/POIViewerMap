@@ -69,12 +69,20 @@ public class FormatHelper
         return subtitle.Replace("Open:", AppResource.PinLabelSubtitleOpen).
             Replace("Website:", AppResource.PinLabelSubtitleWebsite).
             Replace("Refill Here", AppResource.PinLabelSubtitleRefill).
-            Replace("Services:", AppResource.PinLabelSubtitleServices).
+            Replace("Services:", AppResource.PinLabelSubtitleServicesText).
             Replace("Tools", AppResource.PinLabelSubtitleTools).
             Replace("Pump", AppResource.PinLabelSubtitlePump).
+            Replace("Stand", AppResource.PinLabelSubtitleStand).
             Replace("Unknown", AppResource.PinLabelSubtitleUnknown).
             Replace("Type:", AppResource.PinLabelSubtitleTypeText).
-            Replace("Bicycle tubes", AppResource.PinLabelSubtitleBicycleTubeText);
+            Replace("Bicycle Tubes", AppResource.PinLabelSubtitleBicycleTubeText).
+            Replace("Telephone:", AppResource.PinLabelSubtitleTelephoneText).
+            Replace("Access:", AppResource.PinLabelSubtitleAccessText).
+            Replace("Permissive", AppResource.PinLabelSubtitlePermissiveText).
+            Replace("Private", AppResource.PinLabelSubtitlePrivateText).
+            Replace("Diet:", AppResource.PinLabelSubtitleDietText).
+            Replace("Vegan Only", AppResource.PinLabelSubtitleVeganOnlyText).
+            Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText);
     }
     public static string GetTitleLang(POIData data, bool v)
     {

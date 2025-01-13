@@ -17,7 +17,7 @@ Open Street Map - Online only
 
  **Countries Covered:**
 * Bosnia-herzegovina
-* Britain and Ireland (incl. NI)
+* Britain and Ireland (Including NI)
 * Bulgaia  
 * Croatia
 * Estonia  
@@ -40,13 +40,13 @@ Open Street Map - Online only
 * <img src="Resources/Images/campsite.svg" align="center" width="20"/> Campsite  
 * <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
 * <img src="Resources/Images/spanner.svg" align="center" width="20"/> Bicycle Repair Station  
-* <img src="Resources/Images/shopping-basket.svg" align="center" width="20"/> Supermarket  
+* <img src="Resources/Images/shopping-basket.svg" align="center" width="20"/> Supermarket and Convenience Store  
 * <img src="Resources/Images/atm.svg" align="center" width="20"/> ATM (Cash Machine)  
 * <img src="Resources/Images/toilet.svg" align="center" width="20"/> Toilet  
 * <img src="Resources/Images/coffee-cup.svg" align="center" width="20"/> Cafe  
 * <img src="Resources/Images/cupcake.svg" align="center" width="20"/> Bakery  
 * <img src="Resources/Images/picnic-table.svg" align="center" width="20"/> Picnic Table  
-* <img src="Resources/Images/train.svg" align="center" width="20"/> Train Station  
+* <img src="Resources/Images/train.svg" align="center" width="20"/> Train Station (Excluding Tourist, Metro, Subway and Tram))  
 * <img src="Resources/Images/vending-machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
 * <img src="Resources/Images/laundry.svg" align="center" width="20"/> Laundry  
 
@@ -81,9 +81,8 @@ https://hnd.www.deepl.com/
 * POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/
 ## Road Map  
 * Work on iOS devices
-* Work Offline
+* Offline Maps
 * Add more countries
-* MVVM
 
 ## Licence
 Copyright © 2024 SDSDevelopment

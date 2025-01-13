@@ -133,7 +133,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
-		<PackageReference Include="POIBinaryFormatLib" Version="1.2.4" />
+		<PackageReference Include="POIBinaryFormatLib" Version="1.2.5" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 		<PackageReference Include="ReactiveUI.Maui" Version="20.1.63" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
@@ -177,6 +177,9 @@
 	<ItemGroup>
 	  <EmbeddedResource Update="Resources\Strings\AppResource.de.resx">
 	    <LastGenOutput>AppResource.de.Designer.cs</LastGenOutput>
+	    <Generator>ResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Strings\AppResource.fr.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Resources\Strings\AppResource.resx">

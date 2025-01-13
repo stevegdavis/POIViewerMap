@@ -133,15 +133,6 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distance &gt;.
-        /// </summary>
-        internal static string DistanceTooGreatToastMsg {
-            get {
-                return ResourceManager.GetString("DistanceTooGreatToastMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Do not show this message again.
         /// </summary>
         internal static string DoNotShowAgainLabelText {
@@ -169,6 +160,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        internal static string NameText {
+            get {
+                return ResourceManager.GetString("NameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string Options {
@@ -178,11 +178,11 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import.
+        ///   Looks up a localized string similar to Not used.
         /// </summary>
-        internal static string OptionsImportLabelText {
+        internal static string OptionsFileListImportLabelText {
             get {
-                return ResourceManager.GetString("OptionsImportLabelText", resourceCulture);
+                return ResourceManager.GetString("OptionsFileListImportLabelText", resourceCulture);
             }
         }
         
@@ -331,7 +331,16 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bicycle tubes.
+        ///   Looks up a localized string similar to Access:.
+        /// </summary>
+        internal static string PinLabelSubtitleAccessText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleAccessText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bicycle Tubes.
         /// </summary>
         internal static string PinLabelSubtitleBicycleTubeText {
             get {
@@ -345,6 +354,24 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleBreadText {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleBreadText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customers.
+        /// </summary>
+        internal static string PinLabelSubtitleCustomersText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleCustomersText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diet:.
+        /// </summary>
+        internal static string PinLabelSubtitleDietText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleDietText", resourceCulture);
             }
         }
         
@@ -363,6 +390,24 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleOpen {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permissive.
+        /// </summary>
+        internal static string PinLabelSubtitlePermissiveText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitlePermissiveText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private.
+        /// </summary>
+        internal static string PinLabelSubtitlePrivateText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitlePrivateText", resourceCulture);
             }
         }
         
@@ -387,9 +432,27 @@ namespace POIViewerMap.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Services:.
         /// </summary>
-        internal static string PinLabelSubtitleServices {
+        internal static string PinLabelSubtitleServicesText {
             get {
-                return ResourceManager.GetString("PinLabelSubtitleServices", resourceCulture);
+                return ResourceManager.GetString("PinLabelSubtitleServicesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stand.
+        /// </summary>
+        internal static string PinLabelSubtitleStand {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleStand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telephone:.
+        /// </summary>
+        internal static string PinLabelSubtitleTelephoneText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleTelephoneText", resourceCulture);
             }
         }
         
@@ -417,6 +480,24 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleUnknown {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegan Only.
+        /// </summary>
+        internal static string PinLabelSubtitleVeganOnlyText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleVeganOnlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegan Option.
+        /// </summary>
+        internal static string PinLabelSubtitleVeganOptionText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleVeganOptionText", resourceCulture);
             }
         }
         

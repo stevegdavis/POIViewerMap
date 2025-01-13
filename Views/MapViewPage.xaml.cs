@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Views;
+using Flurl.Util;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Layers;
@@ -24,6 +25,7 @@ using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
 using RolandK.Formats.Gpx;
+using System.Globalization;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
@@ -490,7 +492,8 @@ public partial class MapViewPage : ContentPage
                     {
                         foreach (var point in seg.Points)
                         {
-                            sb.Append($"{point.Latitude} {point.Longitude},");
+                            FormattableString fms = $"{point.Latitude} {point.Longitude},";
+                            sb.Append(fms.ToInvariantString());
                         }
                     }
                 }
@@ -630,16 +633,25 @@ public partial class MapViewPage : ContentPage
                       continue;
                     if (poi.POI != CurrentPOIType)
                         continue;
-                    var space = string.Empty;
-                    if (!String.IsNullOrEmpty(poi.Subtitle))
-                    {
-                        space = "\r";
-                    }
+                    var space = "\r";
+                    var label = poi.Title;
+                    // Langs for Name: here
+                    if (String.IsNullOrEmpty(label))
+                        space = string.Empty;
+                    else
+                        label = $"{AppResource.NameText} {poi.Title}";                                        
+                    var space2 = string.Empty;
+                    var subtitle = FormatHelper.GetSubTitleLang(poi.Subtitle);
+                    if (String.IsNullOrEmpty(subtitle))
+                        space2 = string.Empty;
+                    else
+                        space2 = "\r";
+                    label = $"{label}{space}{subtitle}{space2}Distance: {distance}";
                     var myPin = new Pin(mapView)
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
                         Type = PinType.Svg,
-                        Label = $"{FormatHelper.GetTitleLang(poi, poi.Title.Contains(':'))}\r{FormatHelper.GetSubTitleLang(poi.Subtitle)}{space}{AppResource.PinLabelDistanceText}",
+                        Label = label,
                         Address = "",
                         Svg = AppIconHelper.GetPOIIcon(poi),// eg. drinkingwaterStr,
                         Scale = 0.0462F

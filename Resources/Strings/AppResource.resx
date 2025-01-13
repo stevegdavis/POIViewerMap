@@ -141,9 +141,6 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Choose</value>
   </data>
-  <data name="DistanceTooGreatToastMsg" xml:space="preserve">
-    <value>Distance &gt;</value>
-  </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Do not show this message again</value>
   </data>
@@ -153,11 +150,14 @@
   <data name="Meters" xml:space="preserve">
     <value>Meters</value>
   </data>
+  <data name="NameText" xml:space="preserve">
+    <value>Name:</value>
+  </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
   </data>
-  <data name="OptionsImportLabelText" xml:space="preserve">
-    <value>Import</value>
+  <data name="OptionsFileListImportLabelText" xml:space="preserve">
+    <value>Not used</value>
   </data>
   <data name="OptionsImportRouteButtonText" xml:space="preserve">
     <value>Import GPX Route</value>
@@ -207,11 +207,20 @@
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance:</value>
   </data>
+  <data name="PinLabelSubtitleAccessText" xml:space="preserve">
+    <value>Access:</value>
+  </data>
   <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
-    <value>Bicycle tubes</value>
+    <value>Bicycle Tubes</value>
   </data>
   <data name="PinLabelSubtitleBreadText" xml:space="preserve">
     <value>Bread</value>
+  </data>
+  <data name="PinLabelSubtitleCustomersText" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="PinLabelSubtitleDietText" xml:space="preserve">
+    <value>Diet:</value>
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Electronics</value>
@@ -219,14 +228,26 @@
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Open:</value>
   </data>
+  <data name="PinLabelSubtitlePermissiveText" xml:space="preserve">
+    <value>Permissive</value>
+  </data>
+  <data name="PinLabelSubtitlePrivateText" xml:space="preserve">
+    <value>Private</value>
+  </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
     <value>Pump</value>
   </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
     <value>Bottle Refill Here</value>
   </data>
-  <data name="PinLabelSubtitleServices" xml:space="preserve">
+  <data name="PinLabelSubtitleServicesText" xml:space="preserve">
     <value>Services:</value>
+  </data>
+  <data name="PinLabelSubtitleStand" xml:space="preserve">
+    <value>Stand</value>
+  </data>
+  <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
+    <value>Telephone:</value>
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
     <value>Tools</value>
@@ -236,6 +257,12 @@
   </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOnlyText" xml:space="preserve">
+    <value>Vegan Only</value>
+  </data>
+  <data name="PinLabelSubtitleVeganOptionText" xml:space="preserve">
+    <value>Vegan Option</value>
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
     <value>Website:</value>
