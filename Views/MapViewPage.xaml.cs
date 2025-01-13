@@ -646,7 +646,7 @@ public partial class MapViewPage : ContentPage
                         space2 = string.Empty;
                     else
                         space2 = "\r";
-                    label = $"{label}{space}{subtitle}{space2}Distance: {distance}";
+                    label = $"{label}{space}{subtitle}{space2}Distance: {FormatHelper.FormatDistance(distance)}";
                     var myPin = new Pin(mapView)
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
