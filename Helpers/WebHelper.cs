@@ -77,17 +77,17 @@ class WebHelper
         string responseCode = string.Empty;
         try
         {
-            localPath = Path.Combine(FileSystem.AppDataDirectory, filename.ToLower());
+            localPath = Path.Combine(FileSystem.AppDataDirectory, filename);
             var dir = Path.GetDirectoryName(localPath);
             Directory.CreateDirectory(FileSystem.AppDataDirectory);
             if (File.Exists(Path.Combine(localPath)))
                 File.Delete(Path.Combine(localPath));
-            var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{filename.ToLower()}"
-            .DownloadFileAsync(dir, filename.ToLower());
+            var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{filename}"
+            .DownloadFileAsync(dir, filename);
         }
         catch (Exception ex)
         {
-            await Toast.Make($"The file download failed: {filename.ToLower()} - {ex.Message}").Show();
+            await Toast.Make($"The file download failed: {filename} - {ex.Message}").Show();
         }
     }
     //private string HandleError(string error) TODO

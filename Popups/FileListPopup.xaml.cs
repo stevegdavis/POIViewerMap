@@ -19,13 +19,7 @@ public partial class FileListPopup : Popup
         foreach (var item in list.Names)
         {
             if (item == null) continue;
-            if (!Char.IsUpper(item[0]))
-            {
-                var uC = Char.ToUpper(item[0]);
-                files.Add(Path.GetFileNameWithoutExtension($"{uC}{item.Substring(1)}"));
-            }
-            else
-                files.Add(Path.GetFileNameWithoutExtension(item));
+            files.Add(Path.GetFileNameWithoutExtension(item));
         }
         this.serverfilenamepicker.ItemsSource = files;
 

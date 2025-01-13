@@ -698,14 +698,7 @@ public partial class MapViewPage : ContentPage
                 foreach (var item in files)
                 {
                     if (item == null) continue;
-                    var filename = Path.GetFileNameWithoutExtension(item);
-                    if (!Char.IsUpper(filename[0]))
-                    {
-                        var uC = Char.ToUpper(filename[0]);
-                        ff.Names.Add(($"{uC}{filename.Substring(1)}"));
-                    }
-                    else
-                        ff.Names.Add(Path.GetFileNameWithoutExtension(filename));
+                    ff.Names.Add(Path.GetFileNameWithoutExtension(item));
                 }
                 ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
@@ -720,13 +713,7 @@ public partial class MapViewPage : ContentPage
             foreach (var item in serverlist.Names)
             {
                 if (item == null) continue;
-                if (!Char.IsUpper(item[0]))
-                {
-                    var uC = Char.ToUpper(item[0]);
-                    files.Add(Path.GetFileNameWithoutExtension($"{uC}{item.Substring(1)}"));
-                }
-                else
-                    files.Add(Path.GetFileNameWithoutExtension(item));
+                files.Add(Path.GetFileNameWithoutExtension(item));
             }
             this.serverfilenamepicker.ItemsSource = files;
         }        
