@@ -16,7 +16,7 @@ Open Street Map - Online only
 * Center Map On My Position (Uses more battery power)
 
  **Countries Covered:**
-* Bosnia-herzegovina
+* Bosnia Herzegovina
 * Britain and Ireland (Including NI)
 * Bulgaia  
 * Croatia
@@ -85,7 +85,7 @@ https://hnd.www.deepl.com/
 * Add more countries
 
 ## Licence
-Copyright © 2024 SDSDevelopment
+Copyright © 2025 SDSDevelopment
 
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
