@@ -150,10 +150,8 @@ class WebHelper
     }
     private void AddFile(string file, ref FileFetch ff)
     {
-        // ["gloucestershire-bicyclerepairstations.binT26\/02\/2024 11:33:27","gloucestershire-bakeries.binT26\/02\/2024 11:27:04","gloucestershire-atms.binT26\/02\/2024 11:26:07","croatia.binT27\/02\/2024 08:10:12","..T27\/02\/2024 08:27:41",".T27\/02\/2024 08:12:59"],"msg":"Success."}
         file = file.Replace("[", string.Empty);
         var fields = file.Split(',');
-        //var data = new DataClasses.Device();
         foreach (var field in fields)
         {
             if (field.ToLower().Contains("msg") || field.StartsWith('.') || field.StartsWith(".."))
