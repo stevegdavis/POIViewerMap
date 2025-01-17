@@ -1,46 +1,70 @@
 # POIViewerMap  
 Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map within a search radius from the users current location. 
 POIs are orientated towards cycling and hiking.  
-The app also supports import of a GPX route for display on the map.  
+The app also supports import of a GPX route for displaying on the map.  
 
 **Map**  
 Open Street Map - Online only  
 
-**Options Panel:**  
+**Options Panel**  
 * Import POIs for Country from remote server
 * POI (To View)
-* Search Radius (Kilometers)
+* Search Radius (Kilometers - distances shown are in a straight line)
 * POIs Found (Visible on map)
 * Import GPX Route
 * Route (GPX file name when imported)
 * Center Map On My Position (Uses more battery power)
 
- **Countries Covered:**
+ **Countries Covered**
+* Albania
+* Andorra
+* Austria
+* Belarus
+* Belgium
 * Bosnia Herzegovina
-* Britain and Ireland (Including NI)
 * Bulgaia  
 * Croatia
-* Estonia  
+* Czech Republic
+* Denmark
+* Estonia
+* Finland
 * France
-* Germany  
+* Georgia
+* Germany
+* Greece 
 * Hungary  
-* Iceland  
-* Latvia  
+* Iceland
+* Ireland and Northern Ireland  
+* Italy
+* Kosovo
+* Latvia
+* Liechenstien
 * Lithuania  
 * Luxembourg  
-* Montenegro  
-* Netherlands  
+* Montenegro
+* Moldova
+* Montenegro
+* Netherlands
+* Norway
+* Poland
+* Portugal
 * Romainia  
-* Serbia  
-* Slovenia  
-* Switzerland  
+* Serbia
+* Slovakia
+* Slovenia
+* Spain
+* Sweden
+* Switzerland
+* Turkey
+* Ukraine
+* United Kingdom
 
-**POIs Supported:**   
+**POIs Supported**   
 * <img src="Resources/Images/waterlightblue.svg" align="center" width="20" height="20"/> Drinking Water Point  
-* <img src="Resources/Images/campsite.svg" align="center" width="20"/> Campsite  
+* <img src="Resources/Images/camping.svg" align="center" width="20"/> Campsite  
 * <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
 * <img src="Resources/Images/spanner.svg" align="center" width="20"/> Bicycle Repair Station  
-* <img src="Resources/Images/shopping-basket.svg" align="center" width="20"/> Supermarket and Convenience Store  
+* <img src="Resources/Images/shopping-basket.svg" align="center" width="20"/> Supermarket  
 * <img src="Resources/Images/atm.svg" align="center" width="20"/> ATM (Cash Machine)  
 * <img src="Resources/Images/toilet.svg" align="center" width="20"/> Toilet  
 * <img src="Resources/Images/coffee-cup.svg" align="center" width="20"/> Cafe  
@@ -50,7 +74,7 @@ Open Street Map - Online only
 * <img src="Resources/Images/vending-machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
 * <img src="Resources/Images/laundry.svg" align="center" width="20"/> Laundry  
 
-**Search Radius Supported:**  
+**Search Radiuses Supported**  
 * 5km  
 * 10km  
 * 20km  
@@ -60,9 +84,10 @@ Open Street Map - Online only
 * English
 * French (Français)
 * German (Deutsch)
-* Polish (Polski)
 * Italian (Italiano)
 * Latvian (Latviešu)  
+* Polish (Polski) 
+
 ## App Language Translations
 https://hnd.www.deepl.com/  
 
@@ -70,7 +95,7 @@ https://hnd.www.deepl.com/
 **Andriod**  
 <img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />  
 
-## Minimum Requirments  
+## OS Minimum Requirments  
 * Android 8
 * iOS (TBC)
 ## Libraries Used  
@@ -78,11 +103,15 @@ https://hnd.www.deepl.com/
 * Flurl.Http (v3.2.4 only)  https://flurl.dev/   
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
 * Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
-* POIBinaryFormatLib - used to deserialize POI binary objects https://www.nuget.org/packages/POIBinaryFormatLib/
+* UraniumUI https://github.com/enisn/UraniumUI
+* POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/
+## OSM Conversion Software Used
+osmium https://osmcode.org/osmium-tool/
+## Open Street Map Data
+https://download.geofabrik.de/
 ## Road Map  
 * Work on iOS devices
 * Offline Maps
-* Add more countries
 
 ## Licence
 Copyright © 2025 SDSDevelopment
