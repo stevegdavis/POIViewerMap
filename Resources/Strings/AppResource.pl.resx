@@ -141,6 +141,9 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Wybierz</value>
   </data>
+  <data name="CountryLabelText" xml:space="preserve">
+    <value>Kraj:</value>
+  </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Nie pokazuj tego komunikatu ponownie</value>
   </data>

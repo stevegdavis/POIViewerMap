@@ -133,6 +133,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country:.
+        /// </summary>
+        internal static string CountryLabelText {
+            get {
+                return ResourceManager.GetString("CountryLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not show this message again.
         /// </summary>
         internal static string DoNotShowAgainLabelText {

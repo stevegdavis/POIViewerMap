@@ -4,6 +4,7 @@ using POIViewerMap.Popups;
 using POIViewerMap.Stores;
 using POIViewerMap.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using UraniumUI;
 
 namespace POIViewerMap;
 
@@ -12,8 +13,10 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
         var builder = MauiApp.CreateBuilder();
-        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
-        builder.UseSkiaSharp(true)
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit()
+        .UseUraniumUI()
+        .UseUraniumUIMaterial()
+        .UseSkiaSharp(true)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
