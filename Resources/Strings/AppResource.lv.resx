@@ -141,6 +141,9 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Izvēlieties</value>
   </data>
+  <data name="CountryLabelText" xml:space="preserve">
+    <value>Valsts:</value>
+  </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Neatkārtojiet šo ziņojumu vēlreiz</value>
   </data>
