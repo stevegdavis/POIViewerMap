@@ -667,7 +667,7 @@ public partial class MapViewPage : UraniumContentPage
                 foreach (var item in files)
                 {
                     if (item == null) continue;
-                    ff.Names.Add(System.IO.Path.GetFileNameWithoutExtension(item));
+                    ff.Names.Add(FilenameHelper.GetCountryNameFromCountryCode(System.IO.Path.GetFileNameWithoutExtension(item)));
                 }
                 ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
@@ -678,13 +678,15 @@ public partial class MapViewPage : UraniumContentPage
         else if (serverlist.Names.Count > 0)
         {
             FileListLocalAccess = false;
-            List<string> files = new List<string>();
+            var ff = new FileFetch();
             foreach (var item in serverlist.Names)
             {
                 if (item == null) continue;
-                files.Add(System.IO.Path.GetFileNameWithoutExtension(item));
+                ff.Names.Add(FilenameHelper.GetCountryNameFromCountryCode(System.IO.Path.GetFileNameWithoutExtension(item)));
             }
-            this.serverfilenamepicker.ItemsSource = files;
+            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+            ff.Names.Sort(FilenameComparer.NameArray);
+            this.serverfilenamepicker.ItemsSource = ff.Names;
         }        
     }
     private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -736,7 +738,7 @@ public partial class MapViewPage : UraniumContentPage
         // Download chosen file or local?
         if (FileListLocalAccess)
         {
-            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, this.SelectedFilename.ToLower()));
+            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
             await PopulateMapAsync(pois);
         }
         else
@@ -754,17 +756,4 @@ public partial class MapViewPage : UraniumContentPage
         this.serverfilenamepicker.IsEnabled=true;
         this.activityloadindicatorlayout.IsVisible = false;
     }
-    //private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
-    //{
-    //    if (e.IsExpanded)
-    //    {
-    //        InitializeServerFilenamePicker();
-    //        if(this.serverfilenamepicker.SelectedItem != null)
-    //        {
-    //            this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
-    //        }
-    //    }
-    //    else
-    //        this.expander.IsVisible = false;
-    //}
 }
