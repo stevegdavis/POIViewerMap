@@ -716,6 +716,7 @@ public partial class MapViewPage : UraniumContentPage
             return;
         }
         this.SelectedFilename = $"{s}.bin";
+        serverfilenamepicker.Title = s;
         POIServerFileDownload();
     }
     private async void POIServerFileDownload()
