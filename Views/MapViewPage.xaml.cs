@@ -615,7 +615,7 @@ public partial class MapViewPage : UraniumContentPage
                         space2 = string.Empty;
                     else
                         space2 = "\r";
-                    label = $"{label}{space}{subtitle}{space2}Distance: {FormatHelper.FormatDistance(distance)}";
+                    label = $"{label}{space}{subtitle}{space2}{AppResource.PinLabelDistanceText}{FormatHelper.FormatDistance(distance)}";
                     var myPin = new Pin(mapView)
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
