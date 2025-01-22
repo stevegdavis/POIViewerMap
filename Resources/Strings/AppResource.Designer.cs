@@ -538,7 +538,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import POIs for Country.
+        ///   Looks up a localized string similar to Import POIs for Country:.
         /// </summary>
         internal static string POIImportCountryLabelText {
             get {

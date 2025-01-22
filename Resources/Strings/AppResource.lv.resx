@@ -274,7 +274,7 @@
     <value>POI faila nosaukums:</value>
   </data>
   <data name="POIImportCountryLabelText" xml:space="preserve">
-    <value>POI importēšana valstij</value>
+    <value>POI importēšana valstij:</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Serveris</value>

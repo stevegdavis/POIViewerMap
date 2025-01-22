@@ -277,7 +277,7 @@
     <value>POI Filename:</value>
   </data>
   <data name="POIImportCountryLabelText" xml:space="preserve">
-    <value>Import POIs for Country</value>
+    <value>Import POIs for Country:</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>

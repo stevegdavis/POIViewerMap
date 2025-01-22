@@ -18,7 +18,7 @@
     <Color x:Key="TrackingStartButtonColor">#248f8f</Color>
     <Color x:Key="NavigationBarColor">#34cbcb</Color>
     <Color x:Key="NavigationBarTextColor">White</Color>
-    <Color x:Key="UraniumBottomSheetBackgroundColor">AntiqueWhite</Color>
+    <Color x:Key="UraniumBottomSheetBackgroundColor">#ffebcc</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
