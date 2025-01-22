@@ -74,11 +74,12 @@ public class FilenameHelper
     {
         return country switch
         {
-            "albania" => "al",  // for geofabrik
+            "albania" => "al",  // for geofabrik download
             "Albania" => "al",  // for app country picker
             "andorra" => "ad",
             "Andorra" => "ad",
             "austria" => "at",
+            "Austria" => "at",
             "belarus" => "by",
             "Belarus" => "by",
             "belgium" => "be",
