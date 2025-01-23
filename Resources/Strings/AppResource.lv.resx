@@ -289,7 +289,7 @@
     <value>Atrastie punkti:</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
-    <value>Loading POIs - please wait...</value>
+    <value>POI ielādēšana - lūdzu, uzgaidiet...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
     <value>POI:</value>
