@@ -412,7 +412,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NorthMacedonia.
+        ///   Looks up a localized string similar to North Macedonia.
         /// </summary>
         internal static string CountryNorthMacedonia {
             get {

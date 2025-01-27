@@ -77,7 +77,7 @@ class WebHelper
         string responseCode = string.Empty;
         try
         {
-            var name = $"{FilenameHelper.GetCountryCodeFromCountryWhenTranslated(Path.GetFileNameWithoutExtension(filename))}.bin";
+            var name = $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(Path.GetFileNameWithoutExtension(filename))}.bin";
             localPath = Path.Combine(FileSystem.AppDataDirectory, name);
             var dir = Path.GetDirectoryName(localPath);
             Directory.CreateDirectory(FileSystem.AppDataDirectory);

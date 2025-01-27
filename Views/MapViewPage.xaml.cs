@@ -736,10 +736,10 @@ public partial class MapViewPage : UraniumContentPage
             pin.HideCallout();
         }
         mapView.Pins.Clear();
-        // Download chosen file or local?
+        // Download chosen file, is it local?
         if (FileListLocalAccess)
         {
-            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
+            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
             await PopulateMapAsync(pois);
         }
         else
