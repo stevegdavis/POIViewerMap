@@ -85,8 +85,8 @@ Open Street Map - Online only
 * French (Français)
 * German (Deutsch)
 * Italian (Italiano)
-* Latvian (Latviešu)  
 * Polish (Polski) 
+* Netherlands (Nederlands)
 
 ## App Language Translations
 https://hnd.www.deepl.com/  

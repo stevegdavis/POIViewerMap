@@ -667,7 +667,7 @@ public partial class MapViewPage : UraniumContentPage
                 foreach (var item in files)
                 {
                     if (item == null) continue;
-                    ff.Names.Add(FilenameHelper.GetCountryNameFromCountryCode(System.IO.Path.GetFileNameWithoutExtension(item)));
+                    ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
                 }
                 ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
@@ -682,7 +682,7 @@ public partial class MapViewPage : UraniumContentPage
             foreach (var item in serverlist.Names)
             {
                 if (item == null) continue;
-                ff.Names.Add(FilenameHelper.GetCountryNameFromCountryCode(System.IO.Path.GetFileNameWithoutExtension(item)));
+                ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
             }
             FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
             ff.Names.Sort(FilenameComparer.NameArray);
