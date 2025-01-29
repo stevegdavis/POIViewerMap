@@ -92,7 +92,7 @@ Open Street Map - Online only
 https://hnd.www.deepl.com/  
 
 ## Screenshots  
-**Andriod**  
+**Android**  
 <img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />  
 
 ## OS Minimum Requirments  
