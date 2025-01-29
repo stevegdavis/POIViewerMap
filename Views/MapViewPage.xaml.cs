@@ -184,7 +184,8 @@ public partial class MapViewPage : UraniumContentPage
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
-            await PopulateMapAsync(pois);
+            if (!POIsReadIsBusy)
+                await PopulateMapAsync(pois);
             this.picker.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
             this.activityloadindicatorlayout.IsVisible = false;
@@ -372,7 +373,8 @@ public partial class MapViewPage : UraniumContentPage
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
-                await PopulateMapAsync(pois);
+                if (!POIsReadIsBusy)
+                    await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
@@ -416,7 +418,8 @@ public partial class MapViewPage : UraniumContentPage
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
-                await PopulateMapAsync(pois);
+                if (!POIsReadIsBusy)
+                    await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
@@ -740,7 +743,8 @@ public partial class MapViewPage : UraniumContentPage
         if (FileListLocalAccess)
         {
             pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
-            await PopulateMapAsync(pois);
+            if (!POIsReadIsBusy)
+                await PopulateMapAsync(pois);
         }
         else
         {
@@ -749,7 +753,8 @@ public partial class MapViewPage : UraniumContentPage
             if (File.Exists(WebHelper.localPath))
             {
                 pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
-                await PopulateMapAsync(pois);
+                if (!POIsReadIsBusy)
+                    await PopulateMapAsync(pois);
             }
         }
         this.picker.IsEnabled = true;
