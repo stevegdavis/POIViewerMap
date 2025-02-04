@@ -129,7 +129,6 @@ public partial class MapViewPage : UraniumContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
-                    this.POIsFoundLabel.Text = Convert.ToString(mapView.Pins.Count);
                     await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
