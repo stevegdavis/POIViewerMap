@@ -133,7 +133,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.1" />
-		<PackageReference Include="POIBinaryFormatLib" Version="1.2.5" />
+		<PackageReference Include="POIBinaryFormatLib" Version="2.1.0" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 		<PackageReference Include="ReactiveUI.Maui" Version="20.1.63" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.0.0" />
