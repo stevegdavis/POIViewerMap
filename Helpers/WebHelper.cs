@@ -77,13 +77,14 @@ class WebHelper
         string responseCode = string.Empty;
         try
         {
-            localPath = Path.Combine(FileSystem.AppDataDirectory, filename);
+            var name = $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(Path.GetFileNameWithoutExtension(filename))}.bin";
+            localPath = Path.Combine(FileSystem.AppDataDirectory, name);
             var dir = Path.GetDirectoryName(localPath);
             Directory.CreateDirectory(FileSystem.AppDataDirectory);
             if (File.Exists(Path.Combine(localPath)))
                 File.Delete(Path.Combine(localPath));
-            var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{filename}"
-            .DownloadFileAsync(dir, filename);
+            var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{name}"
+             .DownloadFileAsync(dir, $"{name}");
         }
         catch (Exception ex)
         {
@@ -161,9 +162,9 @@ class WebHelper
                 var Idx1 = field.IndexOf("\"");
                 if (Idx1 > -1)
                 {
-                    var Idx2 = field.IndexOf("DT");
+                    var Idx2 = field.IndexOf("T");
                     ff.Names.Add(field.Substring(Idx1 + 1, Idx2 - 1));
-                    var ts = field.Substring(Idx2 + 2).Replace("\\", string.Empty).TrimEnd(']').TrimEnd('"');
+                    var ts = field.Substring(Idx2 + 1).Replace("\\", string.Empty).TrimEnd(']').TrimEnd('"');
                     ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }

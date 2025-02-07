@@ -6,7 +6,7 @@
                x:Class="POIViewerMap.Popups.AppUsagePopup"
                Color="Transparent" CanBeDismissedByTappingOutsideOfPopup="False">
 
-    <ScrollView WidthRequest="370" HeightRequest="485" Padding="10">
+    <ScrollView WidthRequest="370" HeightRequest="496" Padding="10">
         <VerticalStackLayout Padding="5,10,0,0" VerticalOptions="StartAndExpand" HorizontalOptions="Start" BackgroundColor="Gray">
             <Label Style="{StaticResource AppUsageLabelStyle}" Margin="5,5,5,5" HorizontalOptions="Start" FontAttributes="Bold" Text="{x:Static resource:AppResource.AppUsagePopupTitleMsg}" />
             <BoxView Style="{StaticResource Divider}" />
