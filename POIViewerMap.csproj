@@ -143,8 +143,7 @@
 		<PackageReference Include="Mapsui.Maui" Version="4.1.1" />
 		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.1" />
 		<PackageReference Include="Mapsui.Tiling" Version="4.1.1" />		
-		<PackageReference Include="Flurl.Http" Version="3.2.4" />		
-		<PackageReference Include="UraniumUI.Material" Version="2.11.0" />
+		<PackageReference Include="Flurl.Http" Version="3.2.4" />
 	</ItemGroup>
 
 	<ItemGroup>
