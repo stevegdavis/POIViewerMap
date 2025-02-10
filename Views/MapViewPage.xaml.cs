@@ -15,7 +15,6 @@ using Mapsui.UI.Maui;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ButtonWidget;
 using Mapsui.Widgets.ScaleBar;
-using Microsoft.Maui.Controls.Shapes;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -30,13 +29,12 @@ using System.Globalization;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using UraniumUI.Pages;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
 
-public partial class MapViewPage : UraniumContentPage
+public partial class MapViewPage : ContentPage
 {
     private string FullFilepathRoute;
     static bool POIsReadIsBusy = false;
@@ -85,8 +83,6 @@ public partial class MapViewPage : UraniumContentPage
         items.Add(AppResource.OptionsPOIPickerVendingMachineText);
         items.Add(AppResource.OptionsPOIPickerLaundryText);
         this.picker.ItemsSource = items;
-        InitializeServerFilenamePicker();
-
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
@@ -115,10 +111,28 @@ public partial class MapViewPage : UraniumContentPage
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
-        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center });
         mapView.PinClicked += OnPinClicked;
         mapView.MapClicked += OnMapClicked;
         ToggleCompass();
+        //this.expander.IsExpanded = true;
+        this.expander.IsVisible = false;
+        var imagebtn = CreateButtonWithImage(Mapsui.Widgets.VerticalAlignment.Top, Mapsui.Widgets.HorizontalAlignment.Right);
+        imagebtn.WidgetTouched += (s, a) =>
+        {
+            if(this.expander.IsExpanded)
+            {
+                this.expander.IsExpanded = false;
+                this.expander.IsVisible = false;
+            }
+            else
+            {
+                this.expander.IsExpanded = true;
+                this.expander.IsVisible = true;
+            }
+            mapView.Map.RefreshGraphics();
+        };
+        mapView.Map.Widgets.Add(imagebtn);
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -129,6 +143,7 @@ public partial class MapViewPage : UraniumContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
+                    this.POIsFoundLabel.Text = Convert.ToString(mapView.Pins.Count);
                     await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
@@ -163,6 +178,23 @@ public partial class MapViewPage : UraniumContentPage
         if(sender is AppUsagePopup)
             appSettings.ShowPopupAtStart = (bool)e.Result;
     }
+    private static ButtonWidget CreateButtonWithImage(
+        Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
+    {
+        return new ButtonWidget()
+        {
+            Text = "hi", // This text is apparently needed to update to position of the button
+            SvgImage = AppIconHelper.optionsStr,
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            MarginX = 25,
+            MarginY = 160,
+            PaddingX = 10,
+            PaddingY = 8,
+            CornerRadius = 8,
+            Envelope = new MRect(0, 0, 64, 64)
+        };
+    }
     private async Task GetCurrentLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -183,8 +215,7 @@ public partial class MapViewPage : UraniumContentPage
             this.picker.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
-            if (!POIsReadIsBusy)
-                await PopulateMapAsync(pois);
+            await PopulateMapAsync(pois);
             this.picker.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
             this.activityloadindicatorlayout.IsVisible = false;
@@ -295,8 +326,8 @@ public partial class MapViewPage : UraniumContentPage
             {
                 pin.HideCallout();
             }
-            //this.expander.IsExpanded = false;
-            //this.expander.IsVisible = false;
+            this.expander.IsExpanded = false;
+            this.expander.IsVisible = false;
         }
         catch (Exception) { }
     }
@@ -372,8 +403,7 @@ public partial class MapViewPage : UraniumContentPage
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
-                if (!POIsReadIsBusy)
-                    await PopulateMapAsync(pois);
+                await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
@@ -417,8 +447,7 @@ public partial class MapViewPage : UraniumContentPage
                 this.picker.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
-                if (!POIsReadIsBusy)
-                    await PopulateMapAsync(pois);
+                await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
                 this.picker.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
@@ -450,7 +479,7 @@ public partial class MapViewPage : UraniumContentPage
                     mapView.Map.Layers.Remove(myRouteLayer);
                 this.activityrouteloadindicatorlayout.IsVisible = true;
                 this.RouteImported.IsVisible = true;
-                this.RouteImported.Text = System.IO.Path.GetFileNameWithoutExtension(this.FullFilepathRoute);
+                this.RouteImported.Text = Path.GetFileNameWithoutExtension(this.FullFilepathRoute);
                 var gpxFile = await GpxFile.LoadAsync(FullFilepathRoute);
                 var countTracks = gpxFile.Tracks.Count;
                 var countRoutes = gpxFile.Routes.Count;
@@ -544,7 +573,7 @@ public partial class MapViewPage : UraniumContentPage
         };
         var result = await MapViewPage.PickAndShow(options);
         if (result is null) return;
-        if (System.IO.Path.GetExtension(result.FileName).Equals(".gpx"))
+        if (Path.GetExtension(result.FileName).Equals(".gpx"))
         {
             this.FullFilepathRoute = result?.FullPath;
         }
@@ -617,7 +646,7 @@ public partial class MapViewPage : UraniumContentPage
                         space2 = string.Empty;
                     else
                         space2 = "\r";
-                    label = $"{label}{space}{subtitle}{space2}{AppResource.PinLabelDistanceText}{FormatHelper.FormatDistance(distance)}";
+                    label = $"{label}{space}{subtitle}{space2}Distance: {FormatHelper.FormatDistance(distance)}";
                     var myPin = new Pin(mapView)
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
@@ -669,7 +698,7 @@ public partial class MapViewPage : UraniumContentPage
                 foreach (var item in files)
                 {
                     if (item == null) continue;
-                    ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
+                    ff.Names.Add(Path.GetFileNameWithoutExtension(item));
                 }
                 ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
@@ -680,15 +709,13 @@ public partial class MapViewPage : UraniumContentPage
         else if (serverlist.Names.Count > 0)
         {
             FileListLocalAccess = false;
-            var ff = new FileFetch();
+            List<string> files = new List<string>();
             foreach (var item in serverlist.Names)
             {
                 if (item == null) continue;
-                ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
+                files.Add(Path.GetFileNameWithoutExtension(item));
             }
-            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-            ff.Names.Sort(FilenameComparer.NameArray);
-            this.serverfilenamepicker.ItemsSource = ff.Names;
+            this.serverfilenamepicker.ItemsSource = files;
         }        
     }
     private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -718,7 +745,6 @@ public partial class MapViewPage : UraniumContentPage
             return;
         }
         this.SelectedFilename = $"{s}.bin";
-        serverfilenamepicker.Title = s;
         POIServerFileDownload();
     }
     private async void POIServerFileDownload()
@@ -738,12 +764,11 @@ public partial class MapViewPage : UraniumContentPage
             pin.HideCallout();
         }
         mapView.Pins.Clear();
-        // Download chosen file, is it local?
+        // Download chosen file or local?
         if (FileListLocalAccess)
         {
-            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
-            if (!POIsReadIsBusy)
-                await PopulateMapAsync(pois);
+            pois = await POIBinaryFormat.ReadAsync(Path.Combine(FileSystem.AppDataDirectory, this.SelectedFilename.ToLower()));
+            await PopulateMapAsync(pois);
         }
         else
         {
@@ -752,13 +777,25 @@ public partial class MapViewPage : UraniumContentPage
             if (File.Exists(WebHelper.localPath))
             {
                 pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
-                if (!POIsReadIsBusy)
-                    await PopulateMapAsync(pois);
+                await PopulateMapAsync(pois);
             }
         }
         this.picker.IsEnabled = true;
         this.pickerRadius.IsEnabled = true;
         this.serverfilenamepicker.IsEnabled=true;
         this.activityloadindicatorlayout.IsVisible = false;
+    }
+    private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
+    {
+        if (e.IsExpanded)
+        {
+            InitializeServerFilenamePicker();
+            if(this.serverfilenamepicker.SelectedItem != null)
+            {
+                this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
+            }
+        }
+        else
+            this.expander.IsVisible = false;
     }
 }

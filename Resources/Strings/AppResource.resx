@@ -141,144 +141,6 @@
   <data name="ChooseText" xml:space="preserve">
     <value>Choose</value>
   </data>
-  <data name="CountryAlbania" xml:space="preserve">
-    <value>Albania</value>
-  </data>
-  <data name="CountryAndorra" xml:space="preserve">
-    <value>Andorra</value>
-  </data>
-  <data name="CountryArmenia" xml:space="preserve">
-    <value>Armenia</value>
-  </data>
-  <data name="CountryAustria" xml:space="preserve">
-    <value>Austria</value>
-  </data>
-  <data name="CountryBelarus" xml:space="preserve">
-    <value>Belarus</value>
-  </data>
-  <data name="CountryBelgium" xml:space="preserve">
-    <value>Belgium</value>
-  </data>
-  <data name="CountryBosniaHerzegovina" xml:space="preserve">
-    <value>Bosnia Herzegovina</value>
-  </data>
-  <data name="CountryBulgaria" xml:space="preserve">
-    <value>Bulgaria</value>
-  </data>
-  <data name="CountryCroatia" xml:space="preserve">
-    <value>Croatia</value>
-  </data>
-  <data name="CountryCzechRepublic" xml:space="preserve">
-    <value>Czech Republic</value>
-  </data>
-  <data name="CountryDenmark" xml:space="preserve">
-    <value>Denmark</value>
-  </data>
-  <data name="CountryEstonia" xml:space="preserve">
-    <value>Estonia</value>
-  </data>
-  <data name="CountryFinland" xml:space="preserve">
-    <value>Finland</value>
-  </data>
-  <data name="CountryFrance" xml:space="preserve">
-    <value>France</value>
-  </data>
-  <data name="CountryGeorgia" xml:space="preserve">
-    <value>Georgia</value>
-  </data>
-  <data name="CountryGermany" xml:space="preserve">
-    <value>Germany</value>
-  </data>
-  <data name="CountryGreece" xml:space="preserve">
-    <value>Greece</value>
-  </data>
-  <data name="CountryHungary" xml:space="preserve">
-    <value>Hungary</value>
-  </data>
-  <data name="CountryIceland" xml:space="preserve">
-    <value>Iceland</value>
-  </data>
-  <data name="CountryIreland" xml:space="preserve">
-    <value>Ireland</value>
-  </data>
-  <data name="CountryIsleOfMan" xml:space="preserve">
-    <value>Isle Of Man</value>
-  </data>
-  <data name="CountryItaly" xml:space="preserve">
-    <value>Italy</value>
-  </data>
-  <data name="CountryLabelText" xml:space="preserve">
-    <value>Country:</value>
-  </data>
-  <data name="CountryLatvia" xml:space="preserve">
-    <value>Lativa</value>
-  </data>
-  <data name="CountryLiechtenstein" xml:space="preserve">
-    <value>Liechtenstein</value>
-  </data>
-  <data name="CountryLithuania" xml:space="preserve">
-    <value>Lithuania</value>
-  </data>
-  <data name="CountryLuxembourg" xml:space="preserve">
-    <value>Luxembourg</value>
-  </data>
-  <data name="CountryMoldova" xml:space="preserve">
-    <value>Moldova</value>
-  </data>
-  <data name="CountryMonaco" xml:space="preserve">
-    <value>Monaco</value>
-  </data>
-  <data name="CountryMontenegro" xml:space="preserve">
-    <value>Montenegro</value>
-  </data>
-  <data name="CountryNetherlands" xml:space="preserve">
-    <value>Netherlands</value>
-  </data>
-  <data name="CountryNorthMacedonia" xml:space="preserve">
-    <value>North Macedonia</value>
-  </data>
-  <data name="CountryNorway" xml:space="preserve">
-    <value>Norway</value>
-  </data>
-  <data name="CountryPoland" xml:space="preserve">
-    <value>Poland</value>
-  </data>
-  <data name="CountryPortugal" xml:space="preserve">
-    <value>Portugal</value>
-  </data>
-  <data name="CountryRomania" xml:space="preserve">
-    <value>Romania</value>
-  </data>
-  <data name="CountryRussia" xml:space="preserve">
-    <value>Russia</value>
-  </data>
-  <data name="CountrySerbia" xml:space="preserve">
-    <value>Serbia</value>
-  </data>
-  <data name="CountrySlovakia" xml:space="preserve">
-    <value>Slovakia</value>
-  </data>
-  <data name="CountrySlovenia" xml:space="preserve">
-    <value>Slovenia</value>
-  </data>
-  <data name="CountrySpain" xml:space="preserve">
-    <value>Spain</value>
-  </data>
-  <data name="CountrySweden" xml:space="preserve">
-    <value>Sweden</value>
-  </data>
-  <data name="CountrySwitzerland" xml:space="preserve">
-    <value>Switzerland</value>
-  </data>
-  <data name="CountryTurkey" xml:space="preserve">
-    <value>Turkey</value>
-  </data>
-  <data name="CountryUkraine" xml:space="preserve">
-    <value>Ukraine</value>
-  </data>
-  <data name="CountryUnitedKingdom" xml:space="preserve">
-    <value>United Kingdom</value>
-  </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Do not show this message again</value>
   </data>
@@ -412,7 +274,7 @@
     <value>POI Filename:</value>
   </data>
   <data name="POIImportCountryLabelText" xml:space="preserve">
-    <value>Import POIs for Country:</value>
+    <value>Import POIs for Country</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
@@ -434,6 +296,15 @@
   </data>
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
+  </data>
+  <data name="RefreshButtonText" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Restore Options On Startup</value>
+  </data>
+  <data name="RestoreUIStateRouteFilename" xml:space="preserve">
+    <value>Route Filename:</value>
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>

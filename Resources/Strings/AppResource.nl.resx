@@ -118,311 +118,175 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppUsageCloseButtonText" xml:space="preserve">
-    <value>Sluit</value>
+    <value>Aizvērt</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>De auteur van deze app kan de nauwkeurigheid van POI's die op de kaart worden weergegeven niet garanderen. Discretie is te allen tijde vereist tijdens het gebruik van de app. De gegevens worden gehaald uit Open Street Maps en zijn afhankelijk van de vele OSM-medewerkers. Bijzondere aandacht moet worden besteed aan drinkwaterpunten, aangezien er geen garantie is dat deze op de kaart geschikt zijn om te drinken.
-*** Vertaald met www.DeepL.com/Translator (gratis versie) ***</value>
+    <value>Šīs lietotnes autors nevar garantēt kartē redzamo POI precizitāti. Lietojot šo lietotni, vienmēr ir jāievēro piesardzība. Dati ir iegūti no Open Street Maps un balstās uz daudzajiem OSM sniedzējiem. Īpaša uzmanība jāpievērš dzeramā ūdens punktiem, jo nav garantijas, ka kartē norādītie punkti ir derīgi dzeršanai, un lietotājam ir jāinteresējas par to, kas ir zināms uz vietas.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>Atruna</value>
   </data>
   <data name="AppUsagePopupTitleMsg" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
   <data name="CancelButtonText" xml:space="preserve">
-    <value>Annuleren</value>
+    <value>Atcelt</value>
   </data>
   <data name="CenterMapLabelText" xml:space="preserve">
-    <value>Kaart centreren op mijn positie</value>
+    <value>Centra karte par manu poziciju</value>
   </data>
   <data name="ChooseCountryText" xml:space="preserve">
-    <value>Kies een land</value>
+    <value>Izvēlieties valsti</value>
   </data>
   <data name="ChooseText" xml:space="preserve">
-    <value>Kies</value>
-  </data>
-  <data name="CountryAlbania" xml:space="preserve">
-    <value>Albanië</value>
-  </data>
-  <data name="CountryAndorra" xml:space="preserve">
-    <value>Andorra</value>
-  </data>
-  <data name="CountryArmenia" xml:space="preserve">
-    <value>Armenië</value>
-  </data>
-  <data name="CountryAustria" xml:space="preserve">
-    <value>Oostenrijk</value>
-  </data>
-  <data name="CountryBelarus" xml:space="preserve">
-    <value>Wit-Rusland</value>
-  </data>
-  <data name="CountryBelgium" xml:space="preserve">
-    <value>België</value>
-  </data>
-  <data name="CountryBosniaHerzegovina" xml:space="preserve">
-    <value>Bosnië-Herzegovina</value>
-  </data>
-  <data name="CountryBulgaria" xml:space="preserve">
-    <value>Bulgarije</value>
-  </data>
-  <data name="CountryCroatia" xml:space="preserve">
-    <value>Kroatië</value>
-  </data>
-  <data name="CountryCzechRepublic" xml:space="preserve">
-    <value>Tsjechië</value>
-  </data>
-  <data name="CountryDenmark" xml:space="preserve">
-    <value>Denemarken</value>
-  </data>
-  <data name="CountryEstonia" xml:space="preserve">
-    <value>Estland</value>
-  </data>
-  <data name="CountryFinland" xml:space="preserve">
-    <value>Finland</value>
-  </data>
-  <data name="CountryFrance" xml:space="preserve">
-    <value>Frankrijk</value>
-  </data>
-  <data name="CountryGeorgia" xml:space="preserve">
-    <value>Georgië</value>
-  </data>
-  <data name="CountryGermany" xml:space="preserve">
-    <value>Duitsland</value>
-  </data>
-  <data name="CountryGreece" xml:space="preserve">
-    <value>Griekenland</value>
-  </data>
-  <data name="CountryHungary" xml:space="preserve">
-    <value>Hongarije</value>
-  </data>
-  <data name="CountryIceland" xml:space="preserve">
-    <value>IJsland</value>
-  </data>
-  <data name="CountryIreland" xml:space="preserve">
-    <value>Ierland</value>
-  </data>
-  <data name="CountryIsleOfMan" xml:space="preserve">
-    <value>Eiland Man</value>
-  </data>
-  <data name="CountryItaly" xml:space="preserve">
-    <value>Italië</value>
-  </data>
-  <data name="CountryLabelText" xml:space="preserve">
-    <value>Land:</value>
-  </data>
-  <data name="CountryLatvia" xml:space="preserve">
-    <value>Letland</value>
-  </data>
-  <data name="CountryLiechtenstein" xml:space="preserve">
-    <value>Liechtenstein</value>
-  </data>
-  <data name="CountryLithuania" xml:space="preserve">
-    <value>Litouwen</value>
-  </data>
-  <data name="CountryLuxembourg" xml:space="preserve">
-    <value>Luxemburg</value>
-  </data>
-  <data name="CountryMoldova" xml:space="preserve">
-    <value>Moldavië</value>
-  </data>
-  <data name="CountryMonaco" xml:space="preserve">
-    <value>Monaco</value>
-  </data>
-  <data name="CountryMontenegro" xml:space="preserve">
-    <value>Montenegro</value>
-  </data>
-  <data name="CountryNetherlands" xml:space="preserve">
-    <value>Nederland</value>
-  </data>
-  <data name="CountryNorthMacedonia" xml:space="preserve">
-    <value>Noord-Macedonië</value>
-  </data>
-  <data name="CountryNorway" xml:space="preserve">
-    <value>Noorwegen</value>
-  </data>
-  <data name="CountryPoland" xml:space="preserve">
-    <value>Polen</value>
-  </data>
-  <data name="CountryPortugal" xml:space="preserve">
-    <value>Portugal</value>
-  </data>
-  <data name="CountryRomania" xml:space="preserve">
-    <value>Roemenië</value>
-  </data>
-  <data name="CountryRussia" xml:space="preserve">
-    <value>Rusland</value>
-  </data>
-  <data name="CountrySerbia" xml:space="preserve">
-    <value>Servië</value>
-  </data>
-  <data name="CountrySlovakia" xml:space="preserve">
-    <value>Slowakije</value>
-  </data>
-  <data name="CountrySlovenia" xml:space="preserve">
-    <value>Slovenië</value>
-  </data>
-  <data name="CountrySpain" xml:space="preserve">
-    <value>Spanje</value>
-  </data>
-  <data name="CountrySweden" xml:space="preserve">
-    <value>Zweden</value>
-  </data>
-  <data name="CountrySwitzerland" xml:space="preserve">
-    <value>Zwitserland</value>
-  </data>
-  <data name="CountryTurkey" xml:space="preserve">
-    <value>Kalkoen</value>
-  </data>
-  <data name="CountryUkraine" xml:space="preserve">
-    <value>Oekraïne</value>
-  </data>
-  <data name="CountryUnitedKingdom" xml:space="preserve">
-    <value>Verenigd Koninkrijk</value>
+    <value>Izvēlieties</value>
   </data>
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
-    <value>Dit bericht niet meer tonen</value>
+    <value>Neatkārtojiet šo ziņojumu vēlreiz</value>
   </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
-    <value>Route-import mislukt!</value>
+    <value>Maršruta imports neizdevās!!</value>
   </data>
   <data name="Meters" xml:space="preserve">
-    <value>Meters</value>
+    <value>Mērītāji</value>
   </data>
   <data name="NameText" xml:space="preserve">
-    <value>Naam:</value>
+    <value>Vārds un uzvārds:</value>
   </data>
   <data name="Options" xml:space="preserve">
-    <value>Opties</value>
+    <value>Iespējas</value>
+  </data>
+  <data name="OptionsImportLabelText" xml:space="preserve">
+    <value>Importēt</value>
   </data>
   <data name="OptionsImportRouteButtonText" xml:space="preserve">
-    <value>GPX-route importeren</value>
+    <value>GPX maršruta importēšana</value>
   </data>
   <data name="OptionsPOIPickerATMText" xml:space="preserve">
-    <value>PINAUTOMAAT</value>
+    <value>BANKOMĀTS</value>
   </data>
   <data name="OptionsPOIPickerBakeryText" xml:space="preserve">
-    <value>Bakkerij</value>
+    <value>Maiznīca</value>
   </data>
   <data name="OptionsPOIPickerBicycleRepairStationText" xml:space="preserve">
-    <value>Fiets reparatie station</value>
+    <value>Velosipēdu remonta stacija</value>
   </data>
   <data name="OptionsPOIPickerBicycleShopText" xml:space="preserve">
-    <value>Fietsenwinkel</value>
+    <value>Velosipēdu veikals</value>
   </data>
   <data name="OptionsPOIPickerCafeText" xml:space="preserve">
-    <value>Café</value>
+    <value>Kafejnīca</value>
   </data>
   <data name="OptionsPOIPickerCampsiteText" xml:space="preserve">
-    <value>Camping</value>
+    <value>Kempings</value>
   </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
-    <value>Drinkwater</value>
+    <value>Dzeramais ūdens</value>
   </data>
   <data name="OptionsPOIPickerLaundryText" xml:space="preserve">
-    <value>Wasserij</value>
+    <value>Veļas mazgātava</value>
   </data>
   <data name="OptionsPOIPickerPicnicTableText" xml:space="preserve">
-    <value>Picknicktafel</value>
+    <value>Piknika galds</value>
   </data>
   <data name="OptionsPOIPickerSupermarketText" xml:space="preserve">
-    <value>Supermarkt</value>
+    <value>Lielveikals</value>
   </data>
   <data name="OptionsPOIPickerToiletText" xml:space="preserve">
-    <value>Toilet</value>
+    <value>Tualete</value>
   </data>
   <data name="OptionsPOIPickerTrainStationText" xml:space="preserve">
-    <value>Treinstation</value>
+    <value>Vilcienu stacija</value>
   </data>
   <data name="OptionsPOIPickerVendingMachineText" xml:space="preserve">
-    <value>Verkoopautomaat</value>
+    <value>Tirdzniecības automāts</value>
   </data>
   <data name="PinLabelDistanceText" xml:space="preserve">
-    <value>Afstand:</value>
+    <value>Attālums:</value>
   </data>
   <data name="PinLabelSubtitleAccessText" xml:space="preserve">
-    <value>Toegang:</value>
+    <value>Piekļuve:</value>
   </data>
   <data name="PinLabelSubtitleBicycleTubeText" xml:space="preserve">
-    <value>Fietsbuis</value>
+    <value>Velosipēdu caurules</value>
   </data>
   <data name="PinLabelSubtitleBreadText" xml:space="preserve">
-    <value>Brood</value>
+    <value>Maize</value>
   </data>
   <data name="PinLabelSubtitleCustomersText" xml:space="preserve">
-    <value>Klanten</value>
+    <value>Klienti</value>
   </data>
   <data name="PinLabelSubtitleDietText" xml:space="preserve">
-    <value>Dieet:</value>
+    <value>Diēta:</value>
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
-    <value>Elektronica</value>
+    <value>Elektronika</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
-    <value>Open:</value>
+    <value>Atvērts:</value>
   </data>
   <data name="PinLabelSubtitlePermissiveText" xml:space="preserve">
-    <value>Toegestaan</value>
+    <value>Atļauts</value>
   </data>
   <data name="PinLabelSubtitlePrivateText" xml:space="preserve">
-    <value>Privé</value>
+    <value>Privāts</value>
   </data>
   <data name="PinLabelSubtitlePump" xml:space="preserve">
-    <value>Pomp</value>
+    <value>Sūknis</value>
   </data>
   <data name="PinLabelSubtitleRefill" xml:space="preserve">
-    <value>Hier fles hervullen</value>
+    <value>Pudeles uzpilde šeit</value>
   </data>
   <data name="PinLabelSubtitleServicesText" xml:space="preserve">
-    <value>Diensten:</value>
+    <value>Pakalpojumi:</value>
   </data>
   <data name="PinLabelSubtitleStand" xml:space="preserve">
-    <value>Stand</value>
+    <value>Stends:</value>
   </data>
   <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
-    <value>Telefoon:</value>
+    <value>Telefono:</value>
   </data>
   <data name="PinLabelSubtitleTools" xml:space="preserve">
-    <value>Gereedschap</value>
+    <value>Instrumenti</value>
   </data>
   <data name="PinLabelSubtitleTypeText" xml:space="preserve">
-    <value>Type:</value>
+    <value>Veids:</value>
   </data>
   <data name="PinLabelSubtitleUnknown" xml:space="preserve">
-    <value>Onbekend</value>
+    <value>Nezināms</value>
   </data>
   <data name="PinLabelSubtitleVeganOnlyText" xml:space="preserve">
-    <value>Veganistisch</value>
+    <value>Tikai vegāns</value>
   </data>
   <data name="PinLabelSubtitleVeganOptionText" xml:space="preserve">
-    <value>Veganistische optie</value>
+    <value>Vegānu variants</value>
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
-    <value>Website:</value>
+    <value>Tīmekļa vietne:</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs</value>
   </data>
   <data name="POIFilepathLabelText" xml:space="preserve">
-    <value>POI Bestandsnaam:</value>
+    <value>POI faila nosaukums:</value>
   </data>
   <data name="POIImportCountryLabelText" xml:space="preserve">
-    <value>POI's importeren voor land:</value>
+    <value>POI importēšana valstij</value>
   </data>
   <data name="POIImportServerText" xml:space="preserve">
-    <value>Server</value>
+    <value>Serveris</value>
   </data>
   <data name="POILabelSubtitleTypeText" xml:space="preserve">
-    <value>Type:</value>
+    <value>Veids:</value>
   </data>
   <data name="POIPickerTitleText" xml:space="preserve">
-    <value>Kies</value>
+    <value>Izvēlieties</value>
   </data>
   <data name="POIsFoundLabelText" xml:space="preserve">
-    <value>POI's gevonden:</value>
+    <value>Atrastie punkti:</value>
   </data>
   <data name="POIsLoadingLabelText" xml:space="preserve">
-    <value>POI's worden geladen - even geduld...</value>
+    <value>Loading POIs - please wait...</value>
   </data>
   <data name="POIViewerMapPOIsLabelText" xml:space="preserve">
     <value>POI:</value>
@@ -431,15 +295,15 @@
     <value>POI Viewer Map</value>
   </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
-    <value>Route:</value>
+    <value>Maršruts:</value>
   </data>
   <data name="RouteLoadingLabelText" xml:space="preserve">
-    <value>GPX-route importeren...</value>
+    <value>GPX maršruta importēšana...</value>
   </data>
   <data name="SearchRadiusLabelText" xml:space="preserve">
-    <value>Zoekradius:</value>
+    <value>Meklēšanas rādiuss:</value>
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
-    <value>Toegang tot server mislukt</value>
+    <value>Piekļuve serverim neizdevās</value>
   </data>
 </root>
