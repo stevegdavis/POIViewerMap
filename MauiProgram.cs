@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using POIViewerMap.Popups;
 using POIViewerMap.Stores;
 using POIViewerMap.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -12,8 +11,8 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
         var builder = MauiApp.CreateBuilder();
-        builder.UseMauiApp<App>().UseMauiCommunityToolkit();
-        builder.UseSkiaSharp(true)
+        builder.UseMauiApp<App>().UseMauiCommunityToolkit()
+        .UseSkiaSharp(true)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
