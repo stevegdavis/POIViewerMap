@@ -133,6 +133,420 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Albania.
+        /// </summary>
+        internal static string CountryAlbania {
+            get {
+                return ResourceManager.GetString("CountryAlbania", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Andorra.
+        /// </summary>
+        internal static string CountryAndorra {
+            get {
+                return ResourceManager.GetString("CountryAndorra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armenia.
+        /// </summary>
+        internal static string CountryArmenia {
+            get {
+                return ResourceManager.GetString("CountryArmenia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Austria.
+        /// </summary>
+        internal static string CountryAustria {
+            get {
+                return ResourceManager.GetString("CountryAustria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Belarus.
+        /// </summary>
+        internal static string CountryBelarus {
+            get {
+                return ResourceManager.GetString("CountryBelarus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Belgium.
+        /// </summary>
+        internal static string CountryBelgium {
+            get {
+                return ResourceManager.GetString("CountryBelgium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bosnia Herzegovina.
+        /// </summary>
+        internal static string CountryBosniaHerzegovina {
+            get {
+                return ResourceManager.GetString("CountryBosniaHerzegovina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulgaria.
+        /// </summary>
+        internal static string CountryBulgaria {
+            get {
+                return ResourceManager.GetString("CountryBulgaria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Croatia.
+        /// </summary>
+        internal static string CountryCroatia {
+            get {
+                return ResourceManager.GetString("CountryCroatia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Czech Republic.
+        /// </summary>
+        internal static string CountryCzechRepublic {
+            get {
+                return ResourceManager.GetString("CountryCzechRepublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Denmark.
+        /// </summary>
+        internal static string CountryDenmark {
+            get {
+                return ResourceManager.GetString("CountryDenmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estonia.
+        /// </summary>
+        internal static string CountryEstonia {
+            get {
+                return ResourceManager.GetString("CountryEstonia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finland.
+        /// </summary>
+        internal static string CountryFinland {
+            get {
+                return ResourceManager.GetString("CountryFinland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France.
+        /// </summary>
+        internal static string CountryFrance {
+            get {
+                return ResourceManager.GetString("CountryFrance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Georgia.
+        /// </summary>
+        internal static string CountryGeorgia {
+            get {
+                return ResourceManager.GetString("CountryGeorgia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany.
+        /// </summary>
+        internal static string CountryGermany {
+            get {
+                return ResourceManager.GetString("CountryGermany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greece.
+        /// </summary>
+        internal static string CountryGreece {
+            get {
+                return ResourceManager.GetString("CountryGreece", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hungary.
+        /// </summary>
+        internal static string CountryHungary {
+            get {
+                return ResourceManager.GetString("CountryHungary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iceland.
+        /// </summary>
+        internal static string CountryIceland {
+            get {
+                return ResourceManager.GetString("CountryIceland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ireland.
+        /// </summary>
+        internal static string CountryIreland {
+            get {
+                return ResourceManager.GetString("CountryIreland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Isle Of Man.
+        /// </summary>
+        internal static string CountryIsleOfMan {
+            get {
+                return ResourceManager.GetString("CountryIsleOfMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Italy.
+        /// </summary>
+        internal static string CountryItaly {
+            get {
+                return ResourceManager.GetString("CountryItaly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country:.
+        /// </summary>
+        internal static string CountryLabelText {
+            get {
+                return ResourceManager.GetString("CountryLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lativa.
+        /// </summary>
+        internal static string CountryLatvia {
+            get {
+                return ResourceManager.GetString("CountryLatvia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Liechtenstein.
+        /// </summary>
+        internal static string CountryLiechtenstein {
+            get {
+                return ResourceManager.GetString("CountryLiechtenstein", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lithuania.
+        /// </summary>
+        internal static string CountryLithuania {
+            get {
+                return ResourceManager.GetString("CountryLithuania", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Luxembourg.
+        /// </summary>
+        internal static string CountryLuxembourg {
+            get {
+                return ResourceManager.GetString("CountryLuxembourg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moldova.
+        /// </summary>
+        internal static string CountryMoldova {
+            get {
+                return ResourceManager.GetString("CountryMoldova", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monaco.
+        /// </summary>
+        internal static string CountryMonaco {
+            get {
+                return ResourceManager.GetString("CountryMonaco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Montenegro.
+        /// </summary>
+        internal static string CountryMontenegro {
+            get {
+                return ResourceManager.GetString("CountryMontenegro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands.
+        /// </summary>
+        internal static string CountryNetherlands {
+            get {
+                return ResourceManager.GetString("CountryNetherlands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to North Macedonia.
+        /// </summary>
+        internal static string CountryNorthMacedonia {
+            get {
+                return ResourceManager.GetString("CountryNorthMacedonia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Norway.
+        /// </summary>
+        internal static string CountryNorway {
+            get {
+                return ResourceManager.GetString("CountryNorway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Poland.
+        /// </summary>
+        internal static string CountryPoland {
+            get {
+                return ResourceManager.GetString("CountryPoland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portugal.
+        /// </summary>
+        internal static string CountryPortugal {
+            get {
+                return ResourceManager.GetString("CountryPortugal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Romania.
+        /// </summary>
+        internal static string CountryRomania {
+            get {
+                return ResourceManager.GetString("CountryRomania", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Russia.
+        /// </summary>
+        internal static string CountryRussia {
+            get {
+                return ResourceManager.GetString("CountryRussia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serbia.
+        /// </summary>
+        internal static string CountrySerbia {
+            get {
+                return ResourceManager.GetString("CountrySerbia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slovakia.
+        /// </summary>
+        internal static string CountrySlovakia {
+            get {
+                return ResourceManager.GetString("CountrySlovakia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slovenia.
+        /// </summary>
+        internal static string CountrySlovenia {
+            get {
+                return ResourceManager.GetString("CountrySlovenia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spain.
+        /// </summary>
+        internal static string CountrySpain {
+            get {
+                return ResourceManager.GetString("CountrySpain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sweden.
+        /// </summary>
+        internal static string CountrySweden {
+            get {
+                return ResourceManager.GetString("CountrySweden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switzerland.
+        /// </summary>
+        internal static string CountrySwitzerland {
+            get {
+                return ResourceManager.GetString("CountrySwitzerland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turkey.
+        /// </summary>
+        internal static string CountryTurkey {
+            get {
+                return ResourceManager.GetString("CountryTurkey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ukraine.
+        /// </summary>
+        internal static string CountryUkraine {
+            get {
+                return ResourceManager.GetString("CountryUkraine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to United Kingdom.
+        /// </summary>
+        internal static string CountryUnitedKingdom {
+            get {
+                return ResourceManager.GetString("CountryUnitedKingdom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not show this message again.
         /// </summary>
         internal static string DoNotShowAgainLabelText {
@@ -529,7 +943,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import POIs for Country.
+        ///   Looks up a localized string similar to Import POIs for Country:.
         /// </summary>
         internal static string POIImportCountryLabelText {
             get {
@@ -597,33 +1011,6 @@ namespace POIViewerMap.Resources.Strings {
         internal static string POIViewerTitle {
             get {
                 return ResourceManager.GetString("POIViewerTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Refresh.
-        /// </summary>
-        internal static string RefreshButtonText {
-            get {
-                return ResourceManager.GetString("RefreshButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restore Options On Startup.
-        /// </summary>
-        internal static string RestoreOptionsOnStartupLabelText {
-            get {
-                return ResourceManager.GetString("RestoreOptionsOnStartupLabelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Route Filename:.
-        /// </summary>
-        internal static string RestoreUIStateRouteFilename {
-            get {
-                return ResourceManager.GetString("RestoreUIStateRouteFilename", resourceCulture);
             }
         }
         
