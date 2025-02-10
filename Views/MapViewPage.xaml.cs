@@ -30,13 +30,12 @@ using System.Globalization;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using UraniumUI.Pages;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
 
-public partial class MapViewPage : UraniumContentPage
+public partial class MapViewPage : ContentPage
 {
     private string FullFilepathRoute;
     static bool POIsReadIsBusy = false;
@@ -84,7 +83,7 @@ public partial class MapViewPage : UraniumContentPage
         items.Add(AppResource.OptionsPOIPickerTrainStationText);
         items.Add(AppResource.OptionsPOIPickerVendingMachineText);
         items.Add(AppResource.OptionsPOIPickerLaundryText);
-        this.picker.ItemsSource = items;
+       this.picker.ItemsSource = items;
         InitializeServerFilenamePicker();
 
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
@@ -116,8 +115,57 @@ public partial class MapViewPage : UraniumContentPage
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
-        mapView.PinClicked += OnPinClicked;
-        mapView.MapClicked += OnMapClicked;
+        mapView.PinClicked += (s, e) =>
+        {
+            if (e.Pin != null)
+            {
+                if (e.NumOfTaps == 2)
+                {
+                    // Hide Pin when double click
+                    e.Pin.IsVisible = false;
+                }
+                if (e.NumOfTaps == 1)
+                {
+                    if (e.Pin.Callout.IsVisible)
+                        e.Pin.HideCallout();
+                    else
+                    {
+                        var distance = Location.CalculateDistance(e.Point.Latitude,
+                                                                    e.Point.Longitude,
+                                                                    new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                                                                    DistanceUnits.Kilometers);
+                        var Idx = e.Pin.Label.IndexOf(AppResource.PinLabelDistanceText);
+                        if (Idx > -1)
+                        {
+                            if (Idx + AppResource.PinLabelDistanceText.Length < e.Pin.Label.Length)
+                            {
+                                // Remove previous distance value as we may have moved on the map so recalculate
+                                e.Pin.Label = e.Pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
+                                //e.Pin.Label += Format.FormatDistance(distance);
+                            }
+                            e.Pin.Label += FormatHelper.FormatDistance(distance);
+                        }
+                        e.Pin.ShowCallout();
+                    }
+                }
+            }
+            e.Handled = true;
+        };
+        mapView.MapClicked += (s, e) =>
+        {
+            if (POIsReadIsBusy)
+                return;
+            try
+            {
+                foreach (var pin in mapView.Pins)
+                {
+                    pin.HideCallout();
+                }
+                this.expander.IsExpanded = false;
+                //this.expander.IsVisible = false;
+            }
+            catch (Exception) { }
+        };
         ToggleCompass();
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
@@ -284,57 +332,6 @@ public partial class MapViewPage : UraniumContentPage
             await UpdateVisiblePinsLabelDistanceText();
             POIsMapUpdateIsBusy = false;
         });
-    }
-    private void OnMapClicked(object sender, MapClickedEventArgs e)
-    {
-        if (POIsReadIsBusy)
-            return;
-        try
-        {
-            foreach (var pin in mapView.Pins)
-            {
-                pin.HideCallout();
-            }
-            //this.expander.IsExpanded = false;
-            //this.expander.IsVisible = false;
-        }
-        catch (Exception) { }
-    }
-    private void OnPinClicked(object sender, PinClickedEventArgs e)
-    {
-        if (e.Pin != null)
-        {
-            if (e.NumOfTaps == 2)
-            {
-                // Hide Pin when double click
-                e.Pin.IsVisible = false;
-            }
-            if (e.NumOfTaps == 1)
-            {
-                if (e.Pin.Callout.IsVisible)
-                    e.Pin.HideCallout();
-                else
-                {
-                    var distance = Location.CalculateDistance(e.Point.Latitude,
-                                                                e.Point.Longitude,
-                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
-                                                                DistanceUnits.Kilometers);
-                    var Idx = e.Pin.Label.IndexOf(AppResource.PinLabelDistanceText);
-                    if(Idx > -1)
-                    {
-                        if (Idx + AppResource.PinLabelDistanceText.Length < e.Pin.Label.Length)
-                        {
-                            // Remove previous distance value as we may have moved on the map so recalculate
-                            e.Pin.Label = e.Pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
-                            //e.Pin.Label += Format.FormatDistance(distance);
-                        }
-                        e.Pin.Label += FormatHelper.FormatDistance(distance);
-                    }
-                    e.Pin.ShowCallout();
-                }
-            }
-        }
-        e.Handled = true;
     }
     async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
     {
@@ -698,6 +695,19 @@ public partial class MapViewPage : UraniumContentPage
     private void ShowSearchRadiusOnMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         
+    }
+    private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
+    {
+        if (e.IsExpanded)
+        {
+            //InitializeServerFilenamePicker();
+            if (this.serverfilenamepicker.SelectedItem != null)
+            {
+                this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
+            }
+        }
+        else
+            this.expander.IsExpanded = false;
     }
     private void DeleteButton_Clicked(object sender, EventArgs e)
     {
