@@ -24,6 +24,7 @@ using POIViewerMap.Helpers;
 using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
+using ProtoBuf;
 using ReactiveUI;
 using RolandK.Formats.Gpx;
 using System.Globalization;
@@ -751,9 +752,12 @@ public partial class MapViewPage : ContentPage
         // Download chosen file, is it local?
         if (FileListLocalAccess)
         {
-            pois = await POIBinaryFormat.ReadAsync(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
-            if (!POIsReadIsBusy)
+            var res = POIBinaryFormat.Read(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
+            if (res != null && !POIsReadIsBusy)
+            {
+                pois = res.POIs;
                 await PopulateMapAsync(pois);
+            }                
         }
         else
         {
@@ -761,9 +765,12 @@ public partial class MapViewPage : ContentPage
             await webhelper.DownloadPOIFileAsync(this.SelectedFilename);
             if (File.Exists(WebHelper.localPath))
             {
-                pois = await POIBinaryFormat.ReadAsync(WebHelper.localPath);
-                if (!POIsReadIsBusy)
+                var res = POIBinaryFormat.Read(WebHelper.localPath);
+                if (res != null && !POIsReadIsBusy)
+                {
+                    pois = res.POIs;
                     await PopulateMapAsync(pois);
+                }                   
             }
         }
         this.picker.IsEnabled = true;
