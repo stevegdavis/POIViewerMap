@@ -33,7 +33,7 @@
                 <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
             </mct:Expander.Header>
             <mct:Expander.Content>
-                <ScrollView HeightRequest="300" VerticalScrollBarVisibility="Never">
+                <ScrollView HeightRequest="290" VerticalScrollBarVisibility="Never">
                     <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*">
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
                             <HorizontalStackLayout>
