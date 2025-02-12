@@ -34,13 +34,12 @@ Open Street Map - Online only
 * Greece 
 * Hungary  
 * Iceland
-* Ireland and Northern Ireland  
+* Ireland  
 * Italy
 * Latvia
 * Liechenstien
 * Lithuania  
 * Luxembourg  
-* Montenegro
 * Moldova
 * Netherlands
 * Norway
@@ -75,7 +74,8 @@ Open Street Map - Online only
 **Search Radiuses Supported**  
 * 5km  
 * 10km  
-* 20km  
+* 20km
+* 50km   
 * 75km  
 * 100km  
 ## App Languages 
@@ -101,8 +101,8 @@ https://hnd.www.deepl.com/
 * Flurl.Http (v3.2.4 only)  https://flurl.dev/   
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
 * Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
-* UraniumUI https://github.com/enisn/UraniumUI
 * POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/
+* protobuf-net https://github.com/protobuf-net/protobuf-net
 ## OSM Conversion Software Used
 osmium https://osmcode.org/osmium-tool/
 ## Open Street Map Data
