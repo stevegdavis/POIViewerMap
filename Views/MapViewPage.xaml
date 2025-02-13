@@ -11,7 +11,7 @@
         <mct:StatusBarBehavior StatusBarColor="{StaticResource colorPrimaryDark}"/>
     </Page.Behaviors>
     <StackLayout>
-        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid VerticalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
@@ -22,8 +22,6 @@
                 </Grid.RowDefinitions>
                 <mapsui:MapView x:Name="mapView" 
                             Grid.Row ="0" Grid.Column="1" Grid.RowSpan="3"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"
                             BackgroundColor="Gray" 
                             Margin="0" />
             
@@ -49,7 +47,7 @@
                             <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}"/>
                             <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" Margin="7,0,0,0" HorizontalOptions="StartAndExpand">
+                        <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" Margin="7,0,0,0">
                             <Label Margin="0,11,2,0" FontAttributes="None" FontSize="16" >
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
@@ -59,7 +57,7 @@
                             <Picker x:Name="picker" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
                             </Picker>
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="1" Margin="7,0,0,10" HorizontalOptions="StartAndExpand">
+                        <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="1" Margin="7,0,0,10">
                             <Label FontSize="16" FontAttributes="None" Margin="0,10,0,0">
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
@@ -79,7 +77,7 @@
                                 </Picker.ItemsSource>
                             </Picker>
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,0,2,5" HorizontalOptions="StartAndExpand">
+                        <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,0,2,5">
                             <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
                             <Label FontSize="16" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
                         </HorizontalStackLayout>
@@ -94,7 +92,7 @@
                                 <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
                             </HorizontalStackLayout>
                         </StackLayout>
-                        <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="1"  Margin="2" HorizontalOptions="StartAndExpand">
+                        <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="1"  Margin="2">
                             <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
                             <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                         </HorizontalStackLayout>

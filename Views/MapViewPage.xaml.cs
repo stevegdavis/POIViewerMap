@@ -42,15 +42,14 @@ public partial class MapViewPage : ContentPage
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
     static int SearchRadius = 5; // km
-    static int MaxDistanceRefresh = 2; //km
+    static readonly int MaxDistanceRefresh = 2; //km
     static readonly int MinZoomPOI = 290;
     static POIType CurrentPOIType = POIType.DrinkingWater;
-    private List<POIData> pois = new();
+    private List<POIData> pois = [];
     private static Location myCurrentLocation;
     private static Location CurrentLocationOnLoad = null;
     private CompassData CurrentCompassReading;
-    private static bool IsCompassUpDateBusy = false; 
-    private MyLocationLayer? _myLocationLayer;
+    private readonly MyLocationLayer _myLocationLayer;
     private bool _disposed;
     public static bool IsAppStateSettingsBusy = false;
     public static bool IsSearchRadiusCircleBusy = false;
@@ -58,32 +57,32 @@ public partial class MapViewPage : ContentPage
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
     public IAppSettings appSettings;
-    CompositeDisposable? deactivateWith;
-    //private static FileSaverResult filesaverresult;
-
+    CompositeDisposable deactivateWith;
     private string SelectedFilename { get; set; } = string.Empty;
 
-    protected CompositeDisposable DeactivateWith => this.deactivateWith ??= new CompositeDisposable();
+    protected CompositeDisposable DeactivateWith => this.deactivateWith ??= [];
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 
     public MapViewPage(IAppSettings appSettings)
 	{
 		InitializeComponent();
         this.appSettings = appSettings;
-        var items = new List<string>();
-        items.Add(AppResource.OptionsPOIPickerDrinkingWaterText);
-        items.Add(AppResource.OptionsPOIPickerCampsiteText);
-        items.Add(AppResource.OptionsPOIPickerBicycleShopText);
-        items.Add(AppResource.OptionsPOIPickerBicycleRepairStationText);
-        items.Add(AppResource.OptionsPOIPickerSupermarketText);
-        items.Add(AppResource.OptionsPOIPickerATMText);
-        items.Add(AppResource.OptionsPOIPickerToiletText);
-        items.Add(AppResource.OptionsPOIPickerCafeText);
-        items.Add(AppResource.OptionsPOIPickerBakeryText);
-        items.Add(AppResource.OptionsPOIPickerPicnicTableText);
-        items.Add(AppResource.OptionsPOIPickerTrainStationText);
-        items.Add(AppResource.OptionsPOIPickerVendingMachineText);
-        items.Add(AppResource.OptionsPOIPickerLaundryText);
+        var items = new List<string>
+        {
+            AppResource.OptionsPOIPickerDrinkingWaterText,
+            AppResource.OptionsPOIPickerCampsiteText,
+            AppResource.OptionsPOIPickerBicycleShopText,
+            AppResource.OptionsPOIPickerBicycleRepairStationText,
+            AppResource.OptionsPOIPickerSupermarketText,
+            AppResource.OptionsPOIPickerATMText,
+            AppResource.OptionsPOIPickerToiletText,
+            AppResource.OptionsPOIPickerCafeText,
+            AppResource.OptionsPOIPickerBakeryText,
+            AppResource.OptionsPOIPickerPicnicTableText,
+            AppResource.OptionsPOIPickerTrainStationText,
+            AppResource.OptionsPOIPickerVendingMachineText,
+            AppResource.OptionsPOIPickerLaundryText
+        };
        this.picker.ItemsSource = items;
         InitializeServerFilenamePicker();
 
@@ -141,7 +140,7 @@ public partial class MapViewPage : ContentPage
                             if (Idx + AppResource.PinLabelDistanceText.Length < e.Pin.Label.Length)
                             {
                                 // Remove previous distance value as we may have moved on the map so recalculate
-                                e.Pin.Label = e.Pin.Label.Substring(0, Idx + AppResource.PinLabelDistanceText.Length);
+                                e.Pin.Label = e.Pin.Label[..(Idx + AppResource.PinLabelDistanceText.Length)];
                                 //e.Pin.Label += Format.FormatDistance(distance);
                             }
                             e.Pin.Label += FormatHelper.FormatDistance(distance);
@@ -306,7 +305,6 @@ public partial class MapViewPage : ContentPage
         _disposed = true;
         _myLocationLayer?.Dispose();
     }
-
     protected virtual void ThrowIfDisposed()
     {
         if (_disposed)
@@ -466,7 +464,7 @@ public partial class MapViewPage : ContentPage
                         }
                     }
                 }
-                sb.Append(")");
+                sb.Append(')');
                 myRouteLayer = CreateLineStringLayer(sb.ToString().Replace(",)", ")"), CreateLineStringStyle());
                 mapView.Map.Layers.Add(myRouteLayer);
             }
@@ -500,10 +498,10 @@ public partial class MapViewPage : ContentPage
     {
         CurrentCompassReading = e.Reading;
     }
-    public static ILayer CreateLineStringLayer(string line, IStyle? style = null)
+    public static ILayer CreateLineStringLayer(string line, IStyle style = null)
     {
         var lineString = (LineString)new WKTReader().Read(line);
-        lineString = new LineString(lineString.Coordinates.Select(v => SphericalMercator.FromLonLat(v.Y, v.X).ToCoordinate()).ToArray());
+        lineString = new LineString([.. lineString.Coordinates.Select(v => SphericalMercator.FromLonLat(v.Y, v.X).ToCoordinate())]);
 
         return new MemoryLayer
         {
@@ -519,7 +517,6 @@ public partial class MapViewPage : ContentPage
         {
             Fill = null,
             Outline = null,
-#pragma warning disable CS8670 // Object or collection initializer implicitly dereferences possibly null member.
             Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
         };
     }
