@@ -2,9 +2,20 @@
 using POIViewerMap.Resources.Strings;
 
 namespace POIViewerMap.Helpers;
-
+/// <summary>
+/// Class <c>FormatHelper</c>
+/// </summary>
 public class FormatHelper
 {
+    /// <summary>
+    /// Method <c>FormatDistance</c>.
+    /// For app country picker in system language
+    /// the country param identifies the country.
+    /// </summary>
+    /// <param name="distance">double to be formatted into a string for display</param>
+    /// <returns>
+    /// Formatted string
+    /// </returns>
     public static string FormatDistance(double distance)
     {
         var distanceStr = $" {String.Format("{0:0.00}", distance)}km";
@@ -12,6 +23,11 @@ public class FormatHelper
             distanceStr = $" {String.Format("{0:0}", distance * 1000)} {AppResource.Meters}";
         return distanceStr;
     }
+    /// <summary>
+    /// Method <c>GetSelectedIndexFromPOIType</c>
+    /// </summary>
+    /// <param name="poi"></param>
+    /// <returns>int</returns>
     public static int GetSelectedIndexFromPOIType(POIType poi)
     {
         return poi switch
@@ -31,6 +47,11 @@ public class FormatHelper
             _ => 0,
         };
     }
+    /// <summary>
+    /// <c>GetPOIType</c>
+    /// </summary>
+    /// <param name="poi"></param>
+    /// <returns>POIType</returns>
     public static POIType GetPOIType(int poi)
     {
         return poi switch
@@ -51,6 +72,11 @@ public class FormatHelper
             _ => POIType.DrinkingWater,
         };
     }
+    /// <summary>
+    /// <c>GetSelectedIndexFromRadius</c>
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <returns>Index</returns>
     public static int GetSelectedIndexFromRadius(int radius)
     {
         return radius switch
@@ -64,6 +90,11 @@ public class FormatHelper
             _ => 0,//5km
         };
     }
+    /// <summary>
+    /// <c>GetSubTitleLang</c>
+    /// </summary>
+    /// <param name="subtitle"></param>
+    /// <returns>Language string in a supported language</returns>
     public static string GetSubTitleLang(string subtitle)
     {
         return subtitle.Replace("Open:", AppResource.PinLabelSubtitleOpen).
@@ -84,6 +115,12 @@ public class FormatHelper
             Replace("Vegan Only", AppResource.PinLabelSubtitleVeganOnlyText).
             Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText);
     }
+    /// <summary>
+    /// <c>GetTitleLang</c>
+    /// </summary>
+    /// <param name="data">Data type</param>
+    /// <param name="v"></param>
+    /// <returns>String for display</returns>
     public static string GetTitleLang(POIData data, bool v)
     {
         var Title = string.Empty;
@@ -134,6 +171,11 @@ public class FormatHelper
         }
         return Title += v ? data.Title[data.Title.IndexOf(":")..] : string.Empty;
     }
+    /// <summary>
+    /// <c>GetRadiusType</c>
+    /// </summary>
+    /// <param name="selectedIndex"></param>
+    /// <returns>Index</returns>
     public static int GetRadiusType(int selectedIndex)
     {
         return selectedIndex switch
@@ -147,6 +189,11 @@ public class FormatHelper
             _ => 5,
         };
     }
+    /// <summary>
+    /// <c>TranslatedCountryName</c>
+    /// </summary>
+    /// <param name="countrycode"></param>
+    /// <returns>Translated country name from 2 letter country code</returns>
     public static string TranslateCountryName(string countrycode)
     {
         return countrycode switch

@@ -10,7 +10,10 @@ using System.Text;
 using System.Threading;
 
 namespace POIViewerMap.Helpers;
-
+/// <summary>
+/// Class <c>WebHelper</c>
+/// Controls all aspects of internet comms
+/// </summary>
 class WebHelper
 {
     private static readonly string ServerUrl = "https://sdsdevelopment.w5.lt/poidata-server";// "http://192.168.1.182:4000/poidata-server";
@@ -27,14 +30,29 @@ class WebHelper
 
     private IFlurlResponse response;
 
+    /// <summary>
+    /// <c>DownloadPOIFileAsync</c>
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns>Task completed</returns>
     public async Task DownloadPOIFileAsync(string filename)
     {
         await FileDownloadPostForm(filename);
     }
+    /// <summary>
+    /// <c>FilenamesFetchAsync</c>
+    /// </summary>
+    /// <param name="parameters">'action' and action to execute eg. Show All files for picker </param>
+    /// <returns>List of FileFetch objects (that includes countries as 2 letter codes)</returns>
     public async Task<FileFetch> FilenamesFetchAsync(Dictionary<string, string> parameters)
     {
         return await FilenamesFetchPostForm(parameters);
     }
+    /// <summary>
+    /// <c>FilenamesFetchPostForm</c>
+    /// </summary>
+    /// <param name="keyValuePairs"></param>
+    /// <returns>List of FileFetch objects (that includes countries as 2 letter codes)</returns>
     private async Task<FileFetch> FilenamesFetchPostForm(Dictionary<string, string> keyValuePairs)
     {
         string responseCode = string.Empty;
@@ -69,6 +87,12 @@ class WebHelper
             };
         }
     }
+    /// <summary>
+    /// <c>FileDownloadPostForm</c>
+    /// Downloads file from remote server to AppDataDirectory
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns>Task completed</returns>
     private async Task FileDownloadPostForm(string filename)
     {
         string responseCode = string.Empty;
@@ -122,6 +146,11 @@ class WebHelper
 
     //    return result;
     //}
+    /// <summary>
+    /// <c>ParseJsonContent</c>
+    /// </summary>
+    /// <param name="content">Content to be parsed</param>
+    /// <returns>FileFetch object that contains filenames and last update of files(not used)</returns>
     public FileFetch ParseJsonContent(string content)
     {
         var ff = new FileFetch();
@@ -146,6 +175,12 @@ class WebHelper
             }
         return ff;
     }
+    /// <summary>
+    /// <c>AddFile</c>
+    /// Parses string for filename and last update DateTime object (not used)
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="ff">ref to file array to add FileFetch object to</param>
     private void AddFile(string file, ref FileFetch ff)
     {
         file = file.Replace("[", string.Empty);

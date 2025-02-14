@@ -4,7 +4,9 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace POIViewerMap.Stores;
-
+/// <summary>
+/// Not used
+/// </summary>
 public interface IAppStateSettings
 {
     int SearchRadius { get; set; }

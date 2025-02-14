@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace POIViewerMap.Helpers;
-
+/// <summary>
+/// Class <c>AppIconHelper</c>
+/// </summary>
 internal class AppIconHelper
 {
     public static string optionsStr = null;

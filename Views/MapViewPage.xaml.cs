@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Views;
 using Flurl.Util;
 using Mapsui;
@@ -13,9 +12,7 @@ using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
-using Mapsui.Widgets.ButtonWidget;
 using Mapsui.Widgets.ScaleBar;
-using Microsoft.Maui.Controls.Shapes;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -24,10 +21,8 @@ using POIViewerMap.Helpers;
 using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
-using ProtoBuf;
 using ReactiveUI;
 using RolandK.Formats.Gpx;
-using System.Globalization;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
@@ -35,7 +30,9 @@ using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
-
+/// <summary>
+/// Class <c>MapViewPage</c>
+/// </summary>
 public partial class MapViewPage : ContentPage
 {
     private string FullFilepathRoute;
@@ -63,6 +60,10 @@ public partial class MapViewPage : ContentPage
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= [];
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="appSettings">Only one setting used for display/hide of disclaimer popup</param>
     public MapViewPage(IAppSettings appSettings)
 	{
 		InitializeComponent();
@@ -198,6 +199,11 @@ public partial class MapViewPage : ContentPage
                     this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
     }
+    /// <summary>
+    /// <c>OnNavigatedTo</c>
+    /// Displays disclaimer popup if ShowPopupAtStart is true
+    /// </summary>
+    /// <param name="args"></param>
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         if (!appSettings.ShowPopupAtStart) return;
@@ -206,19 +212,22 @@ public partial class MapViewPage : ContentPage
         popup.Closed += Popup_Closed;
         this.ShowPopup(popup);
     }
+    /// <summary>
+    /// <c>PopupClosed</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Popup_Closed(object sender, PopupClosedEventArgs e)
     {
         if(sender is AppUsagePopup)
             appSettings.ShowPopupAtStart = (bool)e.Result;
     }
-    private async Task GetCurrentLocation()
-    {
-        var request = new GeolocationRequest(GeolocationAccuracy.Best);
-        var Location = await Geolocation.GetLocationAsync(request, new CancellationToken());
-        mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(Location.Latitude, Location.Longitude));
-    }
-    // Have we moved since last poi load/search radius by more than 2km
-    // if so update all Pins on map but only if allow center map is checked
+    /// <summary>
+    /// <c>CheckLoadingDistance</c>
+    /// Have we moved since last poi load/search radius by more than 2km
+    /// if so update all Pins on map but only if Center Map On My Position check box is checked
+    /// </summary>
+    /// <returns></returns>
     private async Task CheckLoadingDistance()
     {
         if(CurrentLocationOnLoad == null) return;
@@ -239,6 +248,11 @@ public partial class MapViewPage : ContentPage
             CurrentLocationOnLoad = myCurrentLocation;
         }        
     }
+    /// <summary>
+    /// <c>UpdateVisiblePinsLabelDistanceText</c>
+    /// Updates distance value on visible pins on map
+    /// </summary>
+    /// <returns>Task completed</returns>
     private async Task UpdateVisiblePinsLabelDistanceText()
     {
         await Task.Factory.StartNew(async () =>
@@ -270,6 +284,12 @@ public partial class MapViewPage : ContentPage
             }
         });
     }
+    /// <summary>
+    /// <c>UpdateSearchRadiusCircleOnMap</c>
+    /// </summary>
+    /// <param name="mapView"></param>
+    /// <param name="radius">Picker value</param>
+    /// <returns>Task completed</returns>
     private static Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
     {
         if (IsSearchRadiusCircleBusy)
@@ -312,6 +332,10 @@ public partial class MapViewPage : ContentPage
             throw new ObjectDisposedException(GetType().FullName);
         }
     }
+    /// <summary>
+    /// <c>GetCurrentDeviceLocationAsync</c>
+    /// </summary>
+    /// <returns></returns>
     private async Task GetCurrentDeviceLocationAsync()
     {
         if (POIsMapUpdateIsBusy) return;
@@ -332,6 +356,12 @@ public partial class MapViewPage : ContentPage
             POIsMapUpdateIsBusy = false;
         });
     }
+    /// <summary>
+    /// <c>OnPickerSelectedIndexChanged</c>
+    /// Populates or re-populates the map on Country picker index change event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
     {
         if(POIsReadIsBusy)
@@ -377,6 +407,12 @@ public partial class MapViewPage : ContentPage
             }
         }
     }
+    /// <summary>
+    /// <c>OnRadiusPickerSelectedIndexChanged</c>
+    /// Populates or re-populates the map on Search Radius picker index change event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     async void OnRadiusPickerSelectedIndexChanged(object sender, EventArgs e)
     {
         if (POIsReadIsBusy)
@@ -421,6 +457,11 @@ public partial class MapViewPage : ContentPage
             }
         }
     }
+    /// <summary>
+    /// <c>ShowRouteLoadFailToastMessage</c>
+    /// Displays a toast message if Import route fails
+    /// </summary>
+    /// <param name="mess"></param>
     private static void ShowRouteLoadFailToastMessage(string mess)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
@@ -433,6 +474,12 @@ public partial class MapViewPage : ContentPage
             await toast.Show(cancellationTokenSource.Token);
         });
     }
+    /// <summary>
+    /// <c>BrowseRoutesButton_Clicked</c>
+    /// Displays File Picker for GPX file import
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     async void BrowseRoutesButton_Clicked(object sender, EventArgs e)
     {
         if (POIsReadIsBusy)
@@ -476,6 +523,9 @@ public partial class MapViewPage : ContentPage
         }
         finally { this.activityrouteloadindicatorlayout.IsVisible = false; }
     }
+    /// <summary>
+    /// <c>ToggleCompass</c>
+    /// </summary>
     private void ToggleCompass()
     {
         if (Compass.Default.IsSupported)
@@ -494,10 +544,22 @@ public partial class MapViewPage : ContentPage
             }
         }
     }
+    /// <summary>
+    /// <c>Compass_ReadingChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
     {
         CurrentCompassReading = e.Reading;
     }
+    /// <summary>
+    /// <c>CreateLineStringLayer</c>
+    /// Creates a layer to display imported GPX route on the map
+    /// </summary>
+    /// <param name="line"></param>
+    /// <param name="style"></param>
+    /// <returns></returns>
     public static ILayer CreateLineStringLayer(string line, IStyle style = null)
     {
         var lineString = (LineString)new WKTReader().Read(line);
@@ -511,6 +573,10 @@ public partial class MapViewPage : ContentPage
 
         };
     }
+    /// <summary>
+    /// <c>CreateLineStringStyle</c>
+    /// </summary>
+    /// <returns>VectorStyle</returns>
     public static IStyle CreateLineStringStyle()
     {
         return new VectorStyle
@@ -520,6 +586,11 @@ public partial class MapViewPage : ContentPage
             Line = { Color = Mapsui.Styles.Color.FromString("Red"), Width = 4 }
         };
     }
+    /// <summary>
+    /// <c>BrowseRoutes</c>
+    /// Sets FullFilepathRoute variable to chose file path
+    /// </summary>
+    /// <returns>Task completed</returns>
     private async Task BrowseRoutes()
     {
         var customFileType = new FilePickerFileType(
@@ -544,6 +615,11 @@ public partial class MapViewPage : ContentPage
             this.FullFilepathRoute = result?.FullPath;
         }
     }
+    /// <summary>
+    /// <c></c>
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns>List of </returns>
     public static async Task<FileResult> PickAndShow(PickOptions options)
     {
         try
@@ -557,6 +633,11 @@ public partial class MapViewPage : ContentPage
         }
         return null;
     }
+    /// <summary>
+    /// <c>GetCurrentDeviceLocation</c>
+    /// Set current lat,lon on Location Layer on map
+    /// </summary>
+    /// <returns>Task completed</returns>
     private async Task GetCurrentDeviceLocation()
     {
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -566,12 +647,12 @@ public partial class MapViewPage : ContentPage
             mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
         }
     }
-    private static MRect GetLimitsOfStroud()
-    {
-        var (minX, minY) = SphericalMercator.FromLonLat(-2.1488, 51.79797);
-        var (maxX, maxY) = SphericalMercator.FromLonLat(-2.3434, 51.65957);
-        return new MRect(minX, minY, maxX, maxY);
-    }
+    /// <summary>
+    /// <c>PopulateMapAsync</c>
+    /// Populates map with current POIType as icons
+    /// </summary>
+    /// <param name="pois">List of country Points Of Interest</param>
+    /// <returns>Task completed</returns>
     private async Task PopulateMapAsync(List<POIData> pois)
     {
         await Task.Factory.StartNew(() =>
@@ -641,6 +722,10 @@ public partial class MapViewPage : ContentPage
         });
         await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
     }
+    /// <summary>
+    /// <c>InitializeServerFilenamePicker</c>
+    /// Gets a list of filenames (2 letter country code for the filename) from remote server or from local storage
+    /// </summary>
     private async void InitializeServerFilenamePicker()
     {
         //this.POIServerFileDownloadButton.IsEnabled = false;
@@ -694,6 +779,11 @@ public partial class MapViewPage : ContentPage
     {
         
     }
+    /// <summary>
+    /// <c>expander_ExpandedChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
     {
         if (e.IsExpanded)
@@ -707,15 +797,11 @@ public partial class MapViewPage : ContentPage
         else
             this.expander.IsExpanded = false;
     }
-    private void DeleteButton_Clicked(object sender, EventArgs e)
-    {
-        //this.OptionsRouteDeleteButton.IsVisible = false;
-        if(myRouteLayer!= null)
-        {
-            //this.FilepathRouteLabel.Text = string.Empty;
-            mapView.Map.Layers.Remove(myRouteLayer);
-        }        
-    }
+    /// <summary>
+    /// <c>serverfilenamepicker_SelectedIndexChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void serverfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         var v = serverfilenamepicker.SelectedIndex;
@@ -729,6 +815,10 @@ public partial class MapViewPage : ContentPage
         serverfilenamepicker.Title = s;
         POIServerFileDownload();
     }
+    /// <summary>
+    /// <c>POIServerFileDownload</c>
+    /// Fires file download from picker selected index from remote server or local storage
+    /// </summary>
     private async void POIServerFileDownload()
     {
         if (String.IsNullOrEmpty(this.SelectedFilename))
