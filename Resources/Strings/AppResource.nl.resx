@@ -121,8 +121,7 @@
     <value>Sluit</value>
   </data>
   <data name="AppUsageDisclaimerLabelText" xml:space="preserve">
-    <value>De auteur van deze app kan de nauwkeurigheid van POI's die op de kaart worden weergegeven niet garanderen. Discretie is te allen tijde vereist tijdens het gebruik van de app. De gegevens worden gehaald uit Open Street Maps en zijn afhankelijk van de vele OSM-medewerkers. Bijzondere aandacht moet worden besteed aan drinkwaterpunten, aangezien er geen garantie is dat deze op de kaart geschikt zijn om te drinken.
-*** Vertaald met www.DeepL.com/Translator (gratis versie) ***</value>
+    <value>De auteur van deze app kan de nauwkeurigheid van POI's die op de kaart worden weergegeven niet garanderen. Discretie is te allen tijde vereist tijdens het gebruik van de app. De gegevens worden gehaald uit Open Street Maps en zijn afhankelijk van de vele OSM-medewerkers. Bijzondere aandacht moet worden besteed aan drinkwaterpunten, aangezien er geen garantie is dat deze op de kaart geschikt zijn om te drinken.</value>
   </data>
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Disclaimer</value>
@@ -317,7 +316,7 @@
     <value>Camping</value>
   </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
-    <value>Drinkwater</value>
+    <value>Water drinken</value>
   </data>
   <data name="OptionsPOIPickerLaundryText" xml:space="preserve">
     <value>Wasserij</value>
