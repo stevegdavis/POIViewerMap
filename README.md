@@ -109,7 +109,6 @@ osmium https://osmcode.org/osmium-tool/
 https://download.geofabrik.de/
 ## Road Map  
 * Work on iOS devices
-* Offline Maps
 
 ## Licence
 Copyright © 2025 SDSDevelopment
