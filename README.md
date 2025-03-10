@@ -1,16 +1,16 @@
 # POIViewerMap  
 Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display them on a map within a search radius from the users current location. 
-POIs are orientated towards bicycle touring, hiking and boating.  
+POI's are oriented towards bicycle touring, hiking and boating.  
 The app also supports import of a GPX route for displaying on the map.  
 
 **Map**  
 Open Street Map - Online only  
 
 **Options Panel**  
-* Import POIs for Country from remote server
+* Import POI's for Country from remote server
 * POI (To View)
 * Search Radius (Kilometers - distances shown are in a straight line)
-* POIs Found (Visible on map)
+* POI's Found (Visible on map)
 * Import GPX Route
 * Route (GPX file name when imported)
 * Center Map On My Position (Uses more battery power)
@@ -56,7 +56,7 @@ Open Street Map - Online only
 * Ukraine
 * United Kingdom
 
-**POIs Supported**   
+**POI's Supported**   
 * <img src="Resources/Images/waterlightblue.svg" align="center" width="20" height="20"/> Drinking Water Point  
 * <img src="Resources/Images/camping.svg" align="center" width="20"/> Campsite  
 * <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
