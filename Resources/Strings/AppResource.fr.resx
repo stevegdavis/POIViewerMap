@@ -279,14 +279,194 @@
   <data name="DoNotShowAgainLabelText" xml:space="preserve">
     <value>Ne plus afficher ce message</value>
   </data>
+  <data name="DownloadingOfflineMapLabelText" xml:space="preserve">
+    <value>Téléchargement de la carte</value>
+  </data>
+  <data name="DownloadMapsViaWifiLabelText" xml:space="preserve">
+    <value>Télécharger des cartes via Wifi uniquement</value>
+  </data>
+  <data name="ErrorText" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
   <data name="ImportRouteFailedMessage" xml:space="preserve">
     <value>L'importation de l'itinéraire a échoué !</value>
+  </data>
+  <data name="LoadingOfflineMapLabelText" xml:space="preserve">
+    <value>Chargement de la carte</value>
   </data>
   <data name="Meters" xml:space="preserve">
     <value>Mètres</value>
   </data>
   <data name="NameText" xml:space="preserve">
     <value>Nom :</value>
+  </data>
+  <data name="NoInternetConnectionText" xml:space="preserve">
+    <value>Pas de connexion Internet par Wifi</value>
+  </data>
+  <data name="OfflineMapsByRegionEnglandMid" xml:space="preserve">
+    <value>Angleterre Midlands</value>
+  </data>
+  <data name="OfflineMapsByRegionEnglandNorth" xml:space="preserve">
+    <value>Angleterre Nord</value>
+  </data>
+  <data name="OfflineMapsByRegionEnglandSouthEast" xml:space="preserve">
+    <value>Angleterre Sud-Est</value>
+  </data>
+  <data name="OfflineMapsByRegionEnglandSouthWest" xml:space="preserve">
+    <value>Angleterre Sud-Ouest</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceAlsace" xml:space="preserve">
+    <value>France Alcase</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceAquitaine" xml:space="preserve">
+    <value>France Aquitaine</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceAuvergne" xml:space="preserve">
+    <value>France Auvergne</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceBasseNormandie" xml:space="preserve">
+    <value>France Basse-Normandie</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceBourgogne" xml:space="preserve">
+    <value>France Bourgogne</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceBretagne" xml:space="preserve">
+    <value>France Bretagne</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceCentre" xml:space="preserve">
+    <value>France Centre</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceChampagneArdenne" xml:space="preserve">
+    <value>France Champagne-Ardenne</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceCorse" xml:space="preserve">
+    <value>France Corse</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceFrancheComte" xml:space="preserve">
+    <value>France Franche-Comté</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceHauteNormandie" xml:space="preserve">
+    <value>France Haute-Normandie</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceIleDeFrance" xml:space="preserve">
+    <value>France Île-de-France</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceLanguedocRoussillon" xml:space="preserve">
+    <value>France Languedoc-Roussillon</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceLimousin" xml:space="preserve">
+    <value>France Limousin</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceLorriane" xml:space="preserve">
+    <value>France Lorraine</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceMidiPyrenees" xml:space="preserve">
+    <value>France Midi-Pyrénées</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceNordPasDeCalias" xml:space="preserve">
+    <value>France Nord-Pas-de-Calais</value>
+  </data>
+  <data name="OfflineMapsByRegionFrancePasDeLaLoire" xml:space="preserve">
+    <value>France Pays de la Loire</value>
+  </data>
+  <data name="OfflineMapsByRegionFrancePicardie" xml:space="preserve">
+    <value>France Picardie</value>
+  </data>
+  <data name="OfflineMapsByRegionFrancePoitouCharentes" xml:space="preserve">
+    <value>France Poitou-Charentes</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceProvenceAlpesCotedAzure" xml:space="preserve">
+    <value>France Provence-Alpes-Côte d'Azur</value>
+  </data>
+  <data name="OfflineMapsByRegionFranceRhoneAlpes" xml:space="preserve">
+    <value>France Rhône-Alpes</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyBadenWuerttemberg" xml:space="preserve">
+    <value>Allemagne Baden-Wuerttemberg</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyBayern" xml:space="preserve">
+    <value>Allemagne Bayern</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyBerlin" xml:space="preserve">
+    <value>Allemagne Berlin</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyBrandenburg" xml:space="preserve">
+    <value>Allemagne Brandenburg</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyBremen" xml:space="preserve">
+    <value>Allemagne Bremen</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyHamburg" xml:space="preserve">
+    <value>Allemagne Hambourg</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyHessen" xml:space="preserve">
+    <value>Allemagne Hessen</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyMecklenburgVorpommern" xml:space="preserve">
+    <value>Allemagne Mecklembourg-Poméranie-Occidentale</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyNiedersachsen" xml:space="preserve">
+    <value>Allemagne Niedersachsen</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyNordrheinWestfalen" xml:space="preserve">
+    <value>Allemagne Nordrhein-Westfalen</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyRheinlandPfalz" xml:space="preserve">
+    <value>Allemagne Rheinland-Pfalz</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanySaarland" xml:space="preserve">
+    <value>Allemagne Saarland</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanySachsen" xml:space="preserve">
+    <value>Allemagne Sachsen</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanySachsenAnhalt" xml:space="preserve">
+    <value>Allemagne Sachsen-Anhalt</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanySchleswigHolstein" xml:space="preserve">
+    <value>Allemagne Schleswig-Holstein</value>
+  </data>
+  <data name="OfflineMapsByRegionGermanyThüringen" xml:space="preserve">
+    <value>Germany Thüringen</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsBrabant" xml:space="preserve">
+    <value>Pays-Bas Brabant</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsDrenthe" xml:space="preserve">
+    <value>Pays-Bas Drenthe</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsFlevoland" xml:space="preserve">
+    <value>Pays-Bas Flevoland</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsFriesland" xml:space="preserve">
+    <value>Pays-Bas Frise</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsGelderland" xml:space="preserve">
+    <value>Pays-Bas Gelderland</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsGroningen" xml:space="preserve">
+    <value>Pays-BasGroningen</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsLimburg" xml:space="preserve">
+    <value>Pays-Bas Limburg</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsNoordHolland" xml:space="preserve">
+    <value>Pays-Bas Noord-Holland</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsOverijssel" xml:space="preserve">
+    <value>Pays-Bas Overijssel</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsUtrecht" xml:space="preserve">
+    <value>Pays-Bas Utrecht</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsZeeland" xml:space="preserve">
+    <value>Pays-Bas Zélande</value>
+  </data>
+  <data name="OfflineMapsByRegionNetherlandsZuidHolland" xml:space="preserve">
+    <value>Pays-Bas Zuid-Holland</value>
+  </data>
+  <data name="OKText" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>
@@ -449,5 +629,14 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Échec de l'accès au serveur</value>
+  </data>
+  <data name="UseOfflineMapsDeviceLabelText" xml:space="preserve">
+    <value>Sur l'appareil :</value>
+  </data>
+  <data name="UseOfflineMapsLabelText" xml:space="preserve">
+    <value>Utiliser des cartes hors ligne</value>
+  </data>
+  <data name="UseOfflineMapsServerLabelText" xml:space="preserve">
+    <value>Télécharger :</value>
   </data>
 </root>

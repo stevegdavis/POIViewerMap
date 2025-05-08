@@ -102,6 +102,11 @@
 	  <None Remove="Resources\Images\vending-machine.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	  <None Remove="Resources\Splash\splash_bicycle.svg" />
+	  <None Remove="styles\osm-liberty.json" />
+	  <None Remove="styles\sprites\osm-liberty%402x.json" />
+	  <None Remove="styles\sprites\osm-liberty%402x.png" />
+	  <None Remove="styles\sprites\osm-liberty.json" />
+	  <None Remove="styles\sprites\osm-liberty.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -125,12 +130,17 @@
 	  <EmbeddedResource Include="Resources\Images\train.svg" />
 	  <EmbeddedResource Include="Resources\Images\vending-machine.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterlightblue.svg" />
+	  <EmbeddedResource Include="styles\osm-liberty.json" />
+	  <EmbeddedResource Include="styles\sprites\osm-liberty.json" />
+	  <EmbeddedResource Include="styles\sprites\osm-liberty.png" />
+	  <EmbeddedResource Include="styles\sprites\osm-liberty@2x.json" />
+	  <EmbeddedResource Include="styles\sprites\osm-liberty@2x.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Splash\splash.svg" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.2" />
 		<PackageReference Include="POIBinaryFormatLib" Version="2.2.5" />
@@ -140,17 +150,21 @@
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="11.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="5.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Mapsui.Maui" Version="4.1.1" />
-		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.1" />
-		<PackageReference Include="Mapsui.Tiling" Version="4.1.1" />	
+		<PackageReference Include="Mapsui.Maui" Version="4.1.8" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.8" />
+		<PackageReference Include="Mapsui.Tiling" Version="4.1.8" />
 		<PackageReference Include="Flurl.Http" Version="3.2.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.40" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.40" />
+		<PackageReference Include="Google.Apis" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Core" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Discovery.v1" Version="1.68.0" />
+		<PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3703" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="RolandK.Formats.Gpx" Version="1.0.1" />
 	</ItemGroup>
+	
+	
 
 	<ItemGroup>
 	  <Compile Update="Platforms\iOS\KeyboardHelper.cs">
@@ -202,5 +216,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="C:\SRC\Library\Mapsui.VectorTileLayers.Core\Mapsui.VectorTileLayers.Core.csproj" />
+		<ProjectReference Include="C:\SRC\Library\Mapsui.VectorTileLayers.OpenMapTiles\Mapsui.VectorTileLayers.OpenMapTiles.csproj" />
+	</ItemGroup>
 </Project>
