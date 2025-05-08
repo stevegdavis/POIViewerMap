@@ -11,9 +11,16 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
+using Mapsui.Utilities;
+using Mapsui.VectorTileLayers.Core.Enums;
+using Mapsui.VectorTileLayers.Core.Renderer;
+using Mapsui.VectorTileLayers.Core.Styles;
+using Mapsui.VectorTileLayers.OpenMapTiles;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
+using Microsoft.Maui.Media;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Index.HPRtree;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
 using POIViewerMap.DataClasses;
@@ -23,8 +30,10 @@ using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
 using RolandK.Formats.Gpx;
+using SkiaSharp;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reflection;
 using System.Text;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -51,6 +60,9 @@ public partial class MapViewPage : ContentPage
     public static bool IsAppStateSettingsBusy = false;
     public static bool IsSearchRadiusCircleBusy = false;
     public static Popup popup;
+    private string SelectedMbTilesFilename { get; set; } = string.Empty;
+    private static MbTileFilesFetch servermbtff = new(); // MbTiles from server
+    private static MbTileFilesFetch localmbtff = new();  // MbTiles from local storage
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
     public IAppSettings appSettings;
@@ -84,14 +96,14 @@ public partial class MapViewPage : ContentPage
             AppResource.OptionsPOIPickerVendingMachineText,
             AppResource.OptionsPOIPickerLaundryText
         };
-       this.picker.ItemsSource = items;
-        InitializeServerFilenamePicker();
+        this.picker.ItemsSource = items;
+        InitializePOIsServerFilenamePicker();
 
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
         AppIconHelper.InitializeIcons();
-        
+
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
         {
@@ -115,7 +127,10 @@ public partial class MapViewPage : ContentPage
         mapView.IsMyLocationButtonVisible = true;
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
-        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+        mapView.Renderer.StyleRenderers[typeof(BackgroundTileStyle)] = new BackgroundTileStyleRenderer();
+        mapView.Renderer.StyleRenderers[typeof(RasterTileStyle)] = new RasterTileStyleRenderer();
+        mapView.Renderer.StyleRenderers[typeof(VectorTileStyle)] = new VectorTileStyleRenderer();
         mapView.PinClicked += (s, e) =>
         {
             if (e.Pin != null)
@@ -458,6 +473,243 @@ public partial class MapViewPage : ContentPage
         }
     }
     /// <summary>
+    /// <c>Localmapfilenamepicker_SelectedIndexChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void Localmapfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (localmapfilenamepicker.SelectedIndex == -1)
+            return;
+        this.servermapfilenamepicker.IsEnabled = false;
+        this.localmapfilenamepicker.IsEnabled = false;
+        this.titleloadinglabel.Text = AppResource.LoadingOfflineMapLabelText;
+        this.activityloadingofflinemapsindicatorlayout.IsVisible = true;
+        var v = localmapfilenamepicker.SelectedIndex;
+        var s = localmapfilenamepicker.SelectedItem as string;
+        if (v == -1 || s.Equals("No Data"))
+        {
+            this.SelectedMbTilesFilename = string.Empty;
+            return;
+        }
+        localmapfilenamepicker.Title = s;
+        foreach (var item in localmbtff.MbTileFiles)
+        {
+            var name = item.Name[0..(item.Name.IndexOf("{"))];
+            name = FormatHelper.TranslateCountryName(Path.GetFileNameWithoutExtension(name));
+            if (name.Equals(s))
+            {
+                this.SelectedMbTilesFilename = item.Name;
+                break;
+            }
+        }
+        try
+        {
+            await LoadMapboxGL();
+        }
+        catch { }
+        finally { this.activityloadingofflinemapsindicatorlayout.IsVisible = false; this.servermapfilenamepicker.IsEnabled = true; this.localmapfilenamepicker.IsEnabled = true; }
+    }
+    /// <summary>
+    /// <c>serverfilenamepicker_SelectedIndexChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void ServerMapfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var v = servermapfilenamepicker.SelectedIndex;
+        var s = servermapfilenamepicker.SelectedItem as string;
+        if (v == -1 || s.Equals("No Data"))
+        {
+            this.SelectedMbTilesFilename = string.Empty;
+            return;
+        }
+        this.servermapfilenamepicker.Title = s;
+        foreach (var item in servermbtff.MbTileFiles)
+        {
+            var name = item.Name[0..(item.Name.IndexOf("{"))];
+            name = FormatHelper.TranslateCountryName(name);
+            if (name.Equals(s))
+            {
+                this.SelectedMbTilesFilename = item.Name;
+                break;
+            }
+        }
+        if (this.DownloadMapsViaWiFi.IsChecked)
+        {
+            IEnumerable<ConnectionProfile> profiles = Connectivity.Current.ConnectionProfiles;
+            if (!profiles.Contains(ConnectionProfile.WiFi))
+            {
+                // No connection to internet via Wifi
+                await DisplayAlert(AppResource.ErrorText, AppResource.NoInternetConnectionText, AppResource.OKText);
+                return;
+            }
+        }
+        this.titleloadinglabel.Text = AppResource.DownloadingOfflineMapLabelText;
+        this.activityloadingofflinemapsindicatorlayout.IsVisible = true;
+        this.servermapfilenamepicker.IsEnabled = false;
+        this.localmapfilenamepicker.IsEnabled = false;
+        this.OfflineMaps.IsEnabled = false;
+        this.DownloadMapsViaWiFi.IsEnabled = false;
+        var ms = await DriveHelper.DriveDownloadFile(this.SelectedMbTilesFilename);
+        if (ms != null)
+        {
+            using var fs = new FileStream($"{Path.Combine(FileSystem.AppDataDirectory, this.SelectedMbTilesFilename)}", FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            ms.WriteTo(fs);
+            // Successfully downloaded so add to local picker - check for duplicates
+            this.SelectedMbTilesFilename = fs.Name;
+            this.mbtilebytes.Text = string.Empty;
+            this.activityloadingofflinemapsindicatorlayout.IsVisible = false;
+            var sourcenames = new List<string>();
+            var fn = Path.GetFileName(this.SelectedMbTilesFilename);
+            var Idx = fn.IndexOf("{");
+            if (Idx > -1)
+            {
+                bool Found = false;
+                var name = FormatHelper.TranslateCountryName(fn[..Idx]);
+                if (this.localmapfilenamepicker.ItemsSource != null && this.localmapfilenamepicker.Items.Count > 0)
+                {
+                    foreach (var item in this.localmapfilenamepicker.Items)
+                    {
+                        if (!item.Contains("No Data"))
+                            sourcenames.Add(item);
+                        if (item.Equals(name))
+                            Found = true;
+                    }
+                }
+                if (!Found)
+                {
+                    var bbox = fn[(Idx + 1)..fn.IndexOf("}")]; // TODO
+                    var Idx2 = fn.IndexOf("}");
+                    if (Idx2 > -1)
+                    {
+                        var mbf = new MbTileFile();
+                        // Get last update part
+                        //}yyyyMMdd
+                        var dts = fn.Substring(Idx2 + 1, 8);
+                        mbf.LastUpdated = new DateTime(int.Parse(dts[..4]), int.Parse(dts[4..6]), int.Parse(dts[6..8]));
+                        mbf.Name = fn;
+                        sourcenames.Add(name);
+                        localmbtff.MbTileFiles.Add(mbf);
+                        FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+                        sourcenames.Sort(FilenameComparer.NameArray);
+                        this.localmapfilenamepicker.ItemsSource = sourcenames;
+                    }
+                }
+            }            
+        }
+        try
+        {
+            await LoadMapboxGL();
+        }
+        catch (AggregateException ae)
+        {
+            foreach (var ex in ae.InnerExceptions)
+            {
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+        finally
+        {
+            this.activityloadingofflinemapsindicatorlayout.IsVisible = false;
+            this.servermapfilenamepicker.IsEnabled = true;
+            this.localmapfilenamepicker.IsEnabled = true;
+            this.OfflineMaps.IsEnabled = true;
+            this.DownloadMapsViaWiFi.IsEnabled = true;
+        }
+    }
+    /// <summary>
+    /// <c>LoadMapboxGL</c>
+    /// Loads Mapbox GL layers from the specified MBTiles file and adds them to the map.
+    /// </summary>
+    /// <returns>Task completed</returns>
+    public async Task LoadMapboxGL()
+    {
+        await Task.Factory.StartNew(() =>
+        {
+            OMTStyleFileLoader.DirectoryForFiles = FileSystem.AppDataDirectory;
+            OMTStyleFileLoader.Filename = Path.GetFileName(this.SelectedMbTilesFilename);
+
+            CheckForMBTilesFile(OMTStyleFileLoader.Filename, OMTStyleFileLoader.DirectoryForFiles);
+
+            var stream = EmbeddedResourceLoader.Load("styles.osm-liberty.json", GetType()) ?? throw new FileNotFoundException($"styles.osm - liberty.json not found");
+
+            var layers = new OpenMapTilesLayer(stream, GetLocalContent);
+            mapView.Map.Layers.Clear();
+            foreach (var layer in layers)
+                mapView.Map.Layers.Add(layer);
+
+            if (_myLocationLayer != null)
+                mapView.Map.Layers.Add(_myLocationLayer);
+            if (myRouteLayer != null)
+                mapView.Map.Layers.Add(myRouteLayer);
+        });
+    }
+    /// <summary>
+    /// <c>CheckForMBTilesFile</c>
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <param name="dataDir"></param>
+    /// <returns>filename if exists</returns>
+    /// <exception cref="FileNotFoundException"></exception>
+    private static string CheckForMBTilesFile(string filename, string dataDir)
+    {
+        if (!File.Exists(Path.Combine(dataDir, filename)))
+        {
+            throw new FileNotFoundException($"File {filename} not found");
+        }
+        return filename;
+    }
+    /// <summary>
+    /// <c>GetLocalContent</c>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="name"></param>
+    /// <returns>Stream</returns>
+    public Stream GetLocalContent(LocalContentType type, string name)
+    {
+        switch (type)
+        {
+            case LocalContentType.File:
+                if (File.Exists(name))
+                    return File.OpenRead(name);
+                else
+                    return null;
+            case LocalContentType.Resource:
+                return EmbeddedResourceLoader.Load(name, GetType());
+        }
+        return null;
+    }
+    /// <summary>
+    /// <c>LoadFontResources</c>
+    /// </summary>
+    /// <param name="assemblyToUse"></param>
+    public void LoadFontResources(Assembly assemblyToUse)
+    {
+        // Try to load this font from resources
+        var resourceNames = assemblyToUse?.GetManifestResourceNames();
+
+        foreach (var resourceName in resourceNames.Where(s => s.EndsWith(".ttf", System.StringComparison.CurrentCultureIgnoreCase)))
+        {
+            var fontName = resourceName.Substring(0, resourceName.Length - 4);
+            fontName = fontName.Substring(fontName.LastIndexOf(".") + 1);
+
+            using (var stream = assemblyToUse.GetManifestResourceStream(resourceName))
+            {
+                var typeface = SKFontManager.Default.CreateTypeface(stream);
+
+                if (typeface != null)
+                {
+                    //((Mapsui.VectorTileLayers.OpenMapTiles.Utilities.FontMapper)Topten.RichTextKit.FontMapper.Default).Add(typeface);
+                }
+            }
+        }
+    }
+    /// <summary>
     /// <c>ShowRouteLoadFailToastMessage</c>
     /// Displays a toast message if Import route fails
     /// </summary>
@@ -724,9 +976,10 @@ public partial class MapViewPage : ContentPage
     }
     /// <summary>
     /// <c>InitializeServerFilenamePicker</c>
-    /// Gets a list of filenames (2 letter country code for the filename) from remote server or from local storage
+    /// Gets a list of filenames (2 letter country code for the filename) 
+    /// from remote server or from local storage
     /// </summary>
-    private async void InitializeServerFilenamePicker()
+    private async void InitializePOIsServerFilenamePicker()
     {
         //this.POIServerFileDownloadButton.IsEnabled = false;
         var webhelper = new WebHelper();
@@ -745,36 +998,79 @@ public partial class MapViewPage : ContentPage
             {
                 // Local files found
                 FileListLocalAccess = true;
-                var ff = new FileFetch();
+                var list = new List<string>();
                 foreach (var item in files)
                 {
                     if (item == null) continue;
-                    ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
+                    list.Add(FormatHelper.TranslateCountryName(Path.GetFileNameWithoutExtension(item)));
                 }
-                ff.LastUpdated = new DateTime();
                 FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-                ff.Names.Sort(FilenameComparer.NameArray);
-                this.serverfilenamepicker.ItemsSource = ff.Names;
+                list.Sort(FilenameComparer.NameArray);
+                this.serverfilenamepicker.ItemsSource = list;
             }
         }
-        else if (serverlist.Names.Count > 0)
+        else if (serverlist.POIs.Count > 0)
         {
             FileListLocalAccess = false;
-            var ff = new FileFetch();
-            foreach (var item in serverlist.Names)
+            var ff = new POIsFilesFetch();
+            var list = new List<string>();
+            foreach (var item in serverlist.POIs)
             {
                 if (item == null) continue;
-                ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
+                list.Add(FormatHelper.TranslateCountryName(Path.GetFileNameWithoutExtension(item.Name)));
+                
             }
             FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-            ff.Names.Sort(FilenameComparer.NameArray);
-            this.serverfilenamepicker.ItemsSource = ff.Names;
+            list.Sort(FilenameComparer.NameArray);
+            this.serverfilenamepicker.ItemsSource = list;
         }        
     }
-    private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    /// <summary>
+    /// <c>UseOfflineMaps_CheckedChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UseOfflineMaps_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        
+        if (e.Value)
+        {
+            this.DownloadMapsViaWiFi.IsEnabled = true;
+            this.localmapfilenamepicker.IsEnabled = true;
+            this.servermapfilenamepicker.IsEnabled = true;
+            InitializeOfflineMapPickers();
+        }
+        else
+        {
+            this.DownloadMapsViaWiFi.IsEnabled = false;
+            this.localmapfilenamepicker.IsEnabled = false;
+            this.servermapfilenamepicker.IsEnabled = false;
+            this.localmapfilenamepicker.SelectedIndex = -1;
+            this.localmapfilenamepicker.Title = AppResource.ChooseText;
+            this.servermapfilenamepicker.SelectedIndex = -1;
+            this.servermapfilenamepicker.Title = AppResource.ChooseText;
+
+            // Check to ensure that if the Use Offline maps is repeatedly unchecked/checked
+            // then remove the OpenStreetMap layer and add it again, normally this is not needed
+            // when actually downloading the offline map tiles as that function will remove the OSM layer
+            foreach (var item in mapView.Map.Layers.ToList())
+            {
+                if (item.Name.Equals("OpenStreetMap"))
+                    mapView.Map.Layers.Remove(item);
+                if (item.Name.Equals("Layer"))
+                    mapView.Map.Layers.Remove(item);
+            }
+            mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
+            if (_myLocationLayer != null)
+                mapView.Map.Layers.Add(_myLocationLayer);
+            if (myRouteLayer != null)
+                mapView.Map.Layers.Add(myRouteLayer);
+        }
     }
+    /// <summary>
+    /// <c>UseOfflinePOIs_CheckedChanged</c>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ShowSearchRadiusOnMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         
@@ -798,11 +1094,11 @@ public partial class MapViewPage : ContentPage
             this.expander.IsExpanded = false;
     }
     /// <summary>
-    /// <c>serverfilenamepicker_SelectedIndexChanged</c>
+    /// <c>ServerPOIsFilenamepicker_SelectedIndexChanged</c>
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void serverfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
+    private void ServerPOIsFilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         var v = serverfilenamepicker.SelectedIndex;
         var s = serverfilenamepicker.SelectedItem as string;
@@ -864,5 +1160,102 @@ public partial class MapViewPage : ContentPage
         this.pickerRadius.IsEnabled = true;
         this.serverfilenamepicker.IsEnabled=true;
         this.activityloadindicatorlayout.IsVisible = false;
+    }
+    private async void InitializeOfflineMapPickers()
+    {
+        servermbtff.MbTileFiles.Clear();
+        localmbtff.MbTileFiles.Clear();
+
+        // Local storage
+        var llist = new List<string>();
+        string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.mbtiles");
+        foreach (var item in files)
+        {
+            // Local files found
+            FileListLocalAccess = true;
+            if (item == null) continue;
+            var mbf = new MbTileFile();
+            // Get the bounding box
+            var Idx = item.IndexOf("{");
+            if (Idx > -1)
+            {
+                var Idx2 = item.IndexOf("}");
+                if (Idx2 > -1)
+                {
+                    var ds = item[(Idx + 1)..(Idx2)].Split(',');
+                    mbf.BBox[0] = double.Parse(ds[0]);
+                    mbf.BBox[1] = double.Parse(ds[1]);
+                    mbf.BBox[2] = double.Parse(ds[2]);
+                    mbf.BBox[3] = double.Parse(ds[3]);
+                }
+            }
+            // Get last update part
+            //xx-yyyyMMdd
+            Idx = item.IndexOf("}");
+            if (Idx > -1)
+            {
+                var dts = item.Substring(Idx + 1, 8);
+                mbf.LastUpdated = new DateTime(int.Parse(dts[..4]), int.Parse(dts[4..6]), int.Parse(dts[6..8]));
+                Idx = item.IndexOf("{");
+                if (Idx > -1)
+                {
+                    mbf.Name = item;
+                    var name = FormatHelper.TranslateCountryName(Path.GetFileNameWithoutExtension(item[0..Idx]));
+                    localmbtff.MbTileFiles.Add(mbf);
+                    llist.Add(name);
+                }
+            }
+        }
+        if (llist.Count > 0)
+        {
+            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+            llist.Sort(FilenameComparer.NameArray);
+            this.localmapfilenamepicker.ItemsSource = llist;
+        }
+        // Try server
+        var slist = new List<string>();
+        var serverlist = await DriveHelper.DriveListFilesAsync();
+        if (!serverlist.Error && serverlist.MbTileFiles.Count > 0)
+        {
+            FileListLocalAccess = false;
+            foreach (var item in serverlist.MbTileFiles)
+            {
+                if (item == null) continue;
+                var mbf = new MbTileFile();
+                // Get the bounding box
+                var Idx = item.Name.IndexOf("{");
+                if (Idx > -1)
+                {
+                    var Idx2 = item.Name.IndexOf("}");
+                    if (Idx2 > -1)
+                    {
+                        var ds = item.Name[(Idx + 1)..(Idx2)].Split(',');
+                        mbf.BBox[0] = double.Parse(ds[0]);
+                        mbf.BBox[1] = double.Parse(ds[1]);
+                        mbf.BBox[2] = double.Parse(ds[2]);
+                        mbf.BBox[3] = double.Parse(ds[3]);
+                    }
+                }
+                // Get last update part
+                //xx-yyyyMMdd
+                Idx = item.Name.IndexOf("}");
+                if (Idx > -1)
+                {
+                    var dts = item.Name.Substring(Idx + 1, 8);
+                    mbf.LastUpdated = new DateTime(int.Parse(dts[..4]), int.Parse(dts[4..6]), int.Parse(dts[6..8]));
+                    Idx = item.Name.IndexOf("{");
+                    if (Idx > -1)
+                    {
+                        mbf.Name = item.Name;
+                        var name = FormatHelper.TranslateCountryName(Path.GetFileNameWithoutExtension(item.Name)[0..Idx]);
+                        servermbtff.MbTileFiles.Add(mbf);
+                        slist.Add(name);
+                    }
+                }
+            }
+            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
+            slist.Sort(FilenameComparer.NameArray);
+            this.servermapfilenamepicker.ItemsSource = slist;
+        }
     }
 }

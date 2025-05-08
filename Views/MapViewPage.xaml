@@ -31,12 +31,12 @@
                 <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
             </mct:Expander.Header>
             <mct:Expander.Content>
-                <ScrollView HeightRequest="290" VerticalScrollBarVisibility="Never">
-                    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*">
+                <ScrollView HeightRequest="292" VerticalScrollBarVisibility="Never">
+                    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,*">
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
                             <HorizontalStackLayout>
                                 <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CountryLabelText}" />
-                                <Picker x:Name="serverfilenamepicker" FontSize="16" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="serverfilenamepicker_SelectedIndexChanged">
+                                <Picker x:Name="serverfilenamepicker" FontSize="16" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="ServerPOIsFilenamepicker_SelectedIndexChanged">
                                     <Picker.Items>
                                         <x:String>No Data</x:String>
                                     </Picker.Items>
@@ -81,7 +81,42 @@
                             <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
                             <Label FontSize="16" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
                         </HorizontalStackLayout>
-                        <StackLayout Grid.Row="6" Grid.ColumnSpan="1" Margin="0,0,2,0">
+                        <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="1"  Margin="2">
+                            <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
+                            <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
+                        </HorizontalStackLayout>
+                        <BoxView Style="{StaticResource Divider}" Grid.Row="7" Grid.ColumnSpan="1" />
+                        <HorizontalStackLayout Grid.Row="8" Grid.ColumnSpan="1"  Margin="2">
+                            <CheckBox x:Name="OfflineMaps" IsChecked="False" CheckedChanged="UseOfflineMaps_CheckedChanged"/>
+                            <Label x:Name="OfflineMapsLabel" FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.UseOfflineMapsLabelText}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Row="9" Grid.ColumnSpan="1" x:Name="activityloadingofflinemapsindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                            <Label x:Name="titleloadinglabel" Margin="5,2,8,0" Text="" FontSize="16"/>
+                            <ActivityIndicator Style="{StaticResource Import}" x:Name="activityloadingmbtiles" HeightRequest="30" IsRunning="True"/>
+                            <Label x:Name="mbtilebytes" Margin="5,0,0,0" FontSize="16"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Row="10" Margin="2,2,0,0">
+                            <Label Margin="0,12,2,0" Text="{x:Static resource:AppResource.UseOfflineMapsDeviceLabelText}" FontSize="16"/>
+                            <Picker x:Name="localmapfilenamepicker" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="Localmapfilenamepicker_SelectedIndexChanged">
+                                <Picker.Items>
+                                    <x:String>No Data</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Row="11" Margin="2,2,0,0">
+                            <Label Margin="0,12,2,0" Text="{x:Static resource:AppResource.UseOfflineMapsServerLabelText}" FontSize="16"/>
+                            <Picker x:Name="servermapfilenamepicker" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="ServerMapfilenamepicker_SelectedIndexChanged">
+                                <Picker.Items>
+                                    <x:String>No Data</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Row="12" Grid.ColumnSpan="1"  Margin="2">
+                            <CheckBox x:Name="DownloadMapsViaWiFi" IsEnabled="False" IsChecked="True"/>
+                            <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.DownloadMapsViaWifiLabelText}" />
+                        </HorizontalStackLayout>
+                        <BoxView Style="{StaticResource Divider}" Grid.Row="13" Grid.ColumnSpan="1" />
+                        <StackLayout Grid.Row="14" Grid.ColumnSpan="1" Margin="0,0,2,0">
                             <Button Margin="2,20,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
                             <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityrouteloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
                                 <Label FontSize="16" Text="{x:Static resource:AppResource.RouteLoadingLabelText}" />
@@ -92,10 +127,6 @@
                                 <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
                             </HorizontalStackLayout>
                         </StackLayout>
-                        <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="1"  Margin="2">
-                            <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
-                            <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
-                        </HorizontalStackLayout>
                     </Grid>
                 </ScrollView>
             </mct:Expander.Content>

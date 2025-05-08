@@ -556,11 +556,47 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading Map.
+        /// </summary>
+        internal static string DownloadingOfflineMapLabelText {
+            get {
+                return ResourceManager.GetString("DownloadingOfflineMapLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Maps via Wifi Only.
+        /// </summary>
+        internal static string DownloadMapsViaWifiLabelText {
+            get {
+                return ResourceManager.GetString("DownloadMapsViaWifiLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ErrorText {
+            get {
+                return ResourceManager.GetString("ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Route import failed!!.
         /// </summary>
         internal static string ImportRouteFailedMessage {
             get {
                 return ResourceManager.GetString("ImportRouteFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading Map.
+        /// </summary>
+        internal static string LoadingOfflineMapLabelText {
+            get {
+                return ResourceManager.GetString("LoadingOfflineMapLabelText", resourceCulture);
             }
         }
         
@@ -579,6 +615,537 @@ namespace POIViewerMap.Resources.Strings {
         internal static string NameText {
             get {
                 return ResourceManager.GetString("NameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Internet Connection via Wifi.
+        /// </summary>
+        internal static string NoInternetConnectionText {
+            get {
+                return ResourceManager.GetString("NoInternetConnectionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Czech-Republic East.
+        /// </summary>
+        internal static string OfflineMapsByregionCzechRepublicEast {
+            get {
+                return ResourceManager.GetString("OfflineMapsByregionCzechRepublicEast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Czech-Republic Mid.
+        /// </summary>
+        internal static string OfflineMapsByRegionCzechRepublicMid {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionCzechRepublicMid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Czech-Republic West.
+        /// </summary>
+        internal static string OfflineMapsByRegionCzechRepublicWest {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionCzechRepublicWest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to England Midlands.
+        /// </summary>
+        internal static string OfflineMapsByRegionEnglandMid {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionEnglandMid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to England North.
+        /// </summary>
+        internal static string OfflineMapsByRegionEnglandNorth {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionEnglandNorth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to England South East.
+        /// </summary>
+        internal static string OfflineMapsByRegionEnglandSouthEast {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionEnglandSouthEast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to England South West.
+        /// </summary>
+        internal static string OfflineMapsByRegionEnglandSouthWest {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionEnglandSouthWest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Alcase.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceAlsace {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceAlsace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Aquitaine.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceAquitaine {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceAquitaine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Auvergne.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceAuvergne {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceAuvergne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Basse-Normandie.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceBasseNormandie {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceBasseNormandie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Bourgogne.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceBourgogne {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceBourgogne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Bretagne.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceBretagne {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceBretagne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Centre.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceCentre {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceCentre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Champagne-Ardenne.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceChampagneArdenne {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceChampagneArdenne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Corse.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceCorse {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceCorse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Franche-Comté.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceFrancheComte {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceFrancheComte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Haute-Normandie.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceHauteNormandie {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceHauteNormandie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Île-de-France.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceIleDeFrance {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceIleDeFrance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Languedoc-Roussillon.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceLanguedocRoussillon {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceLanguedocRoussillon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Limousin.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceLimousin {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceLimousin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Lorraine.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceLorriane {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceLorriane", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Midi-Pyrénées.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceMidiPyrenees {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceMidiPyrenees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Nord-Pas-de-Calais.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceNordPasDeCalias {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceNordPasDeCalias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Pays de la Loire.
+        /// </summary>
+        internal static string OfflineMapsByRegionFrancePasDeLaLoire {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFrancePasDeLaLoire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Picardie.
+        /// </summary>
+        internal static string OfflineMapsByRegionFrancePicardie {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFrancePicardie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Poitou-Charentes.
+        /// </summary>
+        internal static string OfflineMapsByRegionFrancePoitouCharentes {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFrancePoitouCharentes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Provence-Alpes-Côte d&apos;Azur.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceProvenceAlpesCotedAzure {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceProvenceAlpesCotedAzure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to France Rhône-Alpes.
+        /// </summary>
+        internal static string OfflineMapsByRegionFranceRhoneAlpes {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionFranceRhoneAlpes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Baden-Wuerttemberg.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyBadenWuerttemberg {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyBadenWuerttemberg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Bayern.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyBayern {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyBayern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Berlin.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyBerlin {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyBerlin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Brandenburg.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyBrandenburg {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyBrandenburg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Bremen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyBremen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyBremen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Hamburg.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyHamburg {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyHamburg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Hessen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyHessen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyHessen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Mecklenburg-Vorpommern.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyMecklenburgVorpommern {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyMecklenburgVorpommern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Niedersachsen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyNiedersachsen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyNiedersachsen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Nordrhein-Westfalen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyNordrheinWestfalen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyNordrheinWestfalen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Rheinland-Pfalz.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyRheinlandPfalz {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyRheinlandPfalz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Saarland.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanySaarland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanySaarland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Sachsen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanySachsen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanySachsen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Sachsen-Anhalt.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanySachsenAnhalt {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanySachsenAnhalt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Schleswig-Holstein.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanySchleswigHolstein {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanySchleswigHolstein", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Germany Thüringen.
+        /// </summary>
+        internal static string OfflineMapsByRegionGermanyThüringen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionGermanyThüringen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Brabant.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsBrabant {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsBrabant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Drenthe.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsDrenthe {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsDrenthe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Flevoland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsFlevoland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsFlevoland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Friesland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsFriesland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsFriesland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Gelderland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsGelderland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsGelderland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NetherlandsGroningen.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsGroningen {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsGroningen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Limburg.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsLimburg {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsLimburg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Noord-Holland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsNoordHolland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsNoordHolland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Overijssel.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsOverijssel {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsOverijssel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Utrecht.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsUtrecht {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsUtrecht", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Zeeland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsZeeland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsZeeland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netherlands Zuid-Holland.
+        /// </summary>
+        internal static string OfflineMapsByRegionNetherlandsZuidHolland {
+            get {
+                return ResourceManager.GetString("OfflineMapsByRegionNetherlandsZuidHolland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OKText {
+            get {
+                return ResourceManager.GetString("OKText", resourceCulture);
             }
         }
         
@@ -1047,6 +1614,33 @@ namespace POIViewerMap.Resources.Strings {
         internal static string ServerAccessFailedMsg {
             get {
                 return ResourceManager.GetString("ServerAccessFailedMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On Device:.
+        /// </summary>
+        internal static string UseOfflineMapsDeviceLabelText {
+            get {
+                return ResourceManager.GetString("UseOfflineMapsDeviceLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Offline Maps.
+        /// </summary>
+        internal static string UseOfflineMapsLabelText {
+            get {
+                return ResourceManager.GetString("UseOfflineMapsLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download:.
+        /// </summary>
+        internal static string UseOfflineMapsServerLabelText {
+            get {
+                return ResourceManager.GetString("UseOfflineMapsServerLabelText", resourceCulture);
             }
         }
     }

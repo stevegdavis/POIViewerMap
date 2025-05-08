@@ -12,14 +12,14 @@ public partial class FileListPopup : Popup
     {
         InitializeComponent();
     }
-    public void AddList(FileFetch list)
+    public void AddList(POIsFilesFetch list)
     {
         this.POIServerFileDownloadButton.IsEnabled = false;
         List<string> files = new List<string>();
-        foreach (var item in list.Names)
+        foreach (var item in list.POIs)
         {
             if (item == null) continue;
-            files.Add(Path.GetFileNameWithoutExtension(item));
+            files.Add(Path.GetFileNameWithoutExtension(item.Name));
         }
         this.serverfilenamepicker.ItemsSource = files;
 
