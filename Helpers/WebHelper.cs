@@ -16,7 +16,7 @@ namespace POIViewerMap.Helpers;
 /// </summary>
 class WebHelper
 {
-    private static readonly string ServerUrl = "https://sdsdevelopment.w5.lt/poidata-server";// "http://192.168.1.3:4000/poidata-server";
+    private static readonly string ServerUrl = "https://sdsdevelopment.w5.lt/poidata-server";// "http://192.168.1.182:4000/poidata-server";
     private static readonly string FILES = "client/index.php";
     public static readonly string PARAM_ACTION = "action";
     private static readonly string ACTION_DOWNLOAD = "uploads";
@@ -44,7 +44,7 @@ class WebHelper
     /// </summary>
     /// <param name="parameters">'action' and action to execute eg. Show All files for picker </param>
     /// <returns>List of FileFetch objects (that includes countries as 2 letter codes)</returns>
-    public async Task<POIsFilesFetch> FilenamesFetchAsync(Dictionary<string, string> parameters)
+    public async Task<FileFetch> FilenamesFetchAsync(Dictionary<string, string> parameters)
     {
         return await FilenamesFetchPostForm(parameters);
     }
@@ -53,7 +53,7 @@ class WebHelper
     /// </summary>
     /// <param name="keyValuePairs"></param>
     /// <returns>List of FileFetch objects (that includes countries as 2 letter codes)</returns>
-    private async Task<POIsFilesFetch> FilenamesFetchPostForm(Dictionary<string, string> keyValuePairs)
+    private async Task<FileFetch> FilenamesFetchPostForm(Dictionary<string, string> keyValuePairs)
     {
         string responseCode = string.Empty;
         try
@@ -71,7 +71,7 @@ class WebHelper
             {
                 // handle errors
                 responseCode = await response.ResponseMessage.Content.ReadAsStringAsync();
-                return new POIsFilesFetch()
+                return new FileFetch()
                 {
                     ErrorMsg = $"{AppResource.ServerAccessFailedMsg} {responseCode}",
                     Error = true
@@ -80,7 +80,7 @@ class WebHelper
         }
         catch (Exception ex)
         {
-            return new POIsFilesFetch()
+            return new FileFetch()
             {
                 ErrorMsg = $"{AppResource.ServerAccessFailedMsg} {responseCode}",
                 Error = true
@@ -151,9 +151,9 @@ class WebHelper
     /// </summary>
     /// <param name="content">Content to be parsed</param>
     /// <returns>FileFetch object that contains filenames and last update of files(not used)</returns>
-    public POIsFilesFetch ParseJsonContent(string content)
+    public FileFetch ParseJsonContent(string content)
     {
-        var ff = new POIsFilesFetch();
+        var ff = new FileFetch();
         byte[] byteArray = Encoding.ASCII.GetBytes(content);
         var stream = new MemoryStream(byteArray);
 
@@ -181,7 +181,7 @@ class WebHelper
     /// </summary>
     /// <param name="file"></param>
     /// <param name="ff">ref to file array to add FileFetch object to</param>
-    private void AddFile(string file, ref POIsFilesFetch ff)
+    private void AddFile(string file, ref FileFetch ff)
     {
         file = file.Replace("[", string.Empty);
         var fields = file.Split(',');
@@ -195,12 +195,9 @@ class WebHelper
                 if (Idx1 > -1)
                 {
                     var Idx2 = field.IndexOf("T");
-                    //ff.Names.Add(field.Substring(Idx1 + 1, Idx2 - 1));
-                    var name = field.Substring(Idx1 + 1, Idx2 - 1);
+                    ff.Names.Add(field.Substring(Idx1 + 1, Idx2 - 1));
                     var ts = field.Substring(Idx2 + 1).Replace("\\", string.Empty).TrimEnd(']').TrimEnd('"');
-                    //ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
-                    var last = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
-                    ff.POIs.Add(new POIFile() { Name = name, LastUpdated = last });
+                    ff.LastUpdated = Convert.ToDateTime(DateTime.ParseExact(ts, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
         }

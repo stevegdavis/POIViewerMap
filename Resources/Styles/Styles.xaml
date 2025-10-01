@@ -18,7 +18,7 @@
     
     <Style x:Key="Divider" TargetType="BoxView">
         <Setter Property="HeightRequest" Value="1" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Margin" Value="5, 2" />
         <Setter Property="Color" Value="#c3c3c3" />
     </Style>
     

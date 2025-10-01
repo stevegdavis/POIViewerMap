@@ -5,10 +5,6 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POIViewerMap", "POIViewerMap.csproj", "{A0560537-5267-4A2C-93D3-8039E9A1C4EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapsui.VectorTileLayers.Core", "..\..\..\Library\Mapsui.VectorTileLayers.Core\Mapsui.VectorTileLayers.Core.csproj", "{22CC59A5-CAFB-90E2-0C7A-9416194DC705}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapsui.VectorTileLayers.OpenMapTiles", "..\..\..\Library\Mapsui.VectorTileLayers.OpenMapTiles\Mapsui.VectorTileLayers.OpenMapTiles.csproj", "{32FC40AB-C3C3-D5BB-FBEB-BBE52BC14FA9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,14 +17,6 @@ Global
 		{A0560537-5267-4A2C-93D3-8039E9A1C4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0560537-5267-4A2C-93D3-8039E9A1C4EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0560537-5267-4A2C-93D3-8039E9A1C4EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{22CC59A5-CAFB-90E2-0C7A-9416194DC705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22CC59A5-CAFB-90E2-0C7A-9416194DC705}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22CC59A5-CAFB-90E2-0C7A-9416194DC705}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22CC59A5-CAFB-90E2-0C7A-9416194DC705}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32FC40AB-C3C3-D5BB-FBEB-BBE52BC14FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32FC40AB-C3C3-D5BB-FBEB-BBE52BC14FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32FC40AB-C3C3-D5BB-FBEB-BBE52BC14FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32FC40AB-C3C3-D5BB-FBEB-BBE52BC14FA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
