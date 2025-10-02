@@ -339,6 +339,21 @@
   <data name="PinLabelDistanceText" xml:space="preserve">
     <value>Distance :</value>
   </data>
+  <data name="PinLabelFr" xml:space="preserve">
+    <value>Vendredi</value>
+  </data>
+  <data name="PinLabelMo" xml:space="preserve">
+    <value>Lundi</value>
+  </data>
+  <data name="PinLabelOff" xml:space="preserve">
+    <value>Fermé</value>
+  </data>
+  <data name="PinLabelSa" xml:space="preserve">
+    <value>Samedi</value>
+  </data>
+  <data name="PinLabelSu" xml:space="preserve">
+    <value>Dimanche</value>
+  </data>
   <data name="PinLabelSubtitleAccessText" xml:space="preserve">
     <value>Accès :</value>
   </data>
@@ -398,6 +413,15 @@
   </data>
   <data name="PinLabelSubtitleWebsite" xml:space="preserve">
     <value>Site web :</value>
+  </data>
+  <data name="PinLabelTh" xml:space="preserve">
+    <value>Jeudi</value>
+  </data>
+  <data name="PinLabelTu" xml:space="preserve">
+    <value>Mardi</value>
+  </data>
+  <data name="PinLabelWe" xml:space="preserve">
+    <value>Mercredi</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs</value>

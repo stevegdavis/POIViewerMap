@@ -745,6 +745,51 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        internal static string PinLabelFr {
+            get {
+                return ResourceManager.GetString("PinLabelFr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        internal static string PinLabelMo {
+            get {
+                return ResourceManager.GetString("PinLabelMo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed.
+        /// </summary>
+        internal static string PinLabelOff {
+            get {
+                return ResourceManager.GetString("PinLabelOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        internal static string PinLabelSa {
+            get {
+                return ResourceManager.GetString("PinLabelSa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        internal static string PinLabelSu {
+            get {
+                return ResourceManager.GetString("PinLabelSu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access:.
         /// </summary>
         internal static string PinLabelSubtitleAccessText {
@@ -921,6 +966,33 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleWebsite {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        internal static string PinLabelTh {
+            get {
+                return ResourceManager.GetString("PinLabelTh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tuesday.
+        /// </summary>
+        internal static string PinLabelTu {
+            get {
+                return ResourceManager.GetString("PinLabelTu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday.
+        /// </summary>
+        internal static string PinLabelWe {
+            get {
+                return ResourceManager.GetString("PinLabelWe", resourceCulture);
             }
         }
         

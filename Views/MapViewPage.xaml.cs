@@ -686,9 +686,10 @@ public partial class MapViewPage : ContentPage
                     if (String.IsNullOrEmpty(label))
                         space = string.Empty;
                     else
-                        label = $"{AppResource.NameText} {poi.Title}";                                        
+                        label = $"{AppResource.NameText} {poi.Title}";                                     
                     var space2 = string.Empty;
                     var subtitle = FormatHelper.GetSubTitleLang(poi.Subtitle);
+                    subtitle = FormatHelper.FormatOpeningHours(subtitle);
                     if (String.IsNullOrEmpty(subtitle))
                         space2 = string.Empty;
                     else

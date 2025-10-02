@@ -116,6 +116,33 @@ public class FormatHelper
             Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText);
     }
     /// <summary>
+    /// Formats opening hours by replacing day abbreviations and "off" variations with localized strings.
+    /// </summary>
+    /// <param name="subtitle">The raw opening hours string containing day abbreviations (Mo, Tu, etc.) and "off" status</param>
+    /// <returns>
+    /// A localized string with translated day names and "off" status indicators. Returns empty string if input is null or empty.
+    /// Examples:
+    /// - "Mo-Fr 09:00-18:00" becomes "[Monday]-[Friday] 09:00-18:00"
+    /// - "Sa-Su off" becomes "[Saturday]-[Sunday] [Closed]"
+    /// </returns>
+    public static string FormatOpeningHours(string subtitle)
+    {
+        if (string.IsNullOrEmpty(subtitle))
+            return string.Empty;
+        var hours = subtitle.Replace("Mo", AppResource.PinLabelMo).
+            Replace("Tu", AppResource.PinLabelTu).
+            Replace("We", AppResource.PinLabelWe).
+            Replace("Th", AppResource.PinLabelTh).
+            Replace("Fr", AppResource.PinLabelFr).
+            Replace("Sa", AppResource.PinLabelSa).
+            Replace("Su", AppResource.PinLabelSu).
+            Replace("off", AppResource.PinLabelOff).
+            Replace("Off", AppResource.PinLabelOff).
+            Replace("OFF", AppResource.PinLabelOff).
+            Replace(";", string.Empty);
+        return hours;
+    }
+    /// <summary>
     /// <c>GetTitleLang</c>
     /// </summary>
     /// <param name="data">Data type</param>
