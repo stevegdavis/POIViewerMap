@@ -63,6 +63,7 @@
 	  <MauiImage Remove="Resources\Images\bread-bakery.svg" />
 	  <MauiImage Remove="Resources\Images\camping.svg" />
 	  <MauiImage Remove="Resources\Images\campsite.svg" />
+	  <MauiImage Remove="Resources\Images\charging.svg" />
 	  <MauiImage Remove="Resources\Images\coffee-cup.svg" />
 	  <MauiImage Remove="Resources\Images\cupcake.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
@@ -111,6 +112,7 @@
 	  <EmbeddedResource Include="Resources\Images\bread-bakery.svg" />
 	  <EmbeddedResource Include="Resources\Images\camping.svg" />
 	  <EmbeddedResource Include="Resources\Images\campsite.svg" />
+	  <EmbeddedResource Include="Resources\Images\charging.svg" />
 	  <EmbeddedResource Include="Resources\Images\coffee-cup.svg" />
 	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
@@ -133,7 +135,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.2" />
-		<PackageReference Include="POIBinaryFormatLib" Version="2.2.5" />
+		<PackageReference Include="POIBinaryFormatLib" Version="2.2.6" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 		<PackageReference Include="ReactiveUI.Maui" Version="20.1.63" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.0.0" />

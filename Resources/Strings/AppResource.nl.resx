@@ -315,6 +315,9 @@
   <data name="OptionsPOIPickerCampsiteText" xml:space="preserve">
     <value>Camping</value>
   </data>
+  <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
+    <value>Oplaadstation (alleen mobiel)</value>
+  </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Water drinken</value>
   </data>
@@ -389,6 +392,9 @@
   </data>
   <data name="PinLabelSubtitleServicesText" xml:space="preserve">
     <value>Diensten:</value>
+  </data>
+  <data name="PinLabelSubtitleSocketText" xml:space="preserve">
+    <value>Aansluiting:</value>
   </data>
   <data name="PinLabelSubtitleStand" xml:space="preserve">
     <value>Stand</value>

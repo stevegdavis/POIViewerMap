@@ -664,6 +664,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Charging Station (Mobile only).
+        /// </summary>
+        internal static string OptionsPOIPickerChargingStationText {
+            get {
+                return ResourceManager.GetString("OptionsPOIPickerChargingStationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drinking Water.
         /// </summary>
         internal static string OptionsPOIPickerDrinkingWaterText {
@@ -894,6 +903,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleServicesText {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleServicesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Socket:.
+        /// </summary>
+        internal static string PinLabelSubtitleSocketText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleSocketText", resourceCulture);
             }
         }
         

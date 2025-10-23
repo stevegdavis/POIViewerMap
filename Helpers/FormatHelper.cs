@@ -44,6 +44,7 @@ public class FormatHelper
             POIType.PicnicTable => 9,
             POIType.TrainStation => 10,
             POIType.VendingMachine => 11,
+            POIType.ChargingStation => 12,
             _ => 0,
         };
     }
@@ -69,6 +70,7 @@ public class FormatHelper
             10 => POIType.TrainStation,
             11 => POIType.VendingMachine,
             12 => POIType.Laundry,
+            13 => POIType.ChargingStation,
             _ => POIType.DrinkingWater,
         };
     }
@@ -113,7 +115,8 @@ public class FormatHelper
             Replace("Private", AppResource.PinLabelSubtitlePrivateText).
             Replace("Diet:", AppResource.PinLabelSubtitleDietText).
             Replace("Vegan Only", AppResource.PinLabelSubtitleVeganOnlyText).
-            Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText);
+            Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText).
+            Replace("Socket:", AppResource.PinLabelSubtitleSocketText);
     }
     /// <summary>
     /// Formats opening hours by replacing day abbreviations and "off" variations with localized strings.
@@ -191,6 +194,9 @@ public class FormatHelper
                 break;
             case POIType.Laundry:
                 Title = AppResource.OptionsPOIPickerLaundryText;
+                break;
+            case POIType.ChargingStation:
+                Title = AppResource.OptionsPOIPickerChargingStationText;
                 break;
             default:
                 Title = string.Empty;

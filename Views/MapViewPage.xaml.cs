@@ -82,7 +82,8 @@ public partial class MapViewPage : ContentPage
             AppResource.OptionsPOIPickerPicnicTableText,
             AppResource.OptionsPOIPickerTrainStationText,
             AppResource.OptionsPOIPickerVendingMachineText,
-            AppResource.OptionsPOIPickerLaundryText
+            AppResource.OptionsPOIPickerLaundryText,
+            AppResource.OptionsPOIPickerChargingStationText
         };
        this.picker.ItemsSource = items;
         InitializeServerFilenamePicker();
