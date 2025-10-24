@@ -354,6 +354,9 @@
   <data name="PinLabelMo" xml:space="preserve">
     <value>Monday</value>
   </data>
+  <data name="PinLabelNo" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="PinLabelOff" xml:space="preserve">
     <value>Closed</value>
   </data>
@@ -380,6 +383,9 @@
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Electronics</value>
+  </data>
+  <data name="PinLabelSubtitleLockableText" xml:space="preserve">
+    <value>Lockable:</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Open:</value>
@@ -434,6 +440,9 @@
   </data>
   <data name="PinLabelWe" xml:space="preserve">
     <value>Wednesday</value>
+  </data>
+  <data name="PinLabelYes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs</value>

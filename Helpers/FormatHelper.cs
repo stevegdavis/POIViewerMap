@@ -116,7 +116,10 @@ public class FormatHelper
             Replace("Diet:", AppResource.PinLabelSubtitleDietText).
             Replace("Vegan Only", AppResource.PinLabelSubtitleVeganOnlyText).
             Replace("Vegan Option", AppResource.PinLabelSubtitleVeganOptionText).
-            Replace("Socket:", AppResource.PinLabelSubtitleSocketText);
+            Replace("Socket:", AppResource.PinLabelSubtitleSocketText).
+            Replace("Lockable:", AppResource.PinLabelSubtitleLockableText).
+            Replace("Yes", AppResource.PinLabelYes).
+            Replace("No", AppResource.PinLabelNo);
     }
     /// <summary>
     /// Formats opening hours by replacing day abbreviations and "off" variations with localized strings.

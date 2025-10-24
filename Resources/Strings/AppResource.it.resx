@@ -348,6 +348,9 @@
   <data name="PinLabelMo" xml:space="preserve">
     <value>Lunedì</value>
   </data>
+  <data name="PinLabelNo" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="PinLabelOff" xml:space="preserve">
     <value>Chiuso</value>
   </data>
@@ -374,6 +377,9 @@
   </data>
   <data name="PinLabelSubtitleElectronicsText" xml:space="preserve">
     <value>Elettronica</value>
+  </data>
+  <data name="PinLabelSubtitleLockableText" xml:space="preserve">
+    <value>Chiusura con serratura:</value>
   </data>
   <data name="PinLabelSubtitleOpen" xml:space="preserve">
     <value>Aperto:</value>
@@ -429,6 +435,9 @@
   <data name="PinLabelWe" xml:space="preserve">
     <value>Mercoledì</value>
   </data>
+  <data name="PinLabelYes" xml:space="preserve">
+    <value>Sì</value>
+  </data>
   <data name="POIBrowseButtonText" xml:space="preserve">
     <value>POIs</value>
   </data>
@@ -479,5 +488,8 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Accesso al server non riuscito</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Chiusura con serratura:</value>
   </data>
 </root>

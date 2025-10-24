@@ -772,6 +772,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string PinLabelNo {
+            get {
+                return ResourceManager.GetString("PinLabelNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Closed.
         /// </summary>
         internal static string PinLabelOff {
@@ -849,6 +858,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelSubtitleElectronicsText {
             get {
                 return ResourceManager.GetString("PinLabelSubtitleElectronicsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lockable:.
+        /// </summary>
+        internal static string PinLabelSubtitleLockableText {
+            get {
+                return ResourceManager.GetString("PinLabelSubtitleLockableText", resourceCulture);
             }
         }
         
@@ -1011,6 +1029,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string PinLabelWe {
             get {
                 return ResourceManager.GetString("PinLabelWe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string PinLabelYes {
+            get {
+                return ResourceManager.GetString("PinLabelYes", resourceCulture);
             }
         }
         
