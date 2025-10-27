@@ -144,8 +144,8 @@ public class FormatHelper
             Replace("Su", AppResource.PinLabelSu).
             Replace("off", AppResource.PinLabelOff).
             Replace("Off", AppResource.PinLabelOff).
-            Replace("OFF", AppResource.PinLabelOff).
-            Replace(";", string.Empty);
+            Replace("OFF", AppResource.PinLabelOff);
+            //Replace(";", string.Empty);
         return hours;
     }
     /// <summary>
