@@ -690,24 +690,11 @@ public partial class MapViewPage : ContentPage
                         label = $"{AppResource.NameText} {poi.Title}";                                     
                     var space2 = string.Empty;
                     var subtitle = FormatHelper.GetSubTitleLang(poi.Subtitle);
-                    var hours = poi.Subtitle;
-                    if (subtitle.Contains("Open:"))
-                    {
-                        var lines = subtitle.Split("\r");
-                        foreach (var ln in lines)
-                        {
-                            if (ln.StartsWith("Open:"))
-                            {
-                                hours = FormatHelper.FormatOpeningHours(ln);
-                                break;
-                            }
-                        }
-                    }
                     if (String.IsNullOrEmpty(subtitle))
                         space2 = string.Empty;
                     else
                         space2 = "\r";
-                    label = $"{label}{space}{hours}{space2}{AppResource.PinLabelDistanceText}{FormatHelper.FormatDistance(distance)}";
+                    label = $"{label}{space}{subtitle}{space2}{AppResource.PinLabelDistanceText}{FormatHelper.FormatDistance(distance)}";
                     var myPin = new Pin(mapView)
                     {
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
