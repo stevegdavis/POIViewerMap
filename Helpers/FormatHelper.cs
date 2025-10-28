@@ -96,10 +96,7 @@ public class FormatHelper
     /// <summary>
     /// <c>GetSubTitleLang</c>
     /// </summary>
-    /// <param name="subtitle"></param>
-    /// /// Examples:
-    /// - "Mo-Fr 09:00-18:00" becomes "[Monday]-[Friday] 09:00-18:00"
-    /// - "Sa-Su off" becomes "[Saturday]-[Sunday] [Closed]"
+    /// <param name="subtitle"></param>    
     /// <returns>Language string in a supported language</returns>
     public static string GetSubTitleLang(string subtitle)
     {
@@ -124,16 +121,14 @@ public class FormatHelper
             Replace("Lockable:", AppResource.PinLabelSubtitleLockableText).
             Replace("Yes", AppResource.PinLabelYes).
             Replace("No", AppResource.PinLabelNo).
-            Replace("Mo", AppResource.PinLabelMo).
-            Replace("Tu", AppResource.PinLabelTu).
-            Replace("We", AppResource.PinLabelWe).
-            Replace("Th", AppResource.PinLabelTh).
-            Replace("Fr", AppResource.PinLabelFr).
-            Replace("Sa", AppResource.PinLabelSa).
-            Replace("Su", AppResource.PinLabelSu).
-            Replace("off", AppResource.PinLabelOff).
-            Replace("Off", AppResource.PinLabelOff).
-            Replace("OFF", AppResource.PinLabelOff);
+            Replace("Monday", AppResource.PinLabelMo).
+            Replace("Tuesday", AppResource.PinLabelTu).
+            Replace("Wednesday", AppResource.PinLabelWe).
+            Replace("Thursday", AppResource.PinLabelTh).
+            Replace("Friday", AppResource.PinLabelFr).
+            Replace("Saturday", AppResource.PinLabelSa).
+            Replace("Sunday", AppResource.PinLabelSu).
+            Replace("Closed", AppResource.PinLabelOff);
     }
     /// <summary>
     /// <c>GetTitleLang</c>

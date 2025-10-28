@@ -403,7 +403,7 @@
     <value>Prise :</value>
   </data>
   <data name="PinLabelSubtitleStand" xml:space="preserve">
-    <value>Support :</value>
+    <value>Stand</value>
   </data>
   <data name="PinLabelSubtitleTelephoneText" xml:space="preserve">
     <value>Téléphone :</value>
