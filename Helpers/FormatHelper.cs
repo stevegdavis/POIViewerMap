@@ -128,7 +128,8 @@ public class FormatHelper
             Replace("Friday", AppResource.PinLabelFr).
             Replace("Saturday", AppResource.PinLabelSa).
             Replace("Sunday", AppResource.PinLabelSu).
-            Replace("Closed", AppResource.PinLabelOff);
+            Replace("Closed", AppResource.PinLabelOff).
+            Replace("Customers", AppResource.PinLabelSubtitleCustomersText);
     }
     /// <summary>
     /// <c>GetTitleLang</c>
