@@ -673,6 +673,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Convenience Store.
+        /// </summary>
+        internal static string OptionsPOIPickerConvenienceStoreText {
+            get {
+                return ResourceManager.GetString("OptionsPOIPickerConvenienceStoreText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drinking Water.
         /// </summary>
         internal static string OptionsPOIPickerDrinkingWaterText {

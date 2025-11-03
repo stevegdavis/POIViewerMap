@@ -318,6 +318,9 @@
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
     <value>Oplaadstation (alleen mobiel)</value>
   </data>
+  <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
+    <value>Gemakswinkel</value>
+  </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Water drinken</value>
   </data>

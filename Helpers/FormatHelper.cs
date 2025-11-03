@@ -37,15 +37,16 @@ public class FormatHelper
             POIType.BicycleShop => 2,
             POIType.BicycleRepairStation => 3,
             POIType.Supermarket => 4,
-            POIType.ATM => 5,
-            POIType.Toilet => 6,
-            POIType.Cafe => 7,
-            POIType.Bakery => 8,
-            POIType.PicnicTable => 9,
-            POIType.TrainStation => 10,
-            POIType.VendingMachine => 11,
-            POIType.Laundry => 12,
-            POIType.ChargingStation => 13,
+            POIType.ConvenienceStore => 5,
+            POIType.ChargingStation => 6,
+            POIType.ATM => 7,
+            POIType.Toilet => 8,
+            POIType.Cafe => 9,
+            POIType.Bakery => 10,
+            POIType.PicnicTable => 11,
+            POIType.TrainStation => 12,
+            POIType.VendingMachine => 13,
+            POIType.Laundry => 14,
             _ => 0,
         };
     }
@@ -63,15 +64,16 @@ public class FormatHelper
             2 => POIType.BicycleShop,
             3 => POIType.BicycleRepairStation,
             4 => POIType.Supermarket,
-            5 => POIType.ATM,
-            6 => POIType.Toilet,
-            7 => POIType.Cafe,
-            8 => POIType.Bakery,
-            9 => POIType.PicnicTable,
-            10 => POIType.TrainStation,
-            11 => POIType.VendingMachine,
-            12 => POIType.Laundry,
-            13 => POIType.ChargingStation,
+            5 => POIType.ConvenienceStore,
+            6 => POIType.ChargingStation,
+            7 => POIType.ATM,
+            8 => POIType.Toilet,
+            9 => POIType.Cafe,
+            10 => POIType.Bakery,
+            11 => POIType.PicnicTable,
+            12 => POIType.TrainStation,
+            13 => POIType.VendingMachine,
+            14 => POIType.Laundry,
             _ => POIType.DrinkingWater,
         };
     }
@@ -131,70 +133,6 @@ public class FormatHelper
             Replace("Closed", AppResource.PinLabelOff).
             Replace("Customers", AppResource.PinLabelSubtitleCustomersText);
     }
-    /// <summary>
-    /// <c>GetTitleLang</c>
-    /// </summary>
-    /// <param name="data">Data type</param>
-    /// <param name="v"></param>
-    /// <returns>String for display</returns>
-    public static string GetTitleLang(POIData data, bool v)
-    {
-        var Title = string.Empty;
-        switch (data.POI)
-        {
-            case POIType.DrinkingWater:
-                Title = AppResource.OptionsPOIPickerDrinkingWaterText;
-                break;
-            case POIType.Campsite:
-                Title = AppResource.OptionsPOIPickerCampsiteText;
-                break;
-            case POIType.BicycleShop:
-                Title = AppResource.OptionsPOIPickerBicycleShopText;
-                break;
-            case POIType.BicycleRepairStation:
-                Title = AppResource.OptionsPOIPickerBicycleRepairStationText;
-                break;
-            case POIType.Supermarket:
-                Title = AppResource.OptionsPOIPickerSupermarketText;
-                break; ;
-            case POIType.ATM:
-                Title = AppResource.OptionsPOIPickerATMText;
-                break;
-            case POIType.Toilet:
-                Title = AppResource.OptionsPOIPickerToiletText;
-                break;
-            case POIType.Cafe:
-                Title = AppResource.OptionsPOIPickerCafeText;
-                break;
-            case POIType.Bakery:
-                Title = AppResource.OptionsPOIPickerBakeryText;
-                break;
-            case POIType.PicnicTable:
-                Title = AppResource.OptionsPOIPickerPicnicTableText;
-                break;
-            case POIType.TrainStation:
-                Title = AppResource.OptionsPOIPickerTrainStationText;
-                break;
-            case POIType.VendingMachine:
-                Title = AppResource.OptionsPOIPickerVendingMachineText;
-                break;
-            case POIType.Laundry:
-                Title = AppResource.OptionsPOIPickerLaundryText;
-                break;
-            case POIType.ChargingStation:
-                Title = AppResource.OptionsPOIPickerChargingStationText;
-                break;
-            default:
-                Title = string.Empty;
-                break;
-        }
-        return Title += v ? data.Title[data.Title.IndexOf(":")..] : string.Empty;
-    }
-    /// <summary>
-    /// <c>GetRadiusType</c>
-    /// </summary>
-    /// <param name="selectedIndex"></param>
-    /// <returns>Index</returns>
     public static int GetRadiusType(int selectedIndex)
     {
         return selectedIndex switch

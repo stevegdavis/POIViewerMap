@@ -75,6 +75,8 @@ public partial class MapViewPage : ContentPage
             AppResource.OptionsPOIPickerBicycleShopText,
             AppResource.OptionsPOIPickerBicycleRepairStationText,
             AppResource.OptionsPOIPickerSupermarketText,
+            AppResource.OptionsPOIPickerConvenienceStoreText,
+            AppResource.OptionsPOIPickerChargingStationText,
             AppResource.OptionsPOIPickerATMText,
             AppResource.OptionsPOIPickerToiletText,
             AppResource.OptionsPOIPickerCafeText,
@@ -83,9 +85,9 @@ public partial class MapViewPage : ContentPage
             AppResource.OptionsPOIPickerTrainStationText,
             AppResource.OptionsPOIPickerVendingMachineText,
             AppResource.OptionsPOIPickerLaundryText,
-            AppResource.OptionsPOIPickerChargingStationText
+            
         };
-       this.picker.ItemsSource = items;
+        this.picker.ItemsSource = items;
         InitializeServerFilenamePicker();
 
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>

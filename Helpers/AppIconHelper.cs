@@ -16,17 +16,19 @@ internal class AppIconHelper
     public static string drinkingwaterStr = null;
     public static string campsiteStr = null;
     public static string bicycleshopStr = null;
-    public static string supermarketStr = null;
+    public static string supermarketStr = null;    
+    public static string convenienceStr = null;
     public static string bicyclerepairstationStr = null;
     public static string atmStr = null;
+    public static string chargingStationStr = null;
     public static string toiletStr = null;
-    public static string cupStr = null;
+    public static string cafeStr = null;
     public static string bakeryStr = null;
     public static string picnictableStr = null;
     public static string trainstationStr = null;
     public static string vendingmachineStr = null;
     public static string laundryStr = null;
-    public static string? chargingStationStr = null;
+    
     internal static void InitializeIcons()
     {
         var assembly = typeof(App).GetTypeInfo().Assembly;
@@ -55,11 +57,23 @@ internal class AppIconHelper
             using StreamReader reader = new(bicyclerepairstation!);
             bicyclerepairstationStr = reader.ReadToEnd();
         }
-        using var supermarket = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.shopping-cart.svg");
+        using var supermarket = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.shopping_cart.svg");
         if (supermarket != null)
         {
             using StreamReader reader = new(supermarket!);
             supermarketStr = reader.ReadToEnd();
+        }
+        using var convenience = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.shopping_basket.svg");
+        if (convenience != null)
+        {
+            using StreamReader reader = new(convenience!);
+            convenienceStr = reader.ReadToEnd();
+        }
+        using var chargingstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.charging.svg");
+        if (chargingstation != null)
+        {
+            using StreamReader reader = new(chargingstation!);
+            chargingStationStr = reader.ReadToEnd();
         }
         using var atm = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.atm.svg");
         if (atm != null)
@@ -73,11 +87,11 @@ internal class AppIconHelper
             using StreamReader reader = new(toilet!);
             toiletStr = reader.ReadToEnd();
         }
-        using var cup = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.coffee-cup.svg");
-        if (cup != null)
+        using var cafe = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.cafe.svg");
+        if (cafe != null)
         {
-            using StreamReader reader = new(cup!);
-            cupStr = reader.ReadToEnd();
+            using StreamReader reader = new(cafe!);
+            cafeStr = reader.ReadToEnd();
         }
         using var bakery = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.cupcake.svg");
         if (bakery != null)
@@ -85,7 +99,7 @@ internal class AppIconHelper
             using StreamReader reader = new(bakery!);
             bakeryStr = reader.ReadToEnd();
         }
-        using var picnictable = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.picnic-table.svg");
+        using var picnictable = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.picnic_table.svg");
         if (picnictable != null)
         {
             using StreamReader reader = new(picnictable!);
@@ -97,7 +111,7 @@ internal class AppIconHelper
             using StreamReader reader = new(trainstation!);
             trainstationStr = reader.ReadToEnd();
         }
-        using var vendingmachine = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.vending-machine.svg");
+        using var vendingmachine = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.vending_machine.svg");
         if (vendingmachine != null)
         {
             using StreamReader reader = new(vendingmachine!);
@@ -115,12 +129,6 @@ internal class AppIconHelper
             using StreamReader reader = new(laundry!);
             laundryStr = reader.ReadToEnd();
         }
-        using var chargingstation = assembly.GetManifestResourceStream($"{assemblyName}.Resources.Images.charging.svg");
-        if (chargingstation != null)
-        {
-            using StreamReader reader = new(chargingstation!);
-            chargingStationStr = reader.ReadToEnd();
-        }
     }
     internal static string GetPOIIcon(POIData poi)
     {
@@ -131,15 +139,16 @@ internal class AppIconHelper
             case POIType.BicycleShop: return bicycleshopStr;
             case POIType.BicycleRepairStation: return bicyclerepairstationStr;
             case POIType.Supermarket: return supermarketStr;
+            case POIType.ConvenienceStore: return convenienceStr;
+            case POIType.ChargingStation: return chargingStationStr;
             case POIType.ATM: return atmStr;
             case POIType.Toilet: return toiletStr;
-            case POIType.Cafe: return cupStr;
+            case POIType.Cafe: return cafeStr;
             case POIType.Bakery: return bakeryStr;
             case POIType.PicnicTable: return picnictableStr;
             case POIType.TrainStation: return trainstationStr;
             case POIType.VendingMachine: return vendingmachineStr;
             case POIType.Laundry: return laundryStr;
-            case POIType.ChargingStation: return chargingStationStr;
             case POIType.Unknown:
                 break;
         }

@@ -318,6 +318,9 @@
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
     <value>Stacja ładowania (tylko urządzenia mobilne)</value>
   </data>
+  <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
+    <value>Sklep spożywczy</value>
+  </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Woda pitna</value>
   </data>

@@ -315,6 +315,9 @@
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
     <value>Station de recharge (mobile uniquement)</value>
   </data>
+  <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
+    <value>Magasin de proximité</value>
+  </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Eau potable</value>
   </data>

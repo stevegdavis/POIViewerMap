@@ -315,6 +315,9 @@
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
     <value>Stazione di ricarica (solo dispositivi mobili)</value>
   </data>
+  <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
+    <value>Negozio di alimentari</value>
+  </data>
   <data name="OptionsPOIPickerDrinkingWaterText" xml:space="preserve">
     <value>Acqua potabile</value>
   </data>
@@ -488,8 +491,5 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Accesso al server non riuscito</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value>Chiusura con serratura:</value>
   </data>
 </root>
