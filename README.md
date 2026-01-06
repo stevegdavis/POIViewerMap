@@ -127,6 +127,6 @@ Copyright © 2025 SDSDevelopment
 > along with this program.  If not, see <https://www.gnu.org/licenses/>.
 > 
 > The author of this app cannot guarantee the accuracy of any POI that appears on the map. Discretion is required at all times whilst using the app.
- The data is extracted from [OpenStreetMap](https://www.openstreetmap.org) and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water Points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge.
+ The data is extracted from [OpenStreetMap](https://www.openstreetmap.org), [ODbl](https://opendatacommons.org/licenses/odbl/) and relies on the many OSM contributors. Particular attention should be taken in regards to Drinking Water Points as there is no guarantee that any shown on the map are fit for drinking and the user must seek local knowledge.
 
 Icons from: https://www.svgrepo.com/
