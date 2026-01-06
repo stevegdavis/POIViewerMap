@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using Flurl.Util;
 using Mapsui;
@@ -13,6 +14,7 @@ using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
+using Microsoft.Maui.Layouts;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
@@ -207,30 +209,24 @@ public partial class MapViewPage : ContentPage
     /// Displays disclaimer popup if ShowPopupAtStart is true
     /// </summary>
     /// <param name="args"></param>
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         if (!appSettings.ShowPopupAtStart) return;
         AppUsagePopup popup = new ();
         popup.ShowPopupAtStartup = appSettings.ShowPopupAtStart;
-        popup.Closed += Popup_Closed;
-        this.ShowPopup(popup);
+        /// <summary>
+        /// <c>PopupClosed</c>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        popup.Closed += (s, e) =>
+        {
+            if (s is AppUsagePopup)
+                appSettings.ShowPopupAtStart = false;// (bool)e.Result;
+        };
+        await this.ShowPopupAsync(popup);
+        
     }
-    /// <summary>
-    /// <c>PopupClosed</c>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void Popup_Closed(object sender, PopupClosedEventArgs e)
-    {
-        if(sender is AppUsagePopup)
-            appSettings.ShowPopupAtStart = (bool)e.Result;
-    }
-    /// <summary>
-    /// <c>CheckLoadingDistance</c>
-    /// Have we moved since last poi load/search radius by more than 2km
-    /// if so update all Pins on map but only if Center Map On My Position check box is checked
-    /// </summary>
-    /// <returns></returns>
     private async Task CheckLoadingDistance()
     {
         if(CurrentLocationOnLoad == null) return;

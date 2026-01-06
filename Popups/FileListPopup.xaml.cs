@@ -29,15 +29,15 @@ public partial class FileListPopup : Popup
         SelectedFilename = $"{serverfilenamepicker.SelectedItem.ToString()}.bin";
         this.POIServerFileDownloadButton.IsEnabled = true;
     }
-    void Button_ClickedServer(object? sender, EventArgs e)
-    {
-        IsCancelled = false;
-        CloseAsync(SelectedFilename);
-    }
+    //void Button_ClickedServer(object? sender, EventArgs e)
+    //{
+    //    IsCancelled = false;
+    //    CloseAsync(SelectedFilename);
+    //}
 
-    void POIFileCancelButton_Clicked(object? sender, EventArgs e)
-    {
-        IsCancelled = true;
-        CloseAsync(null);
-    }   
+    //void POIFileCancelButton_Clicked(object? sender, EventArgs e)
+    //{
+    //    IsCancelled = true;
+    //    CloseAsync(null);
+    //}   
 }

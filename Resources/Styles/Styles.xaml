@@ -13,7 +13,8 @@
     <Style TargetType="toolkit:Popup" ApplyToDerivedTypes="true">
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource AppBackgroundLightColor}, Dark={StaticResource AppBackgroundDarkColor}}" />
+        <!-- FIX: Remove invalid 'Color' property, use 'BackgroundColor' instead if you want to set background -->
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppBackgroundLightColor}, Dark={StaticResource AppBackgroundDarkColor}}" />
     </Style>
     
     <Style x:Key="Divider" TargetType="BoxView">

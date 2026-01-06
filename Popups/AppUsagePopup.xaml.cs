@@ -8,6 +8,6 @@ public partial class AppUsagePopup : Popup
     {
         InitializeComponent();
     }
-    void OnOKButtonClicked(object? sender, EventArgs e) => CloseAsync(this.ShowPopupAtStartup);
+    void OnOKButtonClicked(object? sender, EventArgs e) => CloseAsync(new CancellationToken());// this.ShowPopupAtStartup);
     private void ShowAppUsage_CheckedChanged(object sender, CheckedChangedEventArgs e) => this.ShowPopupAtStartup = !e.Value;
 }
