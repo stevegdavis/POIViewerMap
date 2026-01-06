@@ -126,9 +126,6 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Dichiarazione di non responsabilità</value>
   </data>
-  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
-    <value>POI Viewer Map</value>
-  </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Annullamento</value>
   </data>
@@ -471,15 +468,6 @@
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
-  <data name="RefreshButtonText" xml:space="preserve">
-    <value>Aggiornare</value>
-  </data>
-  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
-    <value>Ripristino delle opzioni all'avvio</value>
-  </data>
-  <data name="RestoreUIStateMsg" xml:space="preserve">
-    <value>Opzioni di ripristino</value>
-  </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Percorso:</value>
   </data>
@@ -491,5 +479,17 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Accesso al server non riuscito</value>
+  </data>
+  <data name="AttributionTitleLabelText" xml:space="preserve">
+    <value>Attribuzione</value>
+  </data>
+  <data name="RefreshButtonText" xml:space="preserve">
+    <value>Aggiornare</value>
+  </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Ripristino delle opzioni all'avvio</value>
+  </data>
+  <data name="RestoreUIStateMsg" xml:space="preserve">
+    <value>Opzioni di ripristino</value>
   </data>
 </root>

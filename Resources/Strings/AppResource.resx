@@ -126,9 +126,6 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Disclaimer</value>
   </data>
-  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
-    <value>POI Viewer Map</value>
-  </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -488,5 +485,8 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Server Access Failed</value>
+  </data>
+  <data name="AttributionTitleLabelText" xml:space="preserve">
+    <value>Attribution</value>
   </data>
 </root>

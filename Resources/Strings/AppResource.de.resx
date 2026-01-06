@@ -465,15 +465,6 @@
   <data name="POIViewerTitle" xml:space="preserve">
     <value>POI Viewer Map</value>
   </data>
-  <data name="RefreshButtonText" xml:space="preserve">
-    <value>Aktualisieren</value>
-  </data>
-  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
-    <value>Optionen beim Starten wiederherstellen</value>
-  </data>
-  <data name="RestoreUIStateMsg" xml:space="preserve">
-    <value>Wiederherstellungsoptionen</value>
-  </data>
   <data name="RouteFilepathLabelText" xml:space="preserve">
     <value>Route:</value>
   </data>
@@ -485,5 +476,17 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Serverzugriff fehlgeschlagen</value>
+  </data>
+  <data name="AttributionTitleLabelText" xml:space="preserve">
+    <value>Quellenangabe</value>
+  </data>
+  <data name="RefreshButtonText" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
+    <value>Optionen beim Starten wiederherstellen</value>
+  </data>
+  <data name="RestoreUIStateMsg" xml:space="preserve">
+    <value>Wiederherstellungsoptionen</value>
   </data>
 </root>
