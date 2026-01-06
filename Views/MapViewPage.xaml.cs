@@ -165,7 +165,7 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                this.expander.IsExpanded = false;
+                //this.expander.IsExpanded = false;
                 //this.expander.IsVisible = false;
             }
             catch (Exception) { }
@@ -797,8 +797,8 @@ public partial class MapViewPage : ContentPage
                 this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
             }
         }
-        else
-            this.expander.IsExpanded = false;
+        //else
+            //this.expander.IsExpanded = false;
     }
     /// <summary>
     /// <c>serverfilenamepicker_SelectedIndexChanged</c>

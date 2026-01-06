@@ -5,100 +5,91 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              xmlns:resource="clr-namespace:POIViewerMap.Resources.Strings"
+             xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
             Shell.NavBarIsVisible="false">
     
     <Page.Behaviors>
         <mct:StatusBarBehavior StatusBarColor="{StaticResource colorPrimaryDark}"/>
     </Page.Behaviors>
-    <StackLayout>
-        <Grid VerticalOptions="FillAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="75"/>
-                </Grid.RowDefinitions>
-                <mapsui:MapView x:Name="mapView" 
-                            Grid.Row ="0" Grid.Column="1" Grid.RowSpan="3"
-                            BackgroundColor="Gray" 
-                            Margin="0" />
-            
-        </Grid>
-        <mct:Expander x:Name="expander" IsVisible="True" Padding="5" BackgroundColor="{StaticResource BottomSheetBackgroundColor}" ExpandedChanged="expander_ExpandedChanged">
-            <mct:Expander.Header>
-                <Label HorizontalOptions="Center" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
-            </mct:Expander.Header>
-            <mct:Expander.Content>
-                <ScrollView HeightRequest="290" VerticalScrollBarVisibility="Never">
-                    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid VerticalOptions="FillAndExpand">
+                <mapsui:MapView x:Name="mapView"                          
+                                BackgroundColor="Gray" 
+                                Margin="0" />
+                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.55" HalfExpandedRatio="0.55" ContentPadding="10">
+                    <toolkit:SfBottomSheet.BottomSheetContent>
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
-                            <HorizontalStackLayout>
-                                <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CountryLabelText}" />
-                                <Picker x:Name="serverfilenamepicker" FontSize="16" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="serverfilenamepicker_SelectedIndexChanged">
-                                    <Picker.Items>
-                                        <x:String>No Data</x:String>
-                                    </Picker.Items>
-                                </Picker>
-                            </HorizontalStackLayout>                            
+                            <Label HorizontalOptions="Center" Margin="0,0,0,10" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
+                            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*">
+                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
+                                    <HorizontalStackLayout>
+                                        <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CountryLabelText}" />
+                                        <Picker x:Name="serverfilenamepicker" FontSize="16" IsEnabled="True" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="serverfilenamepicker_SelectedIndexChanged">
+                                            <Picker.Items>
+                                                <x:String>No Data</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="1" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                                    <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}"/>
+                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" Margin="7,0,0,0">
+                                    <Label Margin="0,11,2,0" FontAttributes="None" FontSize="16" >
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
+                                            <On Platform="Windows" Value="" />
+                                        </OnPlatform>
+                                    </Label>
+                                    <Picker x:Name="picker" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                                    </Picker>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="1" Margin="7,0,0,10">
+                                    <Label FontSize="16" FontAttributes="None" Margin="0,10,0,0">
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
+                                            <On Platform="Windows" Value="" />
+                                        </OnPlatform>
+                                    </Label>
+                                    <Picker x:Name="pickerRadius" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
+                                        <Picker.ItemsSource>
+                                            <x:Array Type="{x:Type x:String}">
+                                                <x:String>5km</x:String>
+                                                <x:String>10km</x:String>
+                                                <x:String>20km</x:String>
+                                                <x:String>50km</x:String>
+                                                <x:String>75km</x:String>
+                                                <x:String>100km</x:String>
+                                            </x:Array>
+                                        </Picker.ItemsSource>
+                                    </Picker>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,0,2,5">
+                                    <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
+                                    <Label FontSize="16" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
+                                </HorizontalStackLayout>
+                                <StackLayout Grid.Row="6" Grid.ColumnSpan="1" Margin="0,0,2,0">
+                                    <Button Margin="2,20,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
+                                    <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityrouteloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
+                                        <Label FontSize="16" Text="{x:Static resource:AppResource.RouteLoadingLabelText}" />
+                                        <ActivityIndicator Style="{StaticResource Import}" x:Name="activityroute" HeightRequest="30" IsRunning="True"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Margin="5,12,0,0">
+                                        <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
+                                        <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                                <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="1"  Margin="2">
+                                    <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
+                                    <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
+                                </HorizontalStackLayout>
+                            </Grid>
                         </VerticalStackLayout>
-                        <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="1" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
-                            <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}"/>
-                            <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
-                        </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" Margin="7,0,0,0">
-                            <Label Margin="0,11,2,0" FontAttributes="None" FontSize="16" >
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
-                                    <On Platform="Windows" Value="" />
-                                </OnPlatform>
-                            </Label>
-                            <Picker x:Name="picker" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPickerSelectedIndexChanged">
-                            </Picker>
-                        </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="1" Margin="7,0,0,10">
-                            <Label FontSize="16" FontAttributes="None" Margin="0,10,0,0">
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
-                                    <On Platform="Windows" Value="" />
-                                </OnPlatform>
-                            </Label>
-                            <Picker x:Name="pickerRadius" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>5km</x:String>
-                                        <x:String>10km</x:String>
-                                        <x:String>20km</x:String>
-                                        <x:String>50km</x:String>
-                                        <x:String>75km</x:String>
-                                        <x:String>100km</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
-                        </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,0,2,5">
-                            <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
-                            <Label FontSize="16" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
-                        </HorizontalStackLayout>
-                        <StackLayout Grid.Row="6" Grid.ColumnSpan="1" Margin="0,0,2,0">
-                            <Button Margin="2,20,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
-                            <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityrouteloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
-                                <Label FontSize="16" Text="{x:Static resource:AppResource.RouteLoadingLabelText}" />
-                                <ActivityIndicator Style="{StaticResource Import}" x:Name="activityroute" HeightRequest="30" IsRunning="True"/>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Margin="5,12,0,0">
-                                <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
-                                <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
-                            </HorizontalStackLayout>
-                        </StackLayout>
-                        <HorizontalStackLayout Grid.Row="7" Grid.ColumnSpan="1"  Margin="2">
-                            <CheckBox x:Name="AllowCenterMap" IsChecked="False" />
-                            <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
-                        </HorizontalStackLayout>
-                    </Grid>
-                </ScrollView>
-            </mct:Expander.Content>
-        </mct:Expander>
-    </StackLayout>   
+                    </toolkit:SfBottomSheet.BottomSheetContent>
+                </toolkit:SfBottomSheet>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

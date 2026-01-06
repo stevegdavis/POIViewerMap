@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using POIViewerMap.Stores;
 using POIViewerMap.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace POIViewerMap;
 
@@ -12,6 +13,7 @@ public static class MauiProgram
 	{
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>().UseMauiCommunityToolkit()
+        .ConfigureSyncfusionToolkit()
         .UseSkiaSharp(true)
             .ConfigureFonts(fonts =>
             {
