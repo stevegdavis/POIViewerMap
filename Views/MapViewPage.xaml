@@ -17,7 +17,7 @@
                 <mapsui:MapView x:Name="mapView"                          
                                 BackgroundColor="Gray" 
                                 Margin="0" />
-                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.55" HalfExpandedRatio="0.55" ContentPadding="10">
+                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.90" HalfExpandedRatio="0.55" ContentPadding="10">
                     <toolkit:SfBottomSheet.BottomSheetContent>
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
                             <Label HorizontalOptions="Center" Margin="0,0,0,10" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
@@ -86,6 +86,45 @@
                                     <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                                 </HorizontalStackLayout>
                             </Grid>
+                            <BoxView IsVisible="True" Style="{StaticResource Divider}" />
+                            <VerticalStackLayout Margin="0,10,0,0" Padding="5,10,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
+                                <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerTitleLabelText}" FontAttributes="Bold"/>
+                                <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerLabelText}"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Padding="5,10,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
+                                <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AttributionTitleLabelText}" FontAttributes="Bold"/>
+                                <HorizontalStackLayout>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="©"></Span>
+                                                <Span Text="OpenStreetMapData"
+                                                    TextColor="Blue"
+                                                    TextDecorations="Underline">
+                                                    <Span.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                        CommandParameter="https://openstreetmap.org" />
+                                                    </Span.GestureRecognizers>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Margin="10,0,0,0">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="ODbl"
+                                                        TextColor="Blue"
+                                                        TextDecorations="Underline">
+                                                    <Span.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                        CommandParameter="https://opendatacommons.org/licenses/odbl/" />
+                                                    </Span.GestureRecognizers>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </HorizontalStackLayout>                                
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </toolkit:SfBottomSheet.BottomSheetContent>
                 </toolkit:SfBottomSheet>

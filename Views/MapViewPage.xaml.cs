@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using Flurl.Util;
 using Mapsui;
@@ -14,13 +13,11 @@ using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
-using Microsoft.Maui.Layouts;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
 using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
-using POIViewerMap.Popups;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
@@ -28,6 +25,7 @@ using RolandK.Formats.Gpx;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Windows.Input;
 using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
@@ -61,7 +59,7 @@ public partial class MapViewPage : ContentPage
 
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= [];
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
-
+    public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));
     /// <summary>
     /// Constructor
     /// </summary>
@@ -69,6 +67,7 @@ public partial class MapViewPage : ContentPage
     public MapViewPage(IAppSettings appSettings)
 	{
 		InitializeComponent();
+        BindingContext = this;
         this.appSettings = appSettings;
         var items = new List<string>
         {
@@ -203,30 +202,7 @@ public partial class MapViewPage : ContentPage
                 {
                     this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
-    }
-    /// <summary>
-    /// <c>OnNavigatedTo</c>
-    /// Displays disclaimer popup if ShowPopupAtStart is true
-    /// </summary>
-    /// <param name="args"></param>
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        if (!appSettings.ShowPopupAtStart) return;
-        AppUsagePopup popup = new ();
-        popup.ShowPopupAtStartup = appSettings.ShowPopupAtStart;
-        /// <summary>
-        /// <c>PopupClosed</c>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        popup.Closed += (s, e) =>
-        {
-            if (s is AppUsagePopup)
-                appSettings.ShowPopupAtStart = false;// (bool)e.Result;
-        };
-        await this.ShowPopupAsync(popup);
-        
-    }
+    }    
     private async Task CheckLoadingDistance()
     {
         if(CurrentLocationOnLoad == null) return;

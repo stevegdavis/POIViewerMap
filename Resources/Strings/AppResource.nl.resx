@@ -126,9 +126,6 @@
   <data name="AppUsageDisclaimerTitleLabelText" xml:space="preserve">
     <value>Disclaimer</value>
   </data>
-  <data name="AppUsagePopupTitleMsg" xml:space="preserve">
-    <value>POI Viewer Map</value>
-  </data>
   <data name="CancelButtonText" xml:space="preserve">
     <value>Annuleren</value>
   </data>
@@ -453,9 +450,6 @@
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
   </data>
-  <data name="POILabelSubtitleTypeText" xml:space="preserve">
-    <value>Type:</value>
-  </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Kies</value>
   </data>
@@ -482,5 +476,11 @@
   </data>
   <data name="ServerAccessFailedMsg" xml:space="preserve">
     <value>Toegang tot server mislukt</value>
+  </data>
+  <data name="AttributionTitleLabelText" xml:space="preserve">
+    <value>Toeschrijving</value>
+  </data>
+  <data name="POILabelSubtitleTypeText" xml:space="preserve">
+    <value>Type:</value>
   </data>
 </root>

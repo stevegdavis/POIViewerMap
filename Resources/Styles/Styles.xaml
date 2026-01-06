@@ -265,8 +265,8 @@
         </Setter>
     </Style>
     
-    <Style x:Key="AppUsageLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Yellow100Accent}, Dark={StaticResource White}}" />
+    <Style x:Key="DisclaimerLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
