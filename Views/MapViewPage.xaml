@@ -17,7 +17,7 @@
                 <mapsui:MapView x:Name="mapView"                          
                                 BackgroundColor="Gray" 
                                 Margin="0" />
-                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.90" HalfExpandedRatio="0.55" ContentPadding="10">
+                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.92" HalfExpandedRatio="0.55" ContentPadding="10">
                     <toolkit:SfBottomSheet.BottomSheetContent>
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
                             <Label HorizontalOptions="Center" Margin="0,0,0,10" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
