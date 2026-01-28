@@ -21,12 +21,14 @@ using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
+using ReverseGeocodeLib;
+using ReverseGeocodeLib.Models;
 using RolandK.Formats.Gpx;
+using Syncfusion.Maui.Toolkit.Popup;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Windows.Input;
-using Color = Microsoft.Maui.Graphics.Color;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 
 namespace POIViewerMap.Views;
@@ -38,12 +40,14 @@ public partial class MapViewPage : ContentPage
     private string FullFilepathRoute;
     static bool POIsReadIsBusy = false;
     static bool POIsMapUpdateIsBusy = false;
+    static bool GeocodeIsActive = false;
     static int SearchRadius = 5; // km
     static readonly int MaxDistanceRefresh = 2; //km
     static readonly int MinZoomPOI = 290;
     static POIType CurrentPOIType = POIType.DrinkingWater;
     private List<POIData> pois = [];
     private static Location myCurrentLocation;
+    static Location? myCurrentCenterMap = null;
     private static Location CurrentLocationOnLoad = null;
     private CompassData CurrentCompassReading;
     private readonly MyLocationLayer _myLocationLayer;
@@ -53,6 +57,10 @@ public partial class MapViewPage : ContentPage
     public static Popup popup;
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
+    private static List<AreaData> countries = null;
+    //static GeoLocation? myCurrentCenterMap = null;
+    static string SelectedCountryId = "GBR";
+    static bool POIsDownloadIsBusy = false;
     public IAppSettings appSettings;
     CompositeDisposable deactivateWith;
     private string SelectedFilename { get; set; } = string.Empty;
@@ -88,9 +96,9 @@ public partial class MapViewPage : ContentPage
             AppResource.OptionsPOIPickerLaundryText,
             
         };
-        this.picker.ItemsSource = items;
-        InitializeServerFilenamePicker();
-
+        this.pickerpoi.ItemsSource = items;
+        this.pickerpoi.SelectedIndex = 0;
+        this.pickerRadius.SelectedIndex = 0;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
@@ -107,6 +115,11 @@ public partial class MapViewPage : ContentPage
 
         // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
         var center = new MPoint(-2.218266, 51.745564);
+        myCurrentCenterMap = new Location()
+        {
+            Latitude = center.Y,
+            Longitude = center.X
+        };
         // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
         var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
         // Set the center of the viewport to the coordinate. The UI will refresh automatically
@@ -120,6 +133,7 @@ public partial class MapViewPage : ContentPage
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+
         mapView.PinClicked += (s, e) =>
         {
             if (e.Pin != null)
@@ -166,12 +180,79 @@ public partial class MapViewPage : ContentPage
                 {
                     pin.HideCallout();
                 }
-                //this.expander.IsExpanded = false;
-                //this.expander.IsVisible = false;
             }
             catch (Exception) { }
         };
+        mapView.TouchEnded += async (s, e) =>
+        {
+            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || POIsReadIsBusy || GeocodeIsActive)
+                return;
+            try
+            {
+                GeocodeIsActive = true;
+                this.activityloadcountryindicatorlayout.IsVisible = true;
+                var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
+                var location = new GeoLocation()
+                {
+                    Latitude = lonlat.lat,
+                    Longitude = lonlat.lon
+                };
+                myCurrentCenterMap.Latitude = location.Latitude;
+                myCurrentCenterMap.Longitude = location.Longitude;
+                var country = ReverseGeocodeService.FindCountry(location);
+                if (country == null)
+                {
+                    //await PopulateMapAsync(pois);
+                    GeocodeIsActive = false;
+                    this.currentcountry.Text = "?";
+                    return;
+                }
+                if (!country.Id.Equals(SelectedCountryId))
+                {
+                    SelectedCountryId = country.Id;
+                    var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+                    this.SelectedFilename = $"{name}.bin";
+                    this.currentcountry.Text = name;
+                    POIServerFileDownload();
+                }
+                else
+                    await PopulateMapAsync(pois);
+                GeocodeIsActive = false;
+                activityloadcountryindicatorlayout.IsVisible = false;
+            }
+            catch (Exception ex) { activityloadcountryindicatorlayout.IsVisible = false; GeocodeIsActive = false; }
+        };
         ToggleCompass();
+        if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+        {
+            // No internet
+            //Toast.Make(AppResource.ServerAccessFailedMsg, ToastDuration.Long).Show();
+            FileListLocalAccess = true;
+        }
+        else
+        {
+            FileListLocalAccess = false;
+        }
+        var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
+        center = new MPoint(-2.218266, 51.745564);
+        var location = new GeoLocation()
+        {
+            Latitude = center.Y,
+            Longitude = center.X
+        };
+        this.activityloadindicatorlayout.IsVisible = true;
+        this.activityloadcountryindicatorlayout.IsVisible = true;
+        this.pickerpoi.IsEnabled = false;
+        this.pickerRadius.IsEnabled = false;
+        LoadCountries();
+        var country = ReverseGeocodeService.FindCountry(location);
+        if (country != null)
+        {
+            var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+            this.SelectedFilename = $"{name}.bin";
+            this.currentcountry.Text = name;
+            POIServerFileDownload();
+        }
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -182,7 +263,6 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
-                    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
                         mapView.MyLocationLayer.Enabled = true;
@@ -190,10 +270,13 @@ public partial class MapViewPage : ContentPage
                         return;
                     }
                     if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                    {
+                        //await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                         await GetCurrentDeviceLocationAsync();
+                    }                    
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
-                    await CheckLoadingDistance();
+                    //await CheckLoadingDistance();
                 });
         _ = Observable
                 .Interval(TimeSpan.FromSeconds(1))
@@ -202,7 +285,33 @@ public partial class MapViewPage : ContentPage
                 {
                     this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
-    }    
+    }
+    private void LoadCountries()
+    {
+        LoadCountriesAsync();
+        this.pickerpoi.IsEnabled = true;
+        this.pickerRadius.IsEnabled = true;
+        this.activityloadindicatorlayout.IsVisible = false;
+        this.activityloadcountryindicatorlayout.IsVisible = false;
+    }
+    private async void LoadCountriesAsync()
+    {
+        try
+        {
+            await ReverseGeocodeService.LoadCountriesAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        // or from web
+        //var webhelper = new WebHelper();
+        //await webhelper.DownloadCountriesFileAsync("countries.bin");
+        //if (File.Exists(WebHelper.localPath))
+        //{
+        //    countries = await ReverseGeocodeLib.Deserializer.DeserializeAsync(WebHelper.localPath);
+        //}
+    }
     private async Task CheckLoadingDistance()
     {
         if(CurrentLocationOnLoad == null) return;
@@ -212,12 +321,12 @@ public partial class MapViewPage : ContentPage
                                                  DistanceUnits.Kilometers);
         if(distance > MaxDistanceRefresh)
         {
-            this.picker.IsEnabled = false;
+            this.pickerpoi.IsEnabled = false;
             this.pickerRadius.IsEnabled = false;
             this.activityloadindicatorlayout.IsVisible = true;
             if (!POIsReadIsBusy)
                 await PopulateMapAsync(pois);
-            this.picker.IsEnabled = true;
+            this.pickerpoi.IsEnabled = true;
             this.pickerRadius.IsEnabled = true;
             this.activityloadindicatorlayout.IsVisible = false;
             CurrentLocationOnLoad = myCurrentLocation;
@@ -265,31 +374,34 @@ public partial class MapViewPage : ContentPage
     /// <param name="mapView"></param>
     /// <param name="radius">Picker value</param>
     /// <returns>Task completed</returns>
-    private static Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
-    {
-        if (IsSearchRadiusCircleBusy)
-        { return Task.CompletedTask; }
-        try
-        {
-            
-            var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
-            var circle = new Circle
-            {
-                Center = new Mapsui.UI.Maui.Position(loc.Latitude, loc.Longitude),
-                Radius = Distance.FromKilometers(radius),
-                Quality = 100,
-                StrokeColor = new Color(255, 153, 0),
-                StrokeWidth = 2,
-                FillColor = new Color(255, 153, 0, 0.0541f),
-            };
-            IsSearchRadiusCircleBusy = true;
-            mapView.Drawables.Clear();
-            mapView.Drawables.Add(circle);
-            IsSearchRadiusCircleBusy = false;
-        }
-        catch (Exception ex) { }
-        return Task.CompletedTask;
-    }
+    //private static Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
+    //{
+    //    if (IsSearchRadiusCircleBusy || myCurrentLocation == null)
+    //    { return Task.CompletedTask; }
+    //    try
+    //    {
+    //        var location = new GeoLocation()
+    //        {
+    //            Latitude = myCurrentLocation.Latitude,
+    //            Longitude = myCurrentLocation.Longitude
+    //        };
+    //        var circle = new Circle
+    //        {
+    //            Center = new Mapsui.UI.Maui.Position(location.Latitude, location.Longitude),
+    //            Radius = Distance.FromKilometers(radius),
+    //            Quality = 100,
+    //            StrokeColor = new Color(255, 153, 0),
+    //            StrokeWidth = 2,
+    //            FillColor = new Color(255, 153, 0, 0.0541f),
+    //        };
+    //        IsSearchRadiusCircleBusy = true;
+    //        mapView.Drawables.Clear();
+    //        mapView.Drawables.Add(circle);
+    //        IsSearchRadiusCircleBusy = false;
+    //    }
+    //    catch (Exception ex) { }
+    //    return Task.CompletedTask;
+    //}
     public virtual void Dispose()
     {
         if (_disposed)
@@ -332,14 +444,14 @@ public partial class MapViewPage : ContentPage
         });
     }
     /// <summary>
-    /// <c>OnPickerSelectedIndexChanged</c>
-    /// Populates or re-populates the map on Country picker index change event
+    /// <c>OnPOIPickerSelectedIndexChanged</c>
+    /// Populates or re-populates the map on POI picker index change event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    async void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    async void OnPOIPickerSelectedIndexChanged(object sender, EventArgs e)
     {
-        if(POIsReadIsBusy)
+        if (POIsReadIsBusy)
         { return; }
         var picker = (Picker)sender;
         int selectedIndex = picker.SelectedIndex;
@@ -354,12 +466,12 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                
+
                 if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
                 {
                     if (myCurrentLocation != null)
                     {
-                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentCenterMap.Longitude, myCurrentCenterMap.Latitude).ToMPoint();
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                     else
@@ -370,15 +482,15 @@ public partial class MapViewPage : ContentPage
                         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
                     }
                 }
-                this.picker.IsEnabled = false;
+                this.pickerpoi.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
                 if (!POIsReadIsBusy)
                     await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
-                this.picker.IsEnabled = true;
+                this.pickerpoi.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
-                this.picker.Title = picker.Items[selectedIndex];
+                this.pickerpoi.Title = picker.Items[selectedIndex];
             }
         }
     }
@@ -405,29 +517,30 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
-                {
-                    if (myCurrentLocation != null)
-                    {
-                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                    }
-                    else
-                    {
-                        var center = new MPoint(-2.218266, 51.745564);
-                        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
-                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                    }
-                }
-                await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
-                this.picker.IsEnabled = false;
+                //if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
+                //{
+                //    //if (myCurrentLocation != null)
+                //    {
+                //        //var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                //        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentCenterMap.Longitude, myCurrentCenterMap.Latitude).ToMPoint();
+                //        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                //    }
+                //    //else
+                //    //{
+                //    //    var center = new MPoint(-2.218266, 51.745564);
+                //    //    // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                //    //    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                //    //    mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                //    //}
+                //}
+                //await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+                this.pickerpoi.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
                 if (!POIsReadIsBusy)
                     await PopulateMapAsync(pois);
                 this.activityloadindicatorlayout.IsVisible = false;
-                this.picker.IsEnabled = true;
+                this.pickerpoi.IsEnabled = true;
                 this.pickerRadius.IsEnabled = true;
             }
         }
@@ -615,6 +728,17 @@ public partial class MapViewPage : ContentPage
     /// <returns>Task completed</returns>
     private async Task GetCurrentDeviceLocation()
     {
+        if(!Geolocation.IsEnabled)
+        {
+            var popup = new SfPopup();
+            popup.ShowFooter = true;
+            popup.HeaderTitle = AppResource.WarningPopupTitleText;
+            popup.Message = AppResource.WarnPleaseEnableGPSText;
+            popup.AppearanceMode = PopupButtonAppearanceMode.OneButton;
+            popup.AcceptButtonText = AppResource.OKText;
+            await popup.ShowAsync();
+            return;
+        }
         var request = new GeolocationRequest(GeolocationAccuracy.Best);
         myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
         if (myCurrentLocation != null)
@@ -635,10 +759,13 @@ public partial class MapViewPage : ContentPage
             try
             {
                 POIsReadIsBusy = true;
+                // Remove Pins outside search area
+                RemovePinsOutsideSearchArea(mapView, SearchRadius);
                 foreach (var pin in mapView.Pins)
                 {
                     pin.HideCallout();
                 }
+                CheckPinsInSearchArea(mapView, SearchRadius);
                 if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
                 {
                     mapView.Pins.Clear();
@@ -647,12 +774,18 @@ public partial class MapViewPage : ContentPage
                 var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
                 foreach (var poi in pois)
                 {
+                    //var distance = Location.CalculateDistance(poi.Latitude,
+                    //                                            poi.Longitude,
+                    //                                            new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
+                    //                                            DistanceUnits.Kilometers);
                     var distance = Location.CalculateDistance(poi.Latitude,
-                                                                poi.Longitude,
-                                                                new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude),
-                                                                DistanceUnits.Kilometers);
+                                                              poi.Longitude,
+                                                              new Location(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude),
+                                                              DistanceUnits.Kilometers);
                     if (distance > SearchRadius)
-                      continue;
+                        continue;
+                    if (mapView.Pins.Any(p => p.Position.Latitude == poi.Latitude && p.Position.Longitude == poi.Longitude))
+                        continue;
                     if (poi.POI != CurrentPOIType)
                         continue;
                     var space = "\r";
@@ -695,116 +828,63 @@ public partial class MapViewPage : ContentPage
                 CurrentLocationOnLoad = myCurrentLocation;
             }
         });
-        await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+        //await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
     }
-    /// <summary>
-    /// <c>InitializeServerFilenamePicker</c>
-    /// Gets a list of filenames (2 letter country code for the filename) from remote server or from local storage
-    /// </summary>
-    private async void InitializeServerFilenamePicker()
+    private void RemovePinsOutsideSearchArea(MapView mapView, int searchRadius)
     {
-        //this.POIServerFileDownloadButton.IsEnabled = false;
-        var webhelper = new WebHelper();
-        var parameters = new Dictionary<string, string>
+        var pinsToRemove = new List<Pin>();
+        foreach (var pin in mapView.Pins)
         {
-            { WebHelper.PARAM_ACTION, WebHelper.ACTION_FILES },
-            { WebHelper.PARAM_FILE_NAME, "Show All" }
-        };
-        var serverlist = await webhelper.FilenamesFetchAsync(parameters);
-        if (serverlist.Error)
-        {
-            await Toast.Make($"{serverlist.ErrorMsg}").Show();
-            // Try local storage
-            string[] files = Directory.GetFiles(FileSystem.AppDataDirectory, "*.bin");
-            if (files.Length > 0)
+            var distance = Location.CalculateDistance(pin.Position.Latitude,
+                                                  pin.Position.Longitude,
+                                                  new Location(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude),
+                                                  DistanceUnits.Kilometers);
+            if (distance > searchRadius)
             {
-                // Local files found
-                FileListLocalAccess = true;
-                var ff = new FileFetch();
-                foreach (var item in files)
-                {
-                    if (item == null) continue;
-                    ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
-                }
-                ff.LastUpdated = new DateTime();
-                FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-                ff.Names.Sort(FilenameComparer.NameArray);
-                this.serverfilenamepicker.ItemsSource = ff.Names;
+                pinsToRemove.Add(pin);
             }
         }
-        else if (serverlist.Names.Count > 0)
+        foreach (var pin in pinsToRemove)
         {
-            FileListLocalAccess = false;
-            var ff = new FileFetch();
-            foreach (var item in serverlist.Names)
-            {
-                if (item == null) continue;
-                ff.Names.Add(FormatHelper.TranslateCountryName(System.IO.Path.GetFileNameWithoutExtension(item)));
-            }
-            FilenameComparer.filenameSortOrder = FilenameComparer.SortOrder.asc;
-            ff.Names.Sort(FilenameComparer.NameArray);
-            this.serverfilenamepicker.ItemsSource = ff.Names;
-        }        
+            mapView.Pins.Remove(pin);
+        }
     }
-    private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void CheckPinsInSearchArea(MapView mapView, int searchRadius)
     {
-        
+        foreach (var pin in mapView.Pins)
+        {
+            var distance = Location.CalculateDistance(pin.Position.Latitude,
+                                                  pin.Position.Longitude,
+                                                  new Location(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude),
+                                                  DistanceUnits.Kilometers);
+            if (distance <= searchRadius)
+            {
+                pin.IsVisible = true;
+            }
+        }
+    }
+    private async Task AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
     }
     private void ShowSearchRadiusOnMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         
     }
     /// <summary>
-    /// <c>expander_ExpandedChanged</c>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void expander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
-    {
-        if (e.IsExpanded)
-        {
-            //InitializeServerFilenamePicker();
-            if (this.serverfilenamepicker.SelectedItem != null)
-            {
-                this.serverfilenamepicker.Title = this.serverfilenamepicker.SelectedItem.ToString();
-            }
-        }
-        //else
-            //this.expander.IsExpanded = false;
-    }
-    /// <summary>
-    /// <c>serverfilenamepicker_SelectedIndexChanged</c>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void serverfilenamepicker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        var v = serverfilenamepicker.SelectedIndex;
-        var s = serverfilenamepicker.SelectedItem as string;
-        if (v == -1 || s.Equals("No Data"))
-        {
-            this.SelectedFilename = string.Empty;
-            return;
-        }
-        this.SelectedFilename = $"{s}.bin";
-        serverfilenamepicker.Title = s;
-        POIServerFileDownload();
-    }
-    /// <summary>
     /// <c>POIServerFileDownload</c>
-    /// Fires file download from picker selected index from remote server or local storage
+    /// File download from remote server or local storage
     /// </summary>
     private async void POIServerFileDownload()
     {
-        if (String.IsNullOrEmpty(this.SelectedFilename))
+        if (String.IsNullOrEmpty(this.SelectedFilename) || POIsDownloadIsBusy)
         {
             this.activityloadindicatorlayout.IsVisible = false;
+            this.activityloadcountryindicatorlayout.IsVisible = false;
             return; // No file
         }
-        serverfilenamepicker.IsEnabled = false;
-        this.picker.IsEnabled = false;
-        this.pickerRadius.IsEnabled = false;
-        this.activityloadindicatorlayout.IsVisible = true;
+        //this.pickerpoi.IsEnabled = false;
+        //this.pickerRadius.IsEnabled = false;
+        //this.activityloadindicatorlayout.IsVisible = true;
         pois.Clear();
         foreach (var pin in mapView.Pins)
         {
@@ -814,6 +894,15 @@ public partial class MapViewPage : ContentPage
         // Download chosen file, is it local?
         if (FileListLocalAccess)
         {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                // Code to run on the main thread
+                CancellationTokenSource cancellationTokenSource = new();
+                ToastDuration duration = ToastDuration.Long;
+                double fontSize = 15;
+                var toast = Toast.Make($"{AppResource.ServerAccessFailedMsg}", duration, fontSize);
+                await toast.Show(cancellationTokenSource.Token);
+            });
             var res = POIBinaryFormat.Read(System.IO.Path.Combine(FileSystem.AppDataDirectory, $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(System.IO.Path.GetFileNameWithoutExtension(this.SelectedFilename))}.bin"));
             if (res != null && !POIsReadIsBusy)
             {
@@ -823,6 +912,7 @@ public partial class MapViewPage : ContentPage
         }
         else
         {
+            POIsDownloadIsBusy = true;
             var webhelper = new WebHelper();
             await webhelper.DownloadPOIFileAsync(this.SelectedFilename);
             if (File.Exists(WebHelper.localPath))
@@ -835,9 +925,10 @@ public partial class MapViewPage : ContentPage
                 }                   
             }
         }
-        this.picker.IsEnabled = true;
-        this.pickerRadius.IsEnabled = true;
-        this.serverfilenamepicker.IsEnabled=true;
-        this.activityloadindicatorlayout.IsVisible = false;
+        //this.pickerpoi.IsEnabled = true;
+        //this.pickerRadius.IsEnabled = true;
+        //this.activityloadindicatorlayout.IsVisible = false;
+        //this.activityloadcountryindicatorlayout.IsVisible = false;
+        POIsDownloadIsBusy = false;
     }
 }

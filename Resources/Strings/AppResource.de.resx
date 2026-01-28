@@ -216,6 +216,9 @@
   <data name="CountryLithuania" xml:space="preserve">
     <value>Litauen</value>
   </data>
+  <data name="CountryLuxembourg" xml:space="preserve">
+    <value>Luxemburg</value>
+  </data>
   <data name="CountryMoldova" xml:space="preserve">
     <value>Moldawien</value>
   </data>
@@ -480,13 +483,13 @@
   <data name="AttributionTitleLabelText" xml:space="preserve">
     <value>Quellenangabe</value>
   </data>
-  <data name="RefreshButtonText" xml:space="preserve">
-    <value>Aktualisieren</value>
+  <data name="WarnPleaseEnableGPSText" xml:space="preserve">
+    <value>Bitte aktivieren Sie GPS in den Einstellungen und starten Sie die App neu.</value>
   </data>
-  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
-    <value>Optionen beim Starten wiederherstellen</value>
+  <data name="WarnNoInternetConnectionText" xml:space="preserve">
+    <value>Keine Internetverbindung, bitte aktivieren und App neu starten</value>
   </data>
-  <data name="RestoreUIStateMsg" xml:space="preserve">
-    <value>Wiederherstellungsoptionen</value>
+  <data name="WarningPopupTitleText" xml:space="preserve">
+    <value>Warnung</value>
   </data>
 </root>

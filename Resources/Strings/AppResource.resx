@@ -489,4 +489,19 @@
   <data name="AttributionTitleLabelText" xml:space="preserve">
     <value>Attribution</value>
   </data>
+  <data name="WarnPleaseEnableGPSText" xml:space="preserve">
+    <value>Please enable GPS in Settings and restart app</value>
+  </data>
+  <data name="WarnNoInternetConnectionText" xml:space="preserve">
+    <value>No internet connection, please enable and restart app</value>
+  </data>
+  <data name="WarningPopupTitleText" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="OKText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LoadingCountryMsg" xml:space="preserve">
+    <value>Loading Country, please wait...</value>
+  </data>
 </root>

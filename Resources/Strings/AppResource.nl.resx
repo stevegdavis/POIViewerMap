@@ -450,6 +450,10 @@
   <data name="POIImportServerText" xml:space="preserve">
     <value>Server</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="POIMaxDistanceLabel" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="POIPickerTitleText" xml:space="preserve">
     <value>Kies</value>
   </data>
@@ -480,7 +484,13 @@
   <data name="AttributionTitleLabelText" xml:space="preserve">
     <value>Toeschrijving</value>
   </data>
-  <data name="POILabelSubtitleTypeText" xml:space="preserve">
-    <value>Type:</value>
+  <data name="WarnPleaseEnableGPSText" xml:space="preserve">
+    <value>Schakel GPS in bij Instellingen en start de app opnieuw op.</value>
+  </data>
+  <data name="WarnNoInternetConnectionText" xml:space="preserve">
+    <value>Geen internetverbinding, schakel de app in en start deze opnieuw op</value>
+  </data>
+  <data name="WarningPopupTitleText" xml:space="preserve">
+    <value>Waarschuwing</value>
   </data>
 </root>

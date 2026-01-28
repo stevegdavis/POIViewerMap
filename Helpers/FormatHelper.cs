@@ -203,4 +203,61 @@ public class FormatHelper
             _ => string.Empty,
         };
     }
+    /// <summary>
+    /// Method <c>GetCountryCodeFromReverseGeocode ID</c>.
+    /// Country code is used to identify the country.
+    /// </summary>
+    /// <returns>
+    /// 2 letter country code
+    /// </returns>
+    public static string GetCountryCodeFromReverseGeocode(string geocode)
+    {
+        return geocode switch
+        {
+            "ALB" => "al",  // for geofabrik download
+            "AND" => "ad",
+            "AUT" => "at",
+            "BLR" => "by",
+            "BEL" => "be",
+            "BIH" => "ba",
+            "BGR" => "bg",
+            "HRV" => "hr",
+            "CZE" => "cz",
+            "DNK" => "dk",
+            "EST" => "ee",
+            "FIN" => "fi",
+            "FRA" => "fr",
+            "GEO" => "ge",
+            "DEU" => "de",
+            "GRC" => "gr",
+            "HUN" => "hu",
+            "ISL" => "is",
+            "IRL" => "ie",
+            "isle-of-man" => "im",
+            "ITA" => "it",
+            "LVA" => "lv",
+            "LTU" => "lt",
+            "LUX" => "lu",
+            "LIE" => "li",
+            "MDA" => "md",
+            "monaco" => "mc",
+            "MNE" => "me",
+            "NLD" => "nl",
+            "NOR" => "no",
+            "POL" => "pl",
+            "PRT" => "pt",
+            "ROU" => "ro",
+            "RUS" => "ru",
+            "SRB" => "rs",
+            "SVK" => "sk",
+            "SVN" => "si",
+            "ESP" => "es",
+            "SWE" => "se",
+            "CHE" => "ch",
+            "TUR" => "tr",
+            "UKR" => "ua",
+            "GBR" => "uk",
+            _ => "Unknown",
+        };
+    }
 }

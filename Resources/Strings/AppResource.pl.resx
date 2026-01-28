@@ -486,13 +486,13 @@
   <data name="AttributionTitleLabelText" xml:space="preserve">
     <value>Atrybucja</value>
   </data>
-  <data name="RefreshButtonText" xml:space="preserve">
-    <value>Odświeżanie</value>
+  <data name="WarnPleaseEnableGPSText" xml:space="preserve">
+    <value>Włącz GPS w ustawieniach i uruchom ponownie aplikację.</value>
   </data>
-  <data name="RestoreOptionsOnStartupLabelText" xml:space="preserve">
-    <value>Przywracanie opcji podczas uruchamiania</value>
+  <data name="WarnNoInternetConnectionText" xml:space="preserve">
+    <value>Brak połączenia z Internetem, włącz i uruchom ponownie aplikację.</value>
   </data>
-  <data name="RestoreUIStateMsg" xml:space="preserve">
-    <value>Opcje przywracania</value>
+  <data name="WarningPopupTitleText" xml:space="preserve">
+    <value>Ostrzeżenie</value>
   </data>
 </root>

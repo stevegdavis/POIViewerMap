@@ -565,6 +565,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading Country, please wait....
+        /// </summary>
+        internal static string LoadingCountryMsg {
+            get {
+                return ResourceManager.GetString("LoadingCountryMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meters.
         /// </summary>
         internal static string Meters {
@@ -579,6 +588,15 @@ namespace POIViewerMap.Resources.Strings {
         internal static string NameText {
             get {
                 return ResourceManager.GetString("NameText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OKText {
+            get {
+                return ResourceManager.GetString("OKText", resourceCulture);
             }
         }
         
@@ -1173,6 +1191,33 @@ namespace POIViewerMap.Resources.Strings {
         internal static string ServerAccessFailedMsg {
             get {
                 return ResourceManager.GetString("ServerAccessFailedMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string WarningPopupTitleText {
+            get {
+                return ResourceManager.GetString("WarningPopupTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection, please enable and restart app.
+        /// </summary>
+        internal static string WarnNoInternetConnectionText {
+            get {
+                return ResourceManager.GetString("WarnNoInternetConnectionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enable GPS in Settings and restart app.
+        /// </summary>
+        internal static string WarnPleaseEnableGPSText {
+            get {
+                return ResourceManager.GetString("WarnPleaseEnableGPSText", resourceCulture);
             }
         }
     }
