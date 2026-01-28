@@ -68,7 +68,7 @@
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="1" Margin="7,0,2,5">
                                     <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
-                                    <Label FontSize="16" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
+                                    <Label FontSize="16" TextColor="Black" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
                                 </HorizontalStackLayout>
                                 <StackLayout Grid.Row="7" Grid.ColumnSpan="1" Margin="0,0,2,0">
                                     <Button Margin="2,20,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
