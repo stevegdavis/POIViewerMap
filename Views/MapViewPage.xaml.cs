@@ -766,11 +766,11 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 CheckPinsInSearchArea(mapView, SearchRadius);
-                if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
-                {
-                    mapView.Pins.Clear();
-                    return;
-                }
+                //if (mapView.Map.Navigator.Viewport.Resolution > MinZoomPOI)
+                //{
+                //    mapView.Pins.Clear();
+                //    return;
+                //}
                 var myLocation = new Location(mapView.MyLocationLayer.MyLocation.Latitude, mapView.MyLocationLayer.MyLocation.Longitude);
                 foreach (var poi in pois)
                 {
