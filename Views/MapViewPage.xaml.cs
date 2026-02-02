@@ -190,7 +190,6 @@ public partial class MapViewPage : ContentPage
             try
             {
                 GeocodeIsActive = true;
-                this.activityloadcountryindicatorlayout.IsVisible = true;
                 var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
                 var location = new GeoLocation()
                 {
@@ -218,9 +217,8 @@ public partial class MapViewPage : ContentPage
                 else
                     await PopulateMapAsync(pois);
                 GeocodeIsActive = false;
-                activityloadcountryindicatorlayout.IsVisible = false;
             }
-            catch (Exception ex) { activityloadcountryindicatorlayout.IsVisible = false; GeocodeIsActive = false; }
+            catch (Exception ex) { GeocodeIsActive = false; }
         };
         ToggleCompass();
         if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -241,7 +239,6 @@ public partial class MapViewPage : ContentPage
             Longitude = center.X
         };
         this.activityloadindicatorlayout.IsVisible = true;
-        this.activityloadcountryindicatorlayout.IsVisible = true;
         this.pickerpoi.IsEnabled = false;
         this.pickerRadius.IsEnabled = false;
         LoadCountries();
@@ -292,7 +289,6 @@ public partial class MapViewPage : ContentPage
         this.pickerpoi.IsEnabled = true;
         this.pickerRadius.IsEnabled = true;
         this.activityloadindicatorlayout.IsVisible = false;
-        this.activityloadcountryindicatorlayout.IsVisible = false;
     }
     private async void LoadCountriesAsync()
     {
@@ -879,7 +875,6 @@ public partial class MapViewPage : ContentPage
         if (String.IsNullOrEmpty(this.SelectedFilename) || POIsDownloadIsBusy)
         {
             this.activityloadindicatorlayout.IsVisible = false;
-            this.activityloadcountryindicatorlayout.IsVisible = false;
             return; // No file
         }
         //this.pickerpoi.IsEnabled = false;
@@ -928,7 +923,7 @@ public partial class MapViewPage : ContentPage
         //this.pickerpoi.IsEnabled = true;
         //this.pickerRadius.IsEnabled = true;
         //this.activityloadindicatorlayout.IsVisible = false;
-        //this.activityloadcountryindicatorlayout.IsVisible = false;
+        
         POIsDownloadIsBusy = false;
     }
 }

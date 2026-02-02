@@ -28,10 +28,6 @@
                                         <Label x:Name="currentcountry" TextColor="Black"  Margin="5,10,0,0" Text="" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
-                                <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="1" x:Name="activityloadcountryindicatorlayout" IsVisible="False" HorizontalOptions="Center">
-                                    <Label Text="{x:Static resource:AppResource.LoadingCountryMsg}"/>
-                                    <ActivityIndicator Style="{StaticResource Import}" x:Name="activityloadcountry" HeightRequest="30" IsRunning="True"/>
-                                </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
                                     <Label Text="{x:Static resource:AppResource.POIsLoadingLabelText}"/>
                                     <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
