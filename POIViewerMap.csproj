@@ -130,7 +130,7 @@
 		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.1" />
 		<PackageReference Include="Mapsui.Tiling" Version="4.1.1" />	
 		<PackageReference Include="Flurl.Http" Version="3.2.4" />	
-		<PackageReference Include="ReverseGeocodeLib" Version="1.0.0.8" />	
+		<PackageReference Include="ReverseGeocodeLib" Version="1.0.1" />	
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.8" />
 	</ItemGroup>
 
