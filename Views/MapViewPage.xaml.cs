@@ -58,6 +58,7 @@ public partial class MapViewPage : ContentPage
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
     private static List<AreaData> countries = null;
+    private static ReverseGeocodeService countryService = null;
     //static GeoLocation? myCurrentCenterMap = null;
     static string SelectedCountryId = "GBR";
     static bool POIsDownloadIsBusy = false;
@@ -199,12 +200,12 @@ public partial class MapViewPage : ContentPage
                 };
                 myCurrentCenterMap.Latitude = location.Latitude;
                 myCurrentCenterMap.Longitude = location.Longitude;
-                var country = ReverseGeocodeService.FindCountry(location);
+                //var countryService = new ReverseGeocodeService(countries: countries);
+                var country = countryService.FindCountry(location);
                 if (country == null)
                 {
                     //await PopulateMapAsync(pois);
                     GeocodeIsActive = false;
-                    this.currentcountry.Text = "?";
                     return;
                 }
                 if (!country.Id.Equals(SelectedCountryId))
@@ -216,7 +217,9 @@ public partial class MapViewPage : ContentPage
                     POIServerFileDownload();
                 }
                 else
+                {
                     await PopulateMapAsync(pois);
+                }
                 GeocodeIsActive = false;
                 activityloadcountryindicatorlayout.IsVisible = false;
             }
@@ -244,15 +247,18 @@ public partial class MapViewPage : ContentPage
         this.activityloadcountryindicatorlayout.IsVisible = true;
         this.pickerpoi.IsEnabled = false;
         this.pickerRadius.IsEnabled = false;
-        LoadCountries();
-        var country = ReverseGeocodeService.FindCountry(location);
-        if (country != null)
-        {
-            var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
-            this.SelectedFilename = $"{name}.bin";
-            this.currentcountry.Text = name;
-            POIServerFileDownload();
-        }
+        LoadCountries(location);
+        //if(countryService != null)
+        //{
+        //    var country = countryService.FindCountry(location);
+        //    if (country != null)
+        //    {
+        //        var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+        //        this.SelectedFilename = $"{name}.bin";
+        //        this.currentcountry.Text = name;
+        //        POIServerFileDownload();
+        //    }
+        //}        
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -286,31 +292,70 @@ public partial class MapViewPage : ContentPage
                     this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
     }
-    private void LoadCountries()
+    private void LoadCountries(GeoLocation location)
     {
-        LoadCountriesAsync();
+        LoadCountriesAsync(location);
         this.pickerpoi.IsEnabled = true;
         this.pickerRadius.IsEnabled = true;
         this.activityloadindicatorlayout.IsVisible = false;
         this.activityloadcountryindicatorlayout.IsVisible = false;
     }
-    private async void LoadCountriesAsync()
+    private async void LoadCountriesAsync(GeoLocation location)
     {
-        try
+        // Download chosen file, is it local?
+        if (FileListLocalAccess)
         {
-            await ReverseGeocodeService.LoadCountriesAsync();
+            //MainThread.BeginInvokeOnMainThread(async () =>
+            //{
+            //    // Code to run on the main thread
+            //    CancellationTokenSource cancellationTokenSource = new();
+            //    ToastDuration duration = ToastDuration.Long;
+            //    double fontSize = 15;
+            //    var toast = Toast.Make($"{AppResource.ServerAccessFailedMsg}", duration, fontSize);
+            //    await toast.Show(cancellationTokenSource.Token);
+            //});
+            var localPath = Path.Combine(FileSystem.AppDataDirectory, "countries.bin");
+            if (File.Exists(localPath))
+            {
+                //var time = File.GetCreationTime(localPath);
+                //byte[] fileBytes = File.ReadAllBytes(localPath);
+                countries = await ReverseGeocodeLib.Deserializer.DeserializeAsync(localPath);
+                countryService = new ReverseGeocodeService(countries: countries);
+                if (countryService != null)
+                {
+                    var country = countryService.FindCountry(location);
+                    if (country != null)
+                    {
+                        var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+                        this.SelectedFilename = $"{name}.bin";
+                        this.currentcountry.Text = name;
+                        POIServerFileDownload();
+                    }
+                }
+            }
         }
-        catch (Exception ex)
+        else
         {
-
+            // from web
+            var webhelper = new WebHelper();
+            await webhelper.DownloadCountriesFileAsync("countries.bin");
+            if (File.Exists(WebHelper.localPath))
+            {
+                countries = await ReverseGeocodeLib.Deserializer.DeserializeAsync(WebHelper.localPath);
+                countryService = new ReverseGeocodeService(countries: countries);
+                if (countryService != null)
+                {
+                    var country = countryService.FindCountry(location);
+                    if (country != null)
+                    {
+                        var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+                        this.SelectedFilename = $"{name}.bin";
+                        this.currentcountry.Text = name;
+                        POIServerFileDownload();
+                    }
+                }
+            }
         }
-        // or from web
-        //var webhelper = new WebHelper();
-        //await webhelper.DownloadCountriesFileAsync("countries.bin");
-        //if (File.Exists(WebHelper.localPath))
-        //{
-        //    countries = await ReverseGeocodeLib.Deserializer.DeserializeAsync(WebHelper.localPath);
-        //}
     }
     private async Task CheckLoadingDistance()
     {

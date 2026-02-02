@@ -37,7 +37,16 @@ class WebHelper
     /// <returns>Task completed</returns>
     public async Task DownloadPOIFileAsync(string filename)
     {
-        await FileDownloadPostForm(filename);
+        await POIFileDownloadPostForm(filename);
+    }
+    /// <summary>
+    /// <c>DownloadPOIFileAsync</c>
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns>Task completed</returns>
+    public async Task DownloadCountriesFileAsync(string filename)
+    {
+        await CountriesFileDownloadPostForm(filename);
     }
     /// <summary>
     /// <c>FilenamesFetchAsync</c>
@@ -93,7 +102,7 @@ class WebHelper
     /// </summary>
     /// <param name="filename"></param>
     /// <returns>Task completed</returns>
-    private async Task FileDownloadPostForm(string filename)
+    private async Task POIFileDownloadPostForm(string filename)
     {
         string responseCode = string.Empty;
         try
@@ -106,6 +115,31 @@ class WebHelper
                 File.Delete(Path.Combine(localPath));
             var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{name}"
              .DownloadFileAsync(dir, $"{name}");
+        }
+        catch (Exception ex)
+        {
+            await Toast.Make($"The file download failed: {filename} - {ex.Message}").Show();
+        }
+    }
+    /// <summary>
+    /// <c>FileDownloadPostForm</c>
+    /// Downloads file from remote server to AppDataDirectory
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns>Task completed</returns>
+    private async Task CountriesFileDownloadPostForm(string filename)
+    {
+        string responseCode = string.Empty;
+        try
+        {
+            //var name = $"{FilenameHelper.GetCountryCodeFromTranslatedCountry(Path.GetFileNameWithoutExtension(filename))}.bin";
+            localPath = Path.Combine(FileSystem.AppDataDirectory, filename);
+            var dir = Path.GetDirectoryName(localPath);
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
+            if (File.Exists(Path.Combine(localPath)))
+                File.Delete(Path.Combine(localPath));
+            var path = await $"{ServerUrl}/{ACTION_DOWNLOAD}/{filename}"
+             .DownloadFileAsync(dir, $"{filename}");
         }
         catch (Exception ex)
         {
