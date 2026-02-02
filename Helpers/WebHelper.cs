@@ -1,13 +1,9 @@
 ﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Storage;
 using Flurl.Http;
-using Microsoft.Maui.Storage;
 using POIViewerMap.DataClasses;
 using POIViewerMap.Resources.Strings;
-using ShimSkiaSharp;
 using System.Globalization;
 using System.Text;
-using System.Threading;
 
 namespace POIViewerMap.Helpers;
 /// <summary>
