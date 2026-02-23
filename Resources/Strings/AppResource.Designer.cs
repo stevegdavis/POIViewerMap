@@ -682,7 +682,7 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Charging Station (Mobile only).
+        ///   Looks up a localized string similar to Charging Station (Mobile).
         /// </summary>
         internal static string OptionsPOIPickerChargingStationText {
             get {

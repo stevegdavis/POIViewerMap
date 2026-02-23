@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
+using ExCSS;
 using Flurl.Util;
 using Mapsui;
 using Mapsui.Extensions;
@@ -30,6 +31,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Windows.Input;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
+using Point = Microsoft.Maui.Graphics.Point;
 
 namespace POIViewerMap.Views;
 /// <summary>
@@ -57,8 +59,6 @@ public partial class MapViewPage : ContentPage
     public static Popup popup;
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
-    private static List<AreaData> countries = null;
-    //static GeoLocation? myCurrentCenterMap = null;
     static string SelectedCountryId = "GBR";
     static bool POIsDownloadIsBusy = false;
     public IAppSettings appSettings;
@@ -68,6 +68,9 @@ public partial class MapViewPage : ContentPage
     protected CompositeDisposable DeactivateWith => this.deactivateWith ??= [];
     protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
     public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));
+
+    public int MaxPinsOnMap { get; private set; } = 500;
+
     /// <summary>
     /// Constructor
     /// </summary>
@@ -99,10 +102,10 @@ public partial class MapViewPage : ContentPage
         this.pickerpoi.ItemsSource = items;
         this.pickerpoi.SelectedIndex = 0;
         this.pickerRadius.SelectedIndex = 0;
-        Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
-        {
-        };// todo: Write to your own logger;
-        AppIconHelper.InitializeIcons();
+        //Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
+        //{
+        //};// todo: Write to your own logger;
+        //LoggingWidget.ShowLoggingInMap = ActiveMode.No;
         
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
@@ -112,7 +115,7 @@ public partial class MapViewPage : ContentPage
 
         mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
         mapView.Map.Layers.Add(_myLocationLayer);
-
+                
         // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
         var center = new MPoint(-2.218266, 51.745564);
         myCurrentCenterMap = new Location()
@@ -124,7 +127,10 @@ public partial class MapViewPage : ContentPage
         var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
         // Set the center of the viewport to the coordinate. The UI will refresh automatically
         // Additionally you might want to set the resolution, this could depend on your specific purpose
-        mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[9]);
+        // Map.Home removed in v5 -> use Navigator.CenterOnAndZoomTo
+        //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[9]);
+        // Map.Home was removed in Mapsui v5. Use Navigator.CenterOnAndZoomTo instead.
+        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[9]);
         
         mapView.Map.Navigator.RotationLock = true;
         
@@ -133,17 +139,21 @@ public partial class MapViewPage : ContentPage
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
-
+        
+        mapView.Map.Navigator.ViewportChanged += (s, e) =>
+        {
+            var zoom = (float)Math.Log(78271.51696401953125 / e.Viewport.Resolution, 2);
+        };
         mapView.PinClicked += (s, e) =>
         {
             if (e.Pin != null)
             {
-                if (e.NumOfTaps == 2)
+                if (e.GestureType == Mapsui.Manipulations.GestureType.DoubleTap)
                 {
                     // Hide Pin when double click
                     e.Pin.IsVisible = false;
                 }
-                if (e.NumOfTaps == 1)
+                if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
                 {
                     if (e.Pin.Callout.IsVisible)
                         e.Pin.HideCallout();
@@ -170,7 +180,7 @@ public partial class MapViewPage : ContentPage
             }
             e.Handled = true;
         };
-        mapView.MapClicked += (s, e) =>
+        mapView.Map.Tapped += (s, e) =>
         {
             if (POIsReadIsBusy)
                 return;
@@ -183,9 +193,9 @@ public partial class MapViewPage : ContentPage
             }
             catch (Exception) { }
         };
-        mapView.TouchEnded += async (s, e) =>
+        mapView.Map.PointerReleased += async (s, e) =>
         {
-            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || POIsReadIsBusy || GeocodeIsActive)
+            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || POIsReadIsBusy || GeocodeIsActive || AllowCenterMap.IsChecked)
                 return;
             try
             {
@@ -208,11 +218,14 @@ public partial class MapViewPage : ContentPage
                 }
                 if (!country.Id.Equals(SelectedCountryId))
                 {
-                    SelectedCountryId = country.Id;
-                    var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
-                    this.SelectedFilename = $"{name}.bin";
-                    this.currentcountry.Text = name;
-                    POIServerFileDownload();
+                    if(!String.IsNullOrEmpty(country.Id))
+                    {
+                        var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+                        this.SelectedFilename = $"{name}.bin";
+                        this.currentcountry.Text = name;
+                        POIServerFileDownload();
+                    }
+                    SelectedCountryId = country.Id;                    
                 }
                 else
                     await PopulateMapAsync(pois);
@@ -259,7 +272,7 @@ public partial class MapViewPage : ContentPage
                 .Interval(TimeSpan.FromMilliseconds(500))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
-                {
+                {                    
                     if (!this.AllowCenterMap.IsChecked)
                     {
                         mapView.MyLocationLayer.Enabled = true;
@@ -278,7 +291,7 @@ public partial class MapViewPage : ContentPage
         _ = Observable
                 .Interval(TimeSpan.FromSeconds(1))
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(_ =>
+                .Subscribe(async _ =>
                 {
                     this.POIsFoundLabel.Text = $"{mapView.Pins.Count}";
                 });
@@ -436,6 +449,7 @@ public partial class MapViewPage : ContentPage
             _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
             _myLocationLayer.UpdateMySpeed(1.6);
             await UpdateVisiblePinsLabelDistanceText();
+            CurrentLocationOnLoad = myCurrentCenterMap = myCurrentLocation;
             POIsMapUpdateIsBusy = false;
         });
     }
@@ -463,21 +477,21 @@ public partial class MapViewPage : ContentPage
                 }
                 mapView.Pins.Clear();
 
-                if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
-                {
-                    if (myCurrentLocation != null)
-                    {
-                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentCenterMap.Longitude, myCurrentCenterMap.Latitude).ToMPoint();
-                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                    }
-                    else
-                    {
-                        var center = new MPoint(-2.218266, 51.745564);
-                        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
-                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
-                        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
-                    }
-                }
+                //if (mapView.Map.Navigator.Viewport.Resolution >= MinZoomPOI)
+                //{
+                //    if (myCurrentLocation != null)
+                //    {
+                //        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                //        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                //    }
+                //    else
+                //    {
+                //        var center = new MPoint(-2.218266, 51.745564);
+                //        // OSM uses spherical mercator coordinates. So transform the lon lat coordinates to spherical mercator
+                //        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(center.X, center.Y).ToMPoint();
+                //        mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[12], -1, Mapsui.Animations.Easing.CubicOut);
+                //    }
+                //}
                 this.pickerpoi.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
@@ -741,7 +755,7 @@ public partial class MapViewPage : ContentPage
         {
             mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
         }
-    }
+    }    
     /// <summary>
     /// <c>PopulateMapAsync</c>
     /// Populates map with current POIType as icons
@@ -750,7 +764,7 @@ public partial class MapViewPage : ContentPage
     /// <returns>Task completed</returns>
     private async Task PopulateMapAsync(List<POIData> pois)
     {
-        await Task.Factory.StartNew(() =>
+        var waitTask = Task.Run(async () =>
         {
             try
             {
@@ -790,7 +804,7 @@ public partial class MapViewPage : ContentPage
                     if (String.IsNullOrEmpty(label))
                         space = string.Empty;
                     else
-                        label = $"{AppResource.NameText} {poi.Title}";                                     
+                        label = $"{AppResource.NameText} {poi.Title}";
                     var space2 = string.Empty;
                     var subtitle = FormatHelper.GetSubTitleLang(poi.Subtitle);
                     if (String.IsNullOrEmpty(subtitle))
@@ -800,26 +814,44 @@ public partial class MapViewPage : ContentPage
                     label = $"{label}{space}{subtitle}{space2}{AppResource.PinLabelDistanceText}{FormatHelper.FormatDistance(distance)}";
                     var myPin = new Pin(mapView)
                     {
+                        //Height = 10,
+                        ImageSource = FormatHelper.GetEmbeddedResourceForPOI(poi.POI),
                         Position = new Mapsui.UI.Maui.Position(poi.Latitude, poi.Longitude),
-                        Type = PinType.Svg,
+                        Type = PinType.ImageSource,
+                        //Color = FormatHelper.GetPinColor(poi.POI),
+                        Transparency = 0.05f,
                         Label = label,
                         Address = "",
-                        Svg = AppIconHelper.GetPOIIcon(poi),// eg. drinkingwaterStr,
-                        Scale = 0.0462F
+                        Scale = poi.POI == POIType.DrinkingWater ? 0.038F : 0.05F
                     };
+                    //myPin.Callout.Anchor = new Point(0, myPin.Height * 2);// myPin.Height * myPin.Scale);
+                    //myPin.Callout.TailAlignment = TailAlignment.Top;//.TailPosition = 50;
                     myPin.Callout.TitleTextAlignment = TextAlignment.Start;
-                    myPin.Callout.ArrowHeight = 15;
+                    myPin.Callout.TailHeight = 15;
                     myPin.Callout.TitleFontSize = 15;
-                    mapView.Pins.Add(myPin);
+                    myPin.Callout.Anchor = new Point(0, (myPin.Height + 10) * myPin.Scale);
+                    //if (mapView.Pins.Count > MaxPinsOnMap)
+                    //{
+                    //    // Too many pins on map, do not populate
+                    //    POIsReadIsBusy = false;
+                    //    CurrentLocationOnLoad = myCurrentLocation;
+                    //    return;
+                    //}
+                    try
+                    {
+                        mapView.Pins.Add(myPin);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
-                POIsReadIsBusy = false;
-                CurrentLocationOnLoad = myCurrentLocation;
             }
             catch (Exception ex)
             {
             }
             finally
-            { 
+            {
                 POIsReadIsBusy = false;
                 CurrentLocationOnLoad = myCurrentLocation;
             }
@@ -829,21 +861,28 @@ public partial class MapViewPage : ContentPage
     private void RemovePinsOutsideSearchArea(MapView mapView, int searchRadius)
     {
         var pinsToRemove = new List<Pin>();
-        foreach (var pin in mapView.Pins)
+        try
         {
-            var distance = Location.CalculateDistance(pin.Position.Latitude,
-                                                  pin.Position.Longitude,
-                                                  new Location(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude),
-                                                  DistanceUnits.Kilometers);
-            if (distance > searchRadius)
+            foreach (var pin in mapView.Pins)
             {
-                pinsToRemove.Add(pin);
+                var distance = Location.CalculateDistance(pin.Position.Latitude,
+                                                      pin.Position.Longitude,
+                                                      new Location(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude),
+                                                      DistanceUnits.Kilometers);
+                if (distance > searchRadius)
+                {
+                    pinsToRemove.Add(pin);
+                }
+            }
+            foreach (var pin in pinsToRemove)
+            {
+                mapView.Pins.Remove(pin);
             }
         }
-        foreach (var pin in pinsToRemove)
+        catch(Exception ex)
         {
-            mapView.Pins.Remove(pin);
-        }
+
+        }        
     }
     private void CheckPinsInSearchArea(MapView mapView, int searchRadius)
     {

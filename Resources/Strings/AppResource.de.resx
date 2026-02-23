@@ -313,7 +313,7 @@
     <value>Zeltplatz</value>
   </data>
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
-    <value>Ladestation (nur mobil)</value>
+    <value>Ladestation (mobil)</value>
   </data>
   <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
     <value>Convenience Store</value>
