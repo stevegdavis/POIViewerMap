@@ -105,7 +105,7 @@ class WebHelper
         }
         catch (Exception ex)
         {
-            await Toast.Make($"File download failed: {ex.Message}").Show();
+            await Toast.Make($"The file download failed: {filename} - {ex.Message}").Show();
         }
     }
     //private string HandleError(string error) TODO

@@ -259,28 +259,5 @@ public class FormatHelper
             "GBR" => "uk",
             _ => "Unknown",
         };
-    }    
-    public static string GetEmbeddedResourceForPOI(POIType type)
-    {
-        // Map POI types to embedded SVG resource IDs in Resources/Images
-        return type switch
-        {
-            POIType.DrinkingWater => "embedded://POIViewerMap.Resources.Images.water-drop.svg",
-            POIType.Campsite => "embedded://POIViewerMap.Resources.Images.campsite.svg",
-            POIType.BicycleShop => "embedded://POIViewerMap.Resources.Images.bicycle.svg",
-            POIType.BicycleRepairStation => "embedded://POIViewerMap.Resources.Images.bicyclerepairstation.svg",
-            POIType.Supermarket => "embedded://POIViewerMap.Resources.Images.supermarket.svg",
-            POIType.ConvenienceStore => "embedded://POIViewerMap.Resources.Images.shopping-basket.svg",
-            POIType.ChargingStation => "embedded://POIViewerMap.Resources.Images.charging-station.svg",
-            POIType.ATM => "embedded://POIViewerMap.Resources.Images.atm.svg",
-            POIType.Toilet => "embedded://POIViewerMap.Resources.Images.toilet.svg",
-            POIType.Cafe => "embedded://POIViewerMap.Resources.Images.cafe.svg",
-            POIType.Bakery => "embedded://POIViewerMap.Resources.Images.bakery.svg",
-            POIType.PicnicTable => "embedded://POIViewerMap.Resources.Images.picnic-table.svg",
-            POIType.TrainStation => "embedded://POIViewerMap.Resources.Images.train.svg",
-            POIType.VendingMachine => "embedded://POIViewerMap.Resources.Images.vending-machine.svg",
-            POIType.Laundry => "embedded://POIViewerMap.Resources.Images.laundry.svg",
-            _ => string.Empty,
-        };
     }
 }

@@ -313,7 +313,7 @@
     <value>Camping</value>
   </data>
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
-    <value>Oplaadstation (mobiel)</value>
+    <value>Oplaadstation (alleen mobiel)</value>
   </data>
   <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
     <value>Gemakswinkel</value>

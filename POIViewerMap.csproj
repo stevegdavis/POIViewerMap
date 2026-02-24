@@ -58,31 +58,62 @@
 
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\atm.svg" />
-	  <MauiImage Remove="Resources\Images\bakery.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
-	  <MauiImage Remove="Resources\Images\bicyclerepairstation.svg" />
 	  <MauiImage Remove="Resources\Images\cafe.svg" />
-	  <MauiImage Remove="Resources\Images\campsite.svg" />
-	  <MauiImage Remove="Resources\Images\charging-station.svg" />
+	  <MauiImage Remove="Resources\Images\camping.svg" />
+	  <MauiImage Remove="Resources\Images\charging.svg" />
+	  <MauiImage Remove="Resources\Images\cupcake.svg" />
+	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\laundry.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
-	  <MauiImage Remove="Resources\Images\picnic-table.svg" />
-	  <MauiImage Remove="Resources\Images\shopping-basket.svg" />
-	  <MauiImage Remove="Resources\Images\supermarket.svg" />
+	  <MauiImage Remove="Resources\Images\options.svg" />
+	  <MauiImage Remove="Resources\Images\picnic_table.svg" />
+	  <MauiImage Remove="Resources\Images\shopping_basket.svg" />
+	  <MauiImage Remove="Resources\Images\shopping_cart.svg" />
+	  <MauiImage Remove="Resources\Images\spanner.svg" />
 	  <MauiImage Remove="Resources\Images\toilet.svg" />
 	  <MauiImage Remove="Resources\Images\train.svg" />
-	  <MauiImage Remove="Resources\Images\vending-machine.svg" />
-	  <MauiImage Remove="Resources\Images\water-drop.svg" />
+	  <MauiImage Remove="Resources\Images\vending_machine.svg" />
+	  <MauiImage Remove="Resources\Images\waterlightblue.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\atm.svg" />
+	  <None Remove="Resources\Images\bicycle.svg" />
+	  <None Remove="Resources\Images\camping.svg" />
+	  <None Remove="Resources\Images\cupcake.svg" />
+	  <None Remove="Resources\Images\drinkingwater.svg" />
+	  <None Remove="Resources\Images\laundry.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\options.svg" />
+	  <None Remove="Resources\Images\spanner.svg" />
+	  <None Remove="Resources\Images\toilet.svg" />
+	  <None Remove="Resources\Images\train.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	  <None Remove="Resources\Splash\splash_bicycle.svg" />
 	</ItemGroup>
 
-	
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Images\atm.svg" />
+	  <EmbeddedResource Include="Resources\Images\bicycle.svg" />
+	  <EmbeddedResource Include="Resources\Images\camping.svg" />
+	  <EmbeddedResource Include="Resources\Images\charging.svg" />
+	  <EmbeddedResource Include="Resources\Images\cafe.svg" />
+	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
+	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
+	  <EmbeddedResource Include="Resources\Images\laundry.svg" />
+	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
+	  <EmbeddedResource Include="Resources\Images\options.svg" />
+	  <EmbeddedResource Include="Resources\Images\picnic_table.svg" />
+	  <EmbeddedResource Include="Resources\Images\shopping_basket.svg" />
+	  <EmbeddedResource Include="Resources\Images\shopping_cart.svg" />
+	  <EmbeddedResource Include="Resources\Images\spanner.svg" />
+	  <EmbeddedResource Include="Resources\Images\toilet.svg" />
+	  <EmbeddedResource Include="Resources\Images\train.svg" />
+	  <EmbeddedResource Include="Resources\Images\vending_machine.svg" />
+	  <EmbeddedResource Include="Resources\Images\waterlightblue.svg" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <MauiImage Include="Resources\Splash\splash.svg" />
 	</ItemGroup>
@@ -95,9 +126,9 @@
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
 		<PackageReference Include="ReactiveUI.Maui" Version="22.3.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Mapsui.Maui" Version="5.0.2" />
-		<PackageReference Include="Mapsui.Rendering.Skia" Version="5.0.2" />
-		<PackageReference Include="Mapsui.Tiling" Version="5.0.2" />	
+		<PackageReference Include="Mapsui.Maui" Version="4.1.1" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.1" />
+		<PackageReference Include="Mapsui.Tiling" Version="4.1.1" />	
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />	
 		<PackageReference Include="ReverseGeocodeLib" Version="1.0.1" />	
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.8" />
@@ -150,9 +181,5 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
-	<ItemGroup>
-  <EmbeddedResource Include="Resources\Images\*.svg" />
-</ItemGroup>
 
 </Project>

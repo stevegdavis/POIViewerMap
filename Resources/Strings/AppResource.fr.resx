@@ -313,7 +313,7 @@
     <value>Camping</value>
   </data>
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
-    <value>Station de recharge (mobile)</value>
+    <value>Station de recharge (mobile uniquement)</value>
   </data>
   <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
     <value>Magasin de proximité</value>

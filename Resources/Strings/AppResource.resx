@@ -316,7 +316,7 @@
     <value>Campsite</value>
   </data>
   <data name="OptionsPOIPickerChargingStationText" xml:space="preserve">
-    <value>Charging Station (Mobile)</value>
+    <value>Charging Station (Mobile only)</value>
   </data>
   <data name="OptionsPOIPickerConvenienceStoreText" xml:space="preserve">
     <value>Convenience Store</value>
