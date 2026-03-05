@@ -58,34 +58,36 @@
 
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\atm.svg" />
+	  <MauiImage Remove="Resources\Images\bakery.svg" />
 	  <MauiImage Remove="Resources\Images\bicycle.svg" />
+	  <MauiImage Remove="Resources\Images\bicyclerepairstation.svg" />
 	  <MauiImage Remove="Resources\Images\cafe.svg" />
-	  <MauiImage Remove="Resources\Images\camping.svg" />
+	  <MauiImage Remove="Resources\Images\campsite.svg" />
 	  <MauiImage Remove="Resources\Images\charging.svg" />
+	  <MauiImage Remove="Resources\Images\chargingstation.svg" />
 	  <MauiImage Remove="Resources\Images\cupcake.svg" />
 	  <MauiImage Remove="Resources\Images\drinkingwater.svg" />
 	  <MauiImage Remove="Resources\Images\laundry.svg" />
 	  <MauiImage Remove="Resources\Images\mobile.svg" />
-	  <MauiImage Remove="Resources\Images\options.svg" />
-	  <MauiImage Remove="Resources\Images\picnic_table.svg" />
-	  <MauiImage Remove="Resources\Images\shopping_basket.svg" />
-	  <MauiImage Remove="Resources\Images\shopping_cart.svg" />
+	  <MauiImage Remove="Resources\Images\picnictable.svg" />
+	  <MauiImage Remove="Resources\Images\shoppingbasket.svg" />
+	  <MauiImage Remove="Resources\Images\shoppingcart.svg" />
 	  <MauiImage Remove="Resources\Images\spanner.svg" />
+	  <MauiImage Remove="Resources\Images\supermarket.svg" />
 	  <MauiImage Remove="Resources\Images\toilet.svg" />
 	  <MauiImage Remove="Resources\Images\train.svg" />
-	  <MauiImage Remove="Resources\Images\vending_machine.svg" />
-	  <MauiImage Remove="Resources\Images\waterlightblue.svg" />
+	  <MauiImage Remove="Resources\Images\vendingmachine.svg" />
+	  <MauiImage Remove="Resources\Images\waterdrop.svg" />
+	  <MauiImage Remove="Resources\Images\waterdrop2.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\atm.svg" />
 	  <None Remove="Resources\Images\bicycle.svg" />
-	  <None Remove="Resources\Images\camping.svg" />
 	  <None Remove="Resources\Images\cupcake.svg" />
 	  <None Remove="Resources\Images\drinkingwater.svg" />
 	  <None Remove="Resources\Images\laundry.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
-	  <None Remove="Resources\Images\options.svg" />
 	  <None Remove="Resources\Images\spanner.svg" />
 	  <None Remove="Resources\Images\toilet.svg" />
 	  <None Remove="Resources\Images\train.svg" />
@@ -95,23 +97,27 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Images\atm.svg" />
+	  <EmbeddedResource Include="Resources\Images\bakery.svg" />
 	  <EmbeddedResource Include="Resources\Images\bicycle.svg" />
-	  <EmbeddedResource Include="Resources\Images\camping.svg" />
+	  <EmbeddedResource Include="Resources\Images\bicyclerepairstation.svg" />
+	  <EmbeddedResource Include="Resources\Images\campsite.svg" />
 	  <EmbeddedResource Include="Resources\Images\charging.svg" />
 	  <EmbeddedResource Include="Resources\Images\cafe.svg" />
+	  <EmbeddedResource Include="Resources\Images\chargingstation.svg" />
 	  <EmbeddedResource Include="Resources\Images\cupcake.svg" />
 	  <EmbeddedResource Include="Resources\Images\drinkingwater.svg" />
 	  <EmbeddedResource Include="Resources\Images\laundry.svg" />
 	  <EmbeddedResource Include="Resources\Images\mobile.svg" />
-	  <EmbeddedResource Include="Resources\Images\options.svg" />
-	  <EmbeddedResource Include="Resources\Images\picnic_table.svg" />
-	  <EmbeddedResource Include="Resources\Images\shopping_basket.svg" />
-	  <EmbeddedResource Include="Resources\Images\shopping_cart.svg" />
+	  <EmbeddedResource Include="Resources\Images\picnictable.svg" />
+	  <EmbeddedResource Include="Resources\Images\shoppingbasket.svg" />
+	  <EmbeddedResource Include="Resources\Images\shoppingcart.svg" />
 	  <EmbeddedResource Include="Resources\Images\spanner.svg" />
+	  <EmbeddedResource Include="Resources\Images\supermarket.svg" />
 	  <EmbeddedResource Include="Resources\Images\toilet.svg" />
 	  <EmbeddedResource Include="Resources\Images\train.svg" />
-	  <EmbeddedResource Include="Resources\Images\vending_machine.svg" />
-	  <EmbeddedResource Include="Resources\Images\waterlightblue.svg" />
+	  <EmbeddedResource Include="Resources\Images\vendingmachine.svg" />
+	  <EmbeddedResource Include="Resources\Images\waterdrop2.svg" />
+	  <EmbeddedResource Include="Resources\Images\waterdrop.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -121,7 +127,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="14.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="14.0.0" />
-		<PackageReference Include="Mapsui.Maui" Version="4.1.9" />
+		<PackageReference Include="Mapsui.Maui" Version="5.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.3" />
 		<PackageReference Include="POIBinaryFormatLib" Version="2.2.7" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />

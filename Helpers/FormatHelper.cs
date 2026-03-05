@@ -137,13 +137,13 @@ public class FormatHelper
     {
         return selectedIndex switch
         {
-            0 => 5,// Km
-            1 => 10,
-            2 => 20,
-            3 => 50,
-            4 => 75,
-            5 => 100,
-            _ => 5,
+            0 => 1,// Km
+            1 => 5,
+            2 => 10,
+            3 => 20,
+            //4 => 75,
+            //5 => 100,
+            _ => 1,
         };
     }
     /// <summary>
@@ -260,4 +260,86 @@ public class FormatHelper
             _ => "Unknown",
         };
     }
+    public static string GetEmbeddedResourceForPOI(POIType type)
+    {
+        // Map POI types to embedded SVG resource IDs in Resources/Images
+        return type switch
+        {
+            POIType.DrinkingWater => "embedded://POIViewerMap.Resources.Images.waterdrop2.svg",
+            POIType.Campsite => "embedded://POIViewerMap.Resources.Images.campsite.svg",
+            POIType.BicycleShop => "embedded://POIViewerMap.Resources.Images.bicycle.svg",
+            POIType.BicycleRepairStation => "embedded://POIViewerMap.Resources.Images.bicyclerepairstation.svg",
+            POIType.Supermarket => "embedded://POIViewerMap.Resources.Images.supermarket.svg",
+            POIType.ConvenienceStore => "embedded://POIViewerMap.Resources.Images.shoppingcart.svg",
+            POIType.ChargingStation => "embedded://POIViewerMap.Resources.Images.chargingstation.svg",
+            POIType.ATM => "embedded://POIViewerMap.Resources.Images.atm.svg",
+            POIType.Toilet => "embedded://POIViewerMap.Resources.Images.toilet.svg",
+            POIType.Cafe => "embedded://POIViewerMap.Resources.Images.cafe.svg",
+            POIType.Bakery => "embedded://POIViewerMap.Resources.Images.bakery.svg",
+            POIType.PicnicTable => "embedded://POIViewerMap.Resources.Images.picnictable.svg",
+            POIType.TrainStation => "embedded://POIViewerMap.Resources.Images.train.svg",
+            POIType.VendingMachine => "embedded://POIViewerMap.Resources.Images.vendingmachine.svg",
+            POIType.Laundry => "embedded://POIViewerMap.Resources.Images.laundry.svg",
+            _ => string.Empty,
+        };
+    }
+    public static Microsoft.Maui.Graphics.Color GetPinColor(POIType type)
+    {
+        return type switch
+        {
+            POIType.DrinkingWater => new Microsoft.Maui.Graphics.Color(0, 0, 255),
+            POIType.Campsite => new Microsoft.Maui.Graphics.Color(34, 139, 34),
+            POIType.BicycleShop => new Microsoft.Maui.Graphics.Color(70, 176, 176),
+            POIType.BicycleRepairStation => new Microsoft.Maui.Graphics.Color(255, 165, 0),
+            POIType.Supermarket => new Microsoft.Maui.Graphics.Color(128, 0, 128),
+            POIType.ConvenienceStore => new Microsoft.Maui.Graphics.Color(255, 20, 147),
+            POIType.ChargingStation => new Microsoft.Maui.Graphics.Color(255, 0, 0),
+            POIType.ATM => new Microsoft.Maui.Graphics.Color(255, 215, 0),
+            POIType.Toilet => new Microsoft.Maui.Graphics.Color(128, 128, 128),
+            POIType.Cafe => new Microsoft.Maui.Graphics.Color(210, 105, 30),
+            POIType.Bakery => new Microsoft.Maui.Graphics.Color(250, 177, 183),
+            POIType.PicnicTable => new Microsoft.Maui.Graphics.Color(154, 205, 50),
+            POIType.TrainStation => new Microsoft.Maui.Graphics.Color(0, 128, 128),
+            POIType.VendingMachine => new Microsoft.Maui.Graphics.Color(255, 69, 0),
+            POIType.Laundry => new Microsoft.Maui.Graphics.Color(75, 0, 130),
+            POIType.Unknown or _ => new Microsoft.Maui.Graphics.Color(255, 0, 255)
+        };
+    }
+    public static double GetDistanceForZoom(int zoomLevel)
+    {
+        return zoomLevel switch
+        {
+            <= 7 => 2.3,
+            <= 8 => 3.5,
+            <= 9 => 2.7,
+            <= 10 => 3.5,
+            <= 11 => 3.465,
+            <= 12 => 1.243,
+            <= 13 => 1.908,
+            <= 14 => 1.72,
+            _ => 2
+        };
+    }
+    //public static int GetDistanceForZoom(int zoomLevel)
+    //{
+    //    return zoomLevel switch
+    //    {
+    //        <= 6 => 50,                    // world / country view 
+    //        <= 9 => 485,                   // region view
+    //        <= 12 => 900,                  // city / town view
+    //        <= 15 => 1000,
+    //        _ => 5000
+    //    };
+    //}
+    public static int GetSearchRadiusForZoom(int zoomLevel)
+    {
+        return zoomLevel switch
+        {
+            <= 6 => 100,
+            <= 9 => 50,
+            <= 12 => 20,
+            <= 15 => 10,
+            _ => 5
+        };
+    }    
 }

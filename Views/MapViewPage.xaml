@@ -52,12 +52,13 @@
                                     <Picker x:Name="pickerRadius" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
                                         <Picker.ItemsSource>
                                             <x:Array Type="{x:Type x:String}">
+                                                <x:String>1km</x:String>
                                                 <x:String>5km</x:String>
                                                 <x:String>10km</x:String>
                                                 <x:String>20km</x:String>
-                                                <x:String>50km</x:String>
+                                                <!--<x:String>50km</x:String>
                                                 <x:String>75km</x:String>
-                                                <x:String>100km</x:String>
+                                                <x:String>100km</x:String>-->
                                             </x:Array>
                                         </Picker.ItemsSource>
                                     </Picker>
