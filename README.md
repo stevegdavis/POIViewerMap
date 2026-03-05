@@ -57,27 +57,28 @@ Open Street Map - Online only
 * United Kingdom
 
 **POI's Supported**   
-* <img src="Resources/Images/waterlightblue.svg" align="center" width="20" height="20"/> Drinking Water Point  
-* <img src="Resources/Images/camping.svg" align="center" width="20"/> Campsite  
+* <img src="Resources/Images/waterdrop.svg" align="center" width="20" height="20"/> Drinking Water Point  
+* <img src="Resources/Images/campsite.svg" align="center" width="20"/> Campsite  
 * <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
 * <img src="Resources/Images/spanner.svg" align="center" width="20"/> Bicycle Repair Station  
-* <img src="Resources/Images/shopping_cart.svg" align="center" width="20"/> Supermarket  
+* <img src="Resources/Images/supermarket.svg" align="center" width="20"/> Supermarket
+* <img src="Resources/Images/shoppingbasket.svg" align="center" width="20"/> Convenience Store
+* <img src="Resources/Images/chargingstation.svg" align="center" width="20"/> Charging Station (Mobile only)  
 * <img src="Resources/Images/atm.svg" align="center" width="20"/> ATM (Cash Machine)  
 * <img src="Resources/Images/toilet.svg" align="center" width="20"/> Toilet  
 * <img src="Resources/Images/cafe.svg" align="center" width="20"/> Cafe  
-* <img src="Resources/Images/cupcake.svg" align="center" width="20"/> Bakery  
-* <img src="Resources/Images/picnic_table.svg" align="center" width="20"/> Picnic Table  
+* <img src="Resources/Images/bakery.svg" align="center" width="20"/> Bakery  
+* <img src="Resources/Images/picnictable.svg" align="center" width="20"/> Picnic Table  
 * <img src="Resources/Images/train.svg" align="center" width="20"/> Train Station (Excluding Tourist, Metro, Subway and Tram)  
-* <img src="Resources/Images/vending_machine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
+* <img src="Resources/Images/vendingmachine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
 * <img src="Resources/Images/laundry.svg" align="center" width="20"/> Laundry  
 
 **Search Radiuses Supported**  
+* 1Km
 * 5km  
 * 10km  
 * 20km
-* 50km   
-* 75km  
-* 100km  
+
 ## App Languages 
 * English
 * French (Français)
@@ -98,11 +99,13 @@ https://hnd.www.deepl.com/
 * iOS (TBC)
 ## Libraries Used  
 * ReactiveUI https://www.reactiveui.net/  
-* Flurl.Http (v3.2.4 only)  https://flurl.dev/   
+* Flurl.Http https://flurl.dev/   
 * RolandK.Formats.Gpx https://github.com/RolandKoenig/RolandK.Formats.Gpx  
-* Mapsui (v4.1.1 only) https://github.com/Mapsui/Mapsui
-* POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/
+* Mapsui https://github.com/Mapsui/Mapsui 
 * protobuf-net https://github.com/protobuf-net/protobuf-net
+* Syncfusion.Maui.Toolkit https://www.syncfusion.com/net-maui-toolkit
+* POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/ 
+* ReverseGeocodeLib - Used to detect the country at map center 
 ## OSM Conversion Software Used
 osmium https://osmcode.org/osmium-tool/
 ## Open Street Map Data
