@@ -214,13 +214,13 @@ public partial class MapViewPage : ContentPage
             }
             CurrentViewport = e.Map.Navigator.Viewport;            
         };
-        mapView.PinClicked += (s, e) =>
+        mapView.PinClicked += async (s, e) =>
         {
             if (e.Pin != null)
             {
                 if (e.GestureType == Mapsui.Manipulations.GestureType.LongPress)
                 {
-                    
+                    await Launcher.OpenAsync($"https://maps.google.com/maps?q=&layer=c&cbll={e.Pin.Position.Latitude},{e.Pin.Position.Longitude}&cbp=11,0,0,0,0");
                 }
                 if (e.GestureType == Mapsui.Manipulations.GestureType.DoubleTap)
                 {
