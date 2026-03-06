@@ -60,7 +60,7 @@ Open Street Map - Online only
 * <img src="Resources/Images/waterdrop.svg" align="center" width="20" height="20"/> Drinking Water Point  
 * <img src="Resources/Images/campsite.svg" align="center" width="20"/> Campsite  
 * <img src="Resources/Images/bicycle.svg" align="center" width="20"/> Bicycle Shop  
-* <img src="Resources/Images/spanner.svg" align="center" width="20"/> Bicycle Repair Station  
+* <img src="Resources/Images/bicyclerepairstation.svg" align="center" width="20"/> Bicycle Repair Station  
 * <img src="Resources/Images/supermarket.svg" align="center" width="20"/> Supermarket
 * <img src="Resources/Images/shoppingbasket.svg" align="center" width="20"/> Convenience Store
 * <img src="Resources/Images/chargingstation.svg" align="center" width="20"/> Charging Station (Mobile only)  
