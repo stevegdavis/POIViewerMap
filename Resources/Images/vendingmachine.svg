@@ -1,7 +1,13 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1264.242 1264.242" xml:space="preserve" width="800px" height="800px" fill="#d57215" stroke="#d57215">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <g> <g> <path style="fill:#d57215;" d="M1224.393,0.048H39.848C17.794,0.048,0,17.842,0,39.896v1184.357 c0,22.148,17.794,39.942,39.848,39.942h1184.546c22.054,0,39.848-17.794,39.848-39.942V39.896 C1264.146,17.842,1246.447,0.048,1224.393,0.048z M1184.546,1184.499H79.601V79.743h1104.85L1184.546,1184.499L1184.546,1184.499z "/> <rect x="151.724" y="134.545" style="fill:#d57215;" width="946.122" height="597.526"/> <rect x="153.333" y="821.61" style="fill:#d57215;" width="523.037" height="303.732"/> <path style="fill:#d57215;" d="M767.518,1000.878h80.452c9.749,44.012,50.733,77.046,99.856,77.046 c49.312,0,90.296-33.128,100.045-77.046h69.851V821.516H767.517L767.518,1000.878L767.518,1000.878z"/> </g> </g> </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="#e3638c" width="800px" height="800px" viewBox="0 0 16 16">
+
+<g id="Layer_2" data-name="Layer 2">
+
+<g id="Layer_1-2" data-name="Layer 1">
+
+<path d="M15.5,0H.5A.5.5,0,0,0,0,.5v13a.5.5,0,0,0,.5.5H1v1.5a.5.5,0,0,0,.5.5h2a.5.5,0,0,0,.5-.5V14h8v1.5a.5.5,0,0,0,.5.5h2a.5.5,0,0,0,.5-.5V14h.5a.5.5,0,0,0,.5-.5V.5A.5.5,0,0,0,15.5,0ZM3,15H2V14H3Zm11,0H13V14h1Zm1-2H1V1H15ZM2.5,12h7a.5.5,0,0,0,.5-.5v-9A.5.5,0,0,0,9.5,2h-7a.5.5,0,0,0-.5.5v9A.5.5,0,0,0,2.5,12Zm2-6H9V9H8V7.5a.5.5,0,0,0-1,0V9H6V7.5A.5.5,0,0,0,5.5,7h-1a.5.5,0,0,0-.5.5V9H3V6ZM3,11V10H9v1ZM9,3V5H8V4.5a.5.5,0,0,0-1,0V5H6V4.5A.5.5,0,0,0,5.5,4h-1a.5.5,0,0,0-.5.5V5H3V3Zm2.5,3h2a.5.5,0,0,0,.5-.5v-3a.5.5,0,0,0-.5-.5h-2a.5.5,0,0,0-.5.5v3A.5.5,0,0,0,11.5,6ZM12,3h1V5H12Zm-.5,7h2a.5.5,0,0,0,.5-.5v-2a.5.5,0,0,0-.5-.5h-2a.5.5,0,0,0-.5.5v2A.5.5,0,0,0,11.5,10ZM12,8h1V9H12Zm-1,3.5a.5.5,0,0,1,.5-.5h2a.5.5,0,0,1,0,1h-2A.5.5,0,0,1,11,11.5Z" fill="#e3638c"/>
+
+</g>
+
+</g>
+
+</svg>

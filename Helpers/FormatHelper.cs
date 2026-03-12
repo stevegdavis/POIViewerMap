@@ -265,7 +265,7 @@ public class FormatHelper
         // Map POI types to embedded SVG resource IDs in Resources/Images
         return type switch
         {
-            POIType.DrinkingWater => "embedded://POIViewerMap.Resources.Images.waterdrop2.svg",
+            POIType.DrinkingWater => "embedded://POIViewerMap.Resources.Images.waterdrop.svg",
             POIType.Campsite => "embedded://POIViewerMap.Resources.Images.campsite.svg",
             POIType.BicycleShop => "embedded://POIViewerMap.Resources.Images.bicycle.svg",
             POIType.BicycleRepairStation => "embedded://POIViewerMap.Resources.Images.bicyclerepairstation.svg",
@@ -304,33 +304,7 @@ public class FormatHelper
             POIType.Laundry => new Microsoft.Maui.Graphics.Color(75, 0, 130),
             POIType.Unknown or _ => new Microsoft.Maui.Graphics.Color(255, 0, 255)
         };
-    }
-    public static double GetDistanceForZoom(int zoomLevel)
-    {
-        return zoomLevel switch
-        {
-            <= 7 => 2.3,
-            <= 8 => 3.5,
-            <= 9 => 2.7,
-            <= 10 => 3.5,
-            <= 11 => 3.465,
-            <= 12 => 1.243,
-            <= 13 => 1.908,
-            <= 14 => 1.72,
-            _ => 2
-        };
-    }
-    //public static int GetDistanceForZoom(int zoomLevel)
-    //{
-    //    return zoomLevel switch
-    //    {
-    //        <= 6 => 50,                    // world / country view 
-    //        <= 9 => 485,                   // region view
-    //        <= 12 => 900,                  // city / town view
-    //        <= 15 => 1000,
-    //        _ => 5000
-    //    };
-    //}
+    }    
     public static int GetSearchRadiusForZoom(int zoomLevel)
     {
         return zoomLevel switch

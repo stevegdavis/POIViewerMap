@@ -77,8 +77,8 @@
 	  <MauiImage Remove="Resources\Images\toilet.svg" />
 	  <MauiImage Remove="Resources\Images\train.svg" />
 	  <MauiImage Remove="Resources\Images\vendingmachine.svg" />
+	  <MauiImage Remove="Resources\Images\waterdrop-dark.svg" />
 	  <MauiImage Remove="Resources\Images\waterdrop.svg" />
-	  <MauiImage Remove="Resources\Images\waterdrop2.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -116,8 +116,8 @@
 	  <EmbeddedResource Include="Resources\Images\toilet.svg" />
 	  <EmbeddedResource Include="Resources\Images\train.svg" />
 	  <EmbeddedResource Include="Resources\Images\vendingmachine.svg" />
-	  <EmbeddedResource Include="Resources\Images\waterdrop2.svg" />
 	  <EmbeddedResource Include="Resources\Images\waterdrop.svg" />
+	  <EmbeddedResource Include="Resources\Images\waterdrop-dark.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
