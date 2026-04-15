@@ -1,5 +1,5 @@
 # POIViewerMap  
-Point Of Interest Viewer Map is a .NET MAUI app for Android devices (iOS work in progress). It allows the user to choose a POI from a fixed list and display within the search radius from the center of the map. 
+Point Of Interest Viewer Map is a .NET MAUI app for Android and iOS devices. It allows the user to choose a POI from a fixed list and display within the search radius from the center of the map. 
 POI's are oriented towards bicycle touring and hiking.  
 The app also supports import of a GPX route for displaying on the map.  
 
@@ -8,6 +8,7 @@ Open Street Map - Online only
 
 **Options Panel**  
 * Country
+* Region (UK, France)
 * POI (To View)
 * Search Radius (Kilometers - distances shown are in a straight line)
 * POI's Found (Visible on map)
@@ -73,11 +74,11 @@ Open Street Map - Online only
 * <img src="Resources/Images/vendingmachine.svg" align="center" width="20"/> Vending Machine (Bread, Bicycle Tubes and Electronics only)
 * <img src="Resources/Images/laundry.svg" align="center" width="20"/> Laundry  
 
-**Search Radiuses Supported**  
+**Search Radius**  
 * 1Km
 * 5km  
 * 10km  
-* 20km
+* 30km
 
 ## App Languages 
 * English
@@ -96,7 +97,7 @@ https://hnd.www.deepl.com/
 
 ## OS Minimum Requirments  
 * Android 8
-* iOS (TBC)
+* iOS 15 (Tested only on simulator)
 ## Libraries Used  
 * ReactiveUI https://www.reactiveui.net/  
 * Flurl.Http https://flurl.dev/   
@@ -105,16 +106,13 @@ https://hnd.www.deepl.com/
 * protobuf-net https://github.com/protobuf-net/protobuf-net
 * Syncfusion.Maui.Toolkit https://www.syncfusion.com/net-maui-toolkit
 * POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/ 
-* ReverseGeocodeLib - Used to detect the country at map center 
+* ReverseGeocodeLib - Used to detect the country (and region) at map center 
 ## OSM Conversion Software Used
 osmium https://osmcode.org/osmium-tool/
 ## Open Street Map Data
 https://download.geofabrik.de/
-## Road Map  
-* Work on iOS devices
-
 ## Licence
-Copyright © 2025 SDSDevelopment
+Copyright © 2026 SDSDevelopment
 
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
