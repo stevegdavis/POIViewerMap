@@ -20,12 +20,16 @@
                 <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.92" HalfExpandedRatio="0.55" ContentPadding="10">
                     <toolkit:SfBottomSheet.BottomSheetContent>
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
-                            <Label HorizontalOptions="Center" Margin="0,0,0,10" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
+                            <Label HorizontalOptions="Center" Margin="0,0,0,8" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
                             <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,*">
-                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
+                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,0" >
                                     <HorizontalStackLayout>
                                         <Label Margin="5,10,0,0" Text="{x:Static resource:AppResource.CountryLabelText}" />
                                         <Label x:Name="currentcountry" TextColor="Black"  Margin="5,10,0,0" Text="" />
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout x:Name="regionLayout" IsVisible="False">
+                                        <Label Margin="5,5,0,0" Text="{x:Static resource:AppResource.RegionLabelText}" />
+                                        <Label x:Name="currentregion" TextColor="Black"  Margin="5,5,0,10" Text="" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
                                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="1" x:Name="activityloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
@@ -33,29 +37,29 @@
                                     <ActivityIndicator Style="{StaticResource Import}" x:Name="activityload" HeightRequest="30" IsRunning="True"/>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="1" Margin="7,0,0,0">
-                                    <Label Margin="0,11,2,0" FontAttributes="None" FontSize="16" >
+                                    <Label Margin="0,11,2,0" FontAttributes="None" >
                                         <OnPlatform x:TypeArguments="x:String">
                                             <On Platform="Android, iOS" Value="{x:Static resource:AppResource.POIViewerMapPOIsLabelText}"/>
                                             <On Platform="Windows" Value="" />
                                         </OnPlatform>
                                     </Label>
-                                    <Picker x:Name="pickerpoi" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPOIPickerSelectedIndexChanged">
+                                    <Picker x:Name="pickerpoi" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnPOIPickerSelectedIndexChanged">
                                     </Picker>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,0,0,10">
-                                    <Label FontSize="16" FontAttributes="None" Margin="0,10,0,0">
+                                    <Label FontAttributes="None" Margin="0,10,0,0">
                                         <OnPlatform x:TypeArguments="x:String">
                                             <On Platform="Android, iOS" Value="{x:Static resource:AppResource.SearchRadiusLabelText}"/>
                                             <On Platform="Windows" Value="" />
                                         </OnPlatform>
                                     </Label>
-                                    <Picker x:Name="pickerRadius" FontSize="16" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
+                                    <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
                                         <Picker.ItemsSource>
                                             <x:Array Type="{x:Type x:String}">
                                                 <x:String>1km</x:String>
                                                 <x:String>5km</x:String>
                                                 <x:String>10km</x:String>
-                                                <x:String>20km</x:String>
+                                                <x:String>30km</x:String>
                                                 <!--<x:String>50km</x:String>
                                                 <x:String>75km</x:String>
                                                 <x:String>100km</x:String>-->
@@ -64,31 +68,31 @@
                                     </Picker>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="6" Grid.ColumnSpan="1" Margin="7,0,2,5">
-                                    <Label FontSize="16" Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
-                                    <Label FontSize="16" TextColor="Black" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
+                                    <Label Text="{x:Static resource:AppResource.POIsFoundLabelText}"/>
+                                    <Label TextColor="Black" Margin="5,0,0,0" x:Name="POIsFoundLabel"/>
                                 </HorizontalStackLayout>
                                 <StackLayout Grid.Row="7" Grid.ColumnSpan="1" Margin="0,0,2,0">
-                                    <Button Margin="2,20,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
+                                    <Button Margin="2,10,2,0" Text="{x:Static resource:AppResource.OptionsImportRouteButtonText}" HeightRequest="50" Clicked="BrowseRoutesButton_Clicked" />
                                     <HorizontalStackLayout Margin="0,5,2,0" x:Name="activityrouteloadindicatorlayout" IsVisible="False" HorizontalOptions="Center">
                                         <Label FontSize="16" Text="{x:Static resource:AppResource.RouteLoadingLabelText}" />
                                         <ActivityIndicator Style="{StaticResource Import}" x:Name="activityroute" HeightRequest="30" IsRunning="True"/>
                                     </HorizontalStackLayout>
-                                    <HorizontalStackLayout Margin="5,12,0,0">
+                                    <HorizontalStackLayout Margin="5,10,0,0">
                                         <Label Text="{x:Static resource:AppResource.RouteFilepathLabelText}" FontSize="16" />
                                         <Label x:Name="RouteImported" Margin="2,0,0,5" Text="" FontSize="16" MaximumWidthRequest="240" LineBreakMode="MiddleTruncation"/>
                                     </HorizontalStackLayout>
                                 </StackLayout>
-                                <HorizontalStackLayout Grid.Row="8" Grid.ColumnSpan="1"  Margin="2">
+                                <HorizontalStackLayout Grid.Row="8" Grid.ColumnSpan="1"  Margin="2,1,0,10">
                                     <CheckBox x:Name="AllowCenterMap" IsChecked="False"/>
                                     <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                                 </HorizontalStackLayout>
                             </Grid>
                             <BoxView IsVisible="True" Style="{StaticResource Divider}" />
-                            <VerticalStackLayout Margin="0,15,0,0" Padding="5,10,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
+                            <VerticalStackLayout Margin="0,12,0,0" Padding="5,10,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
                                 <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerTitleLabelText}" FontAttributes="Bold"/>
                                 <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AppUsageDisclaimerLabelText}"/>
                             </VerticalStackLayout>
-                            <VerticalStackLayout Padding="5,10,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
+                            <VerticalStackLayout Padding="5,5,0,10" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
                                 <Label Style="{StaticResource DisclaimerLabelStyle}" Text="{x:Static resource:AppResource.AttributionTitleLabelText}" FontAttributes="Bold"/>
                                 <HorizontalStackLayout>
                                     <Label>

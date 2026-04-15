@@ -492,4 +492,7 @@
   <data name="WarningPopupTitleText" xml:space="preserve">
     <value>Warnung</value>
   </data>
+  <data name="RegionLabelText" xml:space="preserve">
+    <value>Region:</value>
+  </data>
 </root>

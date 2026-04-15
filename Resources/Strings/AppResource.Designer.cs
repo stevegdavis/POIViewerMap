@@ -1159,6 +1159,15 @@ namespace POIViewerMap.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Region:.
+        /// </summary>
+        internal static string RegionLabelText {
+            get {
+                return ResourceManager.GetString("RegionLabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Route:.
         /// </summary>
         internal static string RouteFilepathLabelText {

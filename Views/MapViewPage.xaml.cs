@@ -12,6 +12,8 @@ using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using Mapsui.Widgets;
+using Mapsui.Widgets.ButtonWidgets;
+using Mapsui.Widgets.InfoWidgets;
 using Mapsui.Widgets.ScaleBar;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
@@ -29,8 +31,10 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Windows.Input;
+using HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 using Point = Microsoft.Maui.Graphics.Point;
+using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
 
 namespace POIViewerMap.Views;
 /// <summary>
@@ -66,7 +70,7 @@ public partial class MapViewPage : ContentPage
         get { lock (_poisLock) return _pois; }
     }
     static bool GeocodeIsActive = false;
-    static int SearchRadius = 1; // km
+    static int SearchRadius = 5; // km
     static readonly int MaxDistanceRefresh = 2; //km
     static readonly int MinZoomPOI = 290;
     static POIType CurrentPOIType = POIType.DrinkingWater;
@@ -123,11 +127,12 @@ public partial class MapViewPage : ContentPage
         };
         this.pickerpoi.ItemsSource = items;
         this.pickerpoi.SelectedIndex = 0;
-        this.pickerRadius.SelectedIndex = 0;
+        this.pickerRadius.SelectedIndex = 1;
         Mapsui.Logging.Logger.LogDelegate += (level, message, ex) =>
         {
         };// todo: Write to your own logger;
         // Initialize the map view
+        LoggingWidget.ShowLoggingInMap = ActiveMode.OnlyInDebugMode;
         _myLocationLayer?.Dispose();
         _myLocationLayer = new MyLocationLayer(mapView.Map)
         {
@@ -152,10 +157,15 @@ public partial class MapViewPage : ContentPage
         mapView.Map.Navigator.CenterOnAndZoomTo(sphericalMercatorCoordinate, mapView.Map.Navigator.Resolutions[9]);
         mapView.Map.Navigator.RotationLock = true;
         mapView.IsZoomButtonVisible = true;
-        mapView.IsMyLocationButtonVisible = true;
+        mapView.IsMyLocationButtonVisible = false;
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
         mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+        mapView.Map.Widgets.Add(CreateImageButtonWidget(VerticalAlignment.Bottom, HorizontalAlignment.Right, (s, e) =>
+        {
+            UpdateMapOnLocationButtonPress();
+            mapView.Map.RefreshGraphics();
+        }));
         mapView.Map.PointerReleased += async (s, e) =>
         {
             if (e.GestureType != Mapsui.Manipulations.GestureType.Release)//.Drag)
@@ -191,30 +201,63 @@ public partial class MapViewPage : ContentPage
             try
             {
                 var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
-                var location = new GeoLocation()
-                {
-                    Latitude = lonlat.lat,
-                    Longitude = lonlat.lon
-                };
-                myCurrentCenterMap.Latitude = location.Latitude;
-                myCurrentCenterMap.Longitude = location.Longitude;
-                var country = ReverseGeocodeService.FindCountry(location);
-                if (country == null)
+                
+                myCurrentCenterMap.Latitude = lonlat.lat;
+                myCurrentCenterMap.Longitude = lonlat.lon;
+                var country = ReverseGeocodeService.FindCountry(lonlat.lat, lonlat.lon);
+                if (country == null && country.Count > 0)
                 {
                     await PopulateMapAsync(pois);
                     this.currentcountry.Text = "?";
                     return;
                 }
-                if (!country.Id.Equals(SelectedCountryId))
+                else
+                    this.regionLayout.IsVisible = false;
+                if (!country[0].Item1.Equals(SelectedCountryId))
                 {
-                    SelectedCountryId = country.Id;
-                    var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+                    SelectedCountryId = country[0].Item1;
+                    var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country[0].Item1));
                     this.SelectedFilename = $"{name}.bin";
                     this.currentcountry.Text = name;
-                    POIServerFileDownload();
+                    POIServerFileDownload();                    
                 }
                 else
                     await PopulateMapAsync(pois);
+                // Get Region
+                if (country[0].Item1 == "GBR")
+                {
+                    try
+                    {
+                        this.regionLayout.IsVisible = true;
+                        LoadUKCounties();
+                        var county = ReverseGeocodeService.FindUKCounty(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude);
+                        this.currentregion.Text = county[0].Item2;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                else if (country[0].Item1 == "FRA")
+                {
+                    try
+                    {
+                        this.regionLayout.IsVisible = true;
+                        LoadFranceRegions();
+                        var county = ReverseGeocodeService.FindFranceRegion(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude);
+                        this.currentregion.Text = county[0].Item2;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                else
+                {
+                    this.currentregion.Text = string.Empty;
+                    this.regionLayout.IsVisible = false;
+                }
+                    
             }
             catch (Exception ex) { }
             finally
@@ -265,11 +308,7 @@ public partial class MapViewPage : ContentPage
         };
         mapView.MapClicked += async (s, e) =>
         {
-            if (e.GestureType == Mapsui.Manipulations.GestureType.LongPress)
-            {
-                await Launcher.OpenAsync($"https://maps.google.com/maps?q={e.Point.Latitude},{e.Point.Longitude}&layer=c&cbll={e.Point.Latitude},{e.Point.Longitude}&cbp=11,0,0,0,0");
-            }
-            else
+            if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
             {
                 if (POIsReadIsBusy)
                     return;
@@ -297,23 +336,48 @@ public partial class MapViewPage : ContentPage
             FileListLocalAccess = false;
         }
         var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX, mapView.Map.Navigator.Viewport.CenterY);
-        center = new MPoint(-2.218266, 51.745564);
-        var location = new GeoLocation()
-        {
-            Latitude = center.Y,
-            Longitude = center.X
-        };
+        //center = new MPoint(-2.218266, 51.745564);
         this.activityloadindicatorlayout.IsVisible = true;
         this.pickerpoi.IsEnabled = false;
         this.pickerRadius.IsEnabled = false;
         LoadCountries();
-        var country = ReverseGeocodeService.FindCountry(location);
-        if (country != null)
+        var country = ReverseGeocodeService.FindCountry(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude);
+        if (country != null && country.Count > 0)
         {
-            var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country.Id));
+            var name = FormatHelper.TranslateCountryName(FormatHelper.GetCountryCodeFromReverseGeocode(country[0].Item1));
             this.SelectedFilename = $"{name}.bin";
             this.currentcountry.Text = name;
             POIServerFileDownload();
+            if (country[0].Item1 == "GBR")
+            {
+                try
+                {
+                    this.regionLayout.IsVisible = true;
+                    LoadUKCounties();
+                    var county = ReverseGeocodeService.FindUKCounty(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude);
+                    this.currentregion.Text = county[0].Item2;
+                }
+                catch (Exception ex)
+                {
+
+                }                
+            }
+            else if (country[0].Item1 == "FRA")
+            {
+                try
+                {
+                    this.regionLayout.IsVisible = true;
+                    LoadFranceRegions();
+                    var county = ReverseGeocodeService.FindFranceRegion(myCurrentCenterMap.Latitude, myCurrentCenterMap.Longitude);
+                    this.currentregion.Text = county[0].Item2;
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            else
+                this.regionLayout.IsVisible = false;
         }
         // From GPS - not windows TODO iOS
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
@@ -325,20 +389,74 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
+                   await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
                         mapView.MyLocationLayer.Enabled = true;
                         _myLocationLayer.Enabled = false;
                         return;
                     }
-                    if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                    if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
                     {
                         await GetCurrentDeviceLocationAsync();
                     }
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
                 });
+    }    
+    /// <summary>
+    /// <c>UpdateSearchRadiusCircleOnMap</c>
+    /// </summary>
+    /// <param name="mapView"></param>
+    /// <param name="radius">Picker value</param>
+    /// <returns>Task completed</returns>
+    private static Task UpdateSearchRadiusCircleOnMap(MapView mapView, int radius)
+    {
+        if (IsSearchRadiusCircleBusy)
+        { return Task.CompletedTask; }
+        try
+        {            
+            var loc = myCurrentLocation ?? new Location(51.745564, -2.218266);
+            var circle = new Circle
+            {
+                Center = new Mapsui.UI.Maui.Position(loc.Latitude, loc.Longitude),
+                Radius = Distance.FromKilometers(radius),
+                Quality = 100,
+                StrokeColor = new Microsoft.Maui.Graphics.Color(255, 153, 0),
+                StrokeWidth = 2,
+                FillColor = new Microsoft.Maui.Graphics.Color(255, 153, 0, 0.0f),
+            };
+            IsSearchRadiusCircleBusy = true;
+            mapView.Drawables.Clear();
+            mapView.Drawables.Add(circle);
+            IsSearchRadiusCircleBusy = false;
+        }
+        catch (Exception ex) { }
+        return Task.CompletedTask;
     }
+    private async Task UpdateMapOnLocationButtonPress()
+    {
+        if(POIsMapUpdateIsBusy)
+            return;
+        await GetCurrentDeviceLocationAsync();
+        mapView.Pins.Clear();
+        await PopulateMapAsync(pois);
+    }
+    private static ImageButtonWidget CreateImageButtonWidget(VerticalAlignment verticalAlignment,
+        HorizontalAlignment horizontalAlignment, EventHandler<WidgetEventArgs> tapped) => new()
+        {
+            Image = "embedded://POIViewerMap.Resources.Images.target.svg",
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            Margin = new MRect(16, 110),
+            Padding = new MRect(1, 8),
+            CornerRadius = 8,
+            Envelope = new MRect(0, 0, 4, 4),
+            Height = 60,
+            Width = 48,
+            BackColor = new Mapsui.Styles.Color(236, 228, 245),
+            WithTappedEvent = tapped
+        };
     private void LoadCountries()
     {
         LoadCountriesAsync();
@@ -363,6 +481,42 @@ public partial class MapViewPage : ContentPage
         //{
         //    countries = await ReverseGeocodeLib.Deserializer.DeserializeAsync(WebHelper.localPath);
         //}
+    }
+    private void LoadUKCounties()
+    {
+        LoadUKCountiesAsync();
+        this.pickerpoi.IsEnabled = true;
+        this.pickerRadius.IsEnabled = true;
+        this.activityloadindicatorlayout.IsVisible = false;
+    }
+    private async void LoadUKCountiesAsync()
+    {
+        try
+        {
+            await ReverseGeocodeService.LoadUKCountiesAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    private void LoadFranceRegions()
+    {
+        LoadFranceRegionsAsync();
+        this.pickerpoi.IsEnabled = true;
+        this.pickerRadius.IsEnabled = true;
+        this.activityloadindicatorlayout.IsVisible = false;
+    }
+    private async void LoadFranceRegionsAsync()
+    {
+        try
+        {
+            await ReverseGeocodeService.LoadFranceRegionsAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
     private async Task CheckLoadingDistance()
     {
@@ -456,12 +610,13 @@ public partial class MapViewPage : ContentPage
     // Replace Task.Factory.StartNew with proper async/await
     private async Task GetCurrentDeviceLocationAsync()
     {
-        if (POIsMapUpdateIsBusy) return;
+        if (POIsMapUpdateIsBusy)
+            return;
 
         POIsMapUpdateIsBusy = true;
         try
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            var request = new GeolocationRequest(GeolocationAccuracy.Lowest);
             myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
 
             var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
@@ -477,15 +632,13 @@ public partial class MapViewPage : ContentPage
                 _myLocationLayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
                     mapView?.Map.Navigator.Viewport.Rotation ?? 0);
                 _myLocationLayer?.UpdateMySpeed(1.6);
-                myCurrentCenterMap = new Location()
-                {
-                    Latitude = myCurrentLocation.Latitude,
-                    Longitude = myCurrentLocation.Longitude
-                };
             });
 
-            await UpdateVisiblePinsLabelDistanceText();
-            await PopulateMapAsync(pois);
+            //await UpdateVisiblePinsLabelDistanceText();
+        }
+        catch(Exception ex)
+        {
+
         }
         finally
         {
@@ -552,7 +705,7 @@ public partial class MapViewPage : ContentPage
                     pin.HideCallout();
                 }
                 mapView.Pins.Clear();
-                //await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+                await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                 this.pickerpoi.IsEnabled = false;
                 this.pickerRadius.IsEnabled = false;
                 this.activityloadindicatorlayout.IsVisible = true;
@@ -770,16 +923,16 @@ public partial class MapViewPage : ContentPage
     {
         return zoomLevel switch
         {
-            <= 6 => 0,                     // world / country view was 20
-            <= 7 => 20,
-            <= 8 => 60,
-            <= 9 => 100,                   // region view was 50
-            <= 12 => 150,                  // city / town view was 150
-            <= 13 => 170,
-            <= 14 => 280,
-            <= 15 => 390,
-            <= 16 => 400,
-            <= 17 => 420,
+            <= 6 => 0 * SearchRadius,                     // world / country view was 20
+            <= 7 => 12 * SearchRadius,
+            <= 8 => 16 * SearchRadius,
+            <= 9 => 20 * SearchRadius,                   // region view was 50
+            <= 12 => 25 * SearchRadius,                  // city / town view was 150
+            <= 13 => 37 * SearchRadius,
+            <= 14 => 78 * SearchRadius,
+            <= 15 => 99 * SearchRadius,
+            <= 16 => 130 * SearchRadius,
+            <= 17 => 160 * SearchRadius,
             _ => (pois?.Count(p => p.POI == type) ?? 0) / zoomLevel // zoomLevel > 17 -> show all POIs of the requested type
         };
     }
@@ -826,7 +979,7 @@ public partial class MapViewPage : ContentPage
                     currentPinsSnapshot = new List<Pin>();
                 }
 
-                Location centerLocation = myCurrentCenterMap ?? myCurrentLocation;
+                Location centerLocation = myCurrentLocation;
                 if (centerLocation == null)
                 {
                     var lonlat = SphericalMercator.ToLonLat(mapView.Map.Navigator.Viewport.CenterX,
@@ -844,7 +997,7 @@ public partial class MapViewPage : ContentPage
                     .Where(x => x.distance <= SearchRadius && x.poi.POI == CurrentPOIType)
                     .OrderBy(x => x.distance);
                 int added = 0;
-                var steve = ordered.ToList();
+                
                 foreach (var entry in ordered)
                 {
                     var poi = entry.poi;
@@ -877,7 +1030,6 @@ public partial class MapViewPage : ContentPage
                     added++;
                 }
                 CurrentLocationOnLoad = myCurrentLocation;
-                //this.POIsFoundLabel.Text = $"{mapView.Pins.Select(p => p.IsVisible).Where(p => p.Equals(true)).ToList().Count}";
 
                 return pinDataList;
             });
@@ -906,7 +1058,7 @@ public partial class MapViewPage : ContentPage
                         Type = PinType.ImageSource,
                         Label = label,
                         Address = "",
-                        Scale = 0.061F,
+                        Scale = 0.04971F,
                         Transparency = 0.05f,
                         Color = color
                     };

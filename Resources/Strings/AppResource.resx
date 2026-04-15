@@ -504,4 +504,7 @@
   <data name="LoadingCountryMsg" xml:space="preserve">
     <value>Loading Country, please wait...</value>
   </data>
+  <data name="RegionLabelText" xml:space="preserve">
+    <value>Region:</value>
+  </data>
 </root>
