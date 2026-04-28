@@ -8,7 +8,7 @@ Open Street Map - Online only
 
 **Options Panel**  
 * Country
-* Region (UK, France)
+* Region (UK, France, Netherlands)
 * POI (To View)
 * Search Radius (Kilometers - distances shown are in a straight line)
 * POI's Found (Visible on map)
@@ -106,7 +106,7 @@ https://hnd.www.deepl.com/
 * protobuf-net https://github.com/protobuf-net/protobuf-net
 * Syncfusion.Maui.Toolkit https://www.syncfusion.com/net-maui-toolkit
 * POIBinaryFormatLib - used to deserialize POI binary objects from the country files https://www.nuget.org/packages/POIBinaryFormatLib/ 
-* ReverseGeocodeLib - Used to detect the country (and region) at map center 
+* ReverseGeocodeLib - Used to detect the country (and region) at map center https://www.nuget.org/packages/ReverseGeocodeLib/ 
 ## OSM Conversion Software Used
 osmium https://osmcode.org/osmium-tool/
 ## Open Street Map Data
