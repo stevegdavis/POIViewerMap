@@ -380,7 +380,7 @@ public partial class MapViewPage : ContentPage
                 this.regionLayout.IsVisible = false;
         }
         // From GPS - not windows TODO iOS
-        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             GetCurrentDeviceLocation();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -616,7 +616,7 @@ public partial class MapViewPage : ContentPage
         POIsMapUpdateIsBusy = true;
         try
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Lowest);
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
             myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
 
             var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
