@@ -46,12 +46,12 @@ POIViewerMap supports the following point of interest categories:
 <img src="Screenshots/Android/OptionsPanel.jpg" width="200" />  <img src="Screenshots/Android/DrinkingWaterPoint.jpg" width="200" />  <img src="Screenshots/Android/BakeryWithOptionsPanel.jpg" width="200" />
 
 ### iOS
-<img src="Screenshots/iOS/OptionsPanel.PNG" width="200" />  <img src="Screenshots/iOS/DrinkingWaterPoint.PNG" width="200" />  <img src="Screenshots/iOS/BakeryWithOptionsPanel.PNG" width="200" />
+<img src="Screenshots/iOS/OptionsPanel-Closed.png" width="200" />
 
 ## ⚙️ System Requirements
 
 - **Android**: 8.0 or later
-- **iOS**: 15.0 or later (tested on simulator)
+- **iOS**: 15.0 or later (tested on simulator only)
 
 ## 🔍 Search Radius Options
 
