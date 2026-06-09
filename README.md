@@ -122,7 +122,7 @@ Contributions are welcome! To contribute:
 ## 📝 Getting Started
 
 1. Clone the repository
-2. Open in Visual Studio 2022 or Visual Studio Code with .NET MAUI extensions
+2. Open in Visual Studio 2026 or Visual Studio Code with .NET MAUI extensions
 3. Build and deploy to Android emulator, iOS simulator, or physical device
 4. Start discovering points of interest on your next adventure!
 
