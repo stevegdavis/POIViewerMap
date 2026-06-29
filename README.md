@@ -51,7 +51,7 @@ POIViewerMap supports the following point of interest categories:
 ## ⚙️ System Requirements
 
 - **Android**: 8.0 or later
-- **iOS**: 15.0 or later (tested on simulator only)
+- **iOS**: 17.0 or later (tested on simulator only)
 
 ## 🔍 Search Radius Options
 
@@ -76,7 +76,7 @@ POIViewerMap is built with modern .NET technologies:
 - **Framework**: [.NET MAUI](https://learn.microsoft.com/en-us/dotnet/maui/) - Cross-platform mobile development
 - **UI Framework**: [ReactiveUI](https://www.reactiveui.net/) - MVVM and reactive programming
 - **HTTP Client**: [Flurl.Http](https://flurl.dev/) - Fluent HTTP API
-- **GPX Support**: [RolandK.Formats.Gpx](https://github.com/RolandKoenig/RolandK.Formats.Gpx) - Route parsing
+- **GPX Support**: [SDSDevelopment.GPXFileReaderLib](https://www.nuget.org/packages/SDSDevelopment.GPXReaderLib) - Route parsing
 - **Mapping**: [Mapsui](https://github.com/Mapsui/Mapsui) - Interactive mapping library
 - **Serialization**: [protobuf-net](https://github.com/protobuf-net/protobuf-net) - Protocol Buffers
 - **UI Components**: [Syncfusion.Maui.Toolkit](https://www.syncfusion.com/net-maui-toolkit) - Professional UI controls
