@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
-using Flurl.Util;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Layers;
@@ -18,14 +17,11 @@ using Mapsui.Widgets.ScaleBar;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using POIBinaryFormatLib;
-using POIViewerMap.DataClasses;
 using POIViewerMap.Helpers;
 using POIViewerMap.Resources.Strings;
 using POIViewerMap.Stores;
 using ReactiveUI;
 using ReverseGeocodeLib;
-using ReverseGeocodeLib.Models;
-using RolandK.Formats.Gpx;
 using Syncfusion.Maui.Toolkit.Popup;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -188,7 +184,7 @@ public partial class MapViewPage : ContentPage
             if (distance <= 1)
                 return;
             CurrentViewport = e.Map.Navigator.Viewport;
-            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || POIsReadIsBusy || GeocodeIsActive || AllowCenterMap.IsChecked)
+            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || POIsReadIsBusy || GeocodeIsActive)// || AllowCenterMap.IsChecked)
             {
                 e.Handled = true;
                 return;
@@ -398,7 +394,20 @@ public partial class MapViewPage : ContentPage
                     }
                     if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
                     {
-                        await GetCurrentDeviceLocationAsync();
+                        var request = new GeolocationRequest(GeolocationAccuracy.Best);
+                        myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+
+                        var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
+                            myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+                        mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
+                        _myLocationLayer?.UpdateMyLocation(sphericalMercatorCoordinate, true);
+                        mapView.MyLocationLayer.UpdateMyLocation(
+                            new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
+                        _myLocationLayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
+                            mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                        _myLocationLayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
+                            mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                        _myLocationLayer?.UpdateMySpeed(1.6);
                     }
                     mapView.MyLocationLayer.Enabled = false;
                     _myLocationLayer.Enabled = true;
@@ -438,7 +447,25 @@ public partial class MapViewPage : ContentPage
     {
         if(POIsMapUpdateIsBusy)
             return;
-        await GetCurrentDeviceLocationAsync();
+        //await GetCurrentDeviceLocationAsync();
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
+        {
+            //await GetCurrentDeviceLocationAsync();
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+
+            var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
+                myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+            mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
+            _myLocationLayer?.UpdateMyLocation(sphericalMercatorCoordinate, true);
+            mapView.MyLocationLayer.UpdateMyLocation(
+                new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
+            _myLocationLayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
+                mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
+                mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer?.UpdateMySpeed(1.6);
+        }
         mapView.Pins.Clear();
         await PopulateMapAsync(pois);
     }
@@ -602,49 +629,7 @@ public partial class MapViewPage : ContentPage
         {
             throw new ObjectDisposedException(GetType().FullName);
         }
-    }
-    /// <summary>
-    /// <c>GetCurrentDeviceLocationAsync</c>
-    /// </summary>
-    /// <returns></returns>
-    // Replace Task.Factory.StartNew with proper async/await
-    private async Task GetCurrentDeviceLocationAsync()
-    {
-        if (POIsMapUpdateIsBusy)
-            return;
-
-        POIsMapUpdateIsBusy = true;
-        try
-        {
-            var request = new GeolocationRequest(GeolocationAccuracy.Best);
-            myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
-
-            var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
-                myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                _myLocationLayer?.UpdateMyLocation(sphericalMercatorCoordinate, true);
-                mapView.MyLocationLayer.UpdateMyLocation(
-                    new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
-                _myLocationLayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
-                    mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                _myLocationLayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
-                    mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                _myLocationLayer?.UpdateMySpeed(1.6);
-            });
-
-            //await UpdateVisiblePinsLabelDistanceText();
-        }
-        catch(Exception ex)
-        {
-
-        }
-        finally
-        {
-            POIsMapUpdateIsBusy = false;
-        }
-    }
+    }    
     /// <summary>
     /// <c>OnPOIPickerSelectedIndexChanged</c>
     /// Populates or re-populates the map on POI picker index change event
@@ -754,21 +739,44 @@ public partial class MapViewPage : ContentPage
                 this.activityrouteloadindicatorlayout.IsVisible = true;
                 this.RouteImported.IsVisible = true;
                 this.RouteImported.Text = System.IO.Path.GetFileNameWithoutExtension(this.FullFilepathRoute);
-                var gpxFile = await GpxFile.LoadAsync(FullFilepathRoute);
-                var countTracks = gpxFile.Tracks.Count;
-                var countRoutes = gpxFile.Routes.Count;
-                var countWaypoints = gpxFile.Waypoints.Count;
-                var data = new RouteLineData();
-                var sb = new StringBuilder("LINESTRING(");
-                foreach (var track in gpxFile.Tracks)
+                var gpxFile = await GPXReaderLib.GPXReaderService.ParseGpxFileAsync(this.FullFilepathRoute);
+                if(gpxFile == null)
                 {
-                    foreach (var seg in track.Segments)
+                    ShowRouteLoadFailToastMessage($"Path: {this.FullFilepathRoute}");
+                    this.FullFilepathRoute = string.Empty;
+                    return;
+                }
+                var sb = new StringBuilder("LINESTRING(");
+                if (gpxFile.Tracks.Count == 0 && gpxFile.Routes.Count > 0)
+                {
+                    var route = gpxFile.Routes.FirstOrDefault();
+                    foreach(var point in route.RoutePoints)
                     {
-                        foreach (var point in seg.Points)
+                        FormattableString fms = $"{point.Latitude} {point.Longitude},";
+                        sb.Append(fms.ToString());
+                    }
+                }
+                else if(gpxFile.Tracks.Count > 0)
+                {
+                    foreach (var track in gpxFile.Tracks)
+                    {
+                        foreach (var seg in track.Segments)
                         {
-                            FormattableString fms = $"{point.Latitude} {point.Longitude},";
-                            sb.Append(fms.ToInvariantString());
+                            foreach (var point in seg.TrackPoints)
+                            {
+                                FormattableString fms = $"{point.Latitude} {point.Longitude},";
+                                sb.Append(fms.ToString());
+                            }
                         }
+                    }                    
+                }
+                else if(gpxFile.Waypoints.Count > 0)
+                {
+                    // Handle waypoints if needed
+                    foreach (var point in gpxFile.Waypoints)
+                    {
+                        FormattableString fms = $"{point.Latitude} {point.Longitude},";
+                        sb.Append(fms.ToString());
                     }
                 }
                 sb.Append(')');
@@ -778,7 +786,7 @@ public partial class MapViewPage : ContentPage
         }
         catch (Exception ex)
         {
-            ShowRouteLoadFailToastMessage(this.FullFilepathRoute);
+            ShowRouteLoadFailToastMessage($"Exception: {ex.Message}-{ex.InnerException} Path: {this.FullFilepathRoute}");
             this.FullFilepathRoute = string.Empty;
         }
         finally { this.activityrouteloadindicatorlayout.IsVisible = false; }
@@ -856,11 +864,11 @@ public partial class MapViewPage : ContentPage
         var customFileType = new FilePickerFileType(
              new Dictionary<DevicePlatform, IEnumerable<string>>
              {
-                    { DevicePlatform.iOS, new[] { "public.my.gpx.extension" } }, // UTType values
-                    { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
-                    { DevicePlatform.WinUI, new[] { ".gpx" } }, // file extension
-                    { DevicePlatform.Tizen, new[] { "*/*" } },
-                    { DevicePlatform.macOS, new[] { "gpx" } }, // UTType values
+                 { DevicePlatform.iOS, new[] { "com.topografix.gpx" } }, // UTType values
+                 { DevicePlatform.Android, new[] { "application/octet-stream" } }, // MIME type
+                 { DevicePlatform.WinUI, new[] { ".gpx" } }, // file extension
+                 { DevicePlatform.Tizen, new[] { "*/*" } },
+                 { DevicePlatform.macOS, new[] { "gpx" } }, // UTType values
              });
 
         PickOptions options = new()
