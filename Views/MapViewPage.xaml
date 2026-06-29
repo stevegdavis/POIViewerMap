@@ -43,7 +43,7 @@
                                             <On Platform="Windows" Value="" />
                                         </OnPlatform>
                                     </Label>
-                                    <Picker x:Name="pickerpoi" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" MinimumWidthRequest="{OnPlatform Android=0, iOS=240}" SelectedIndexChanged="OnPOIPickerSelectedIndexChanged">
+                                    <Picker x:Name="pickerpoi" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" FontSize="{OnPlatform Android=16, iOS=15}" MinimumWidthRequest="{OnPlatform Android=0, iOS=320}" SelectedIndexChanged="OnPOIPickerSelectedIndexChanged">
                                    </Picker>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout Grid.Row="5" Grid.ColumnSpan="1" Margin="7,2,0,10">
@@ -53,7 +53,7 @@
                                             <On Platform="Windows" Value="" />
                                         </OnPlatform>
                                     </Label>
-                                    <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
+                                    <Picker x:Name="pickerRadius" IsEnabled="False" Title="{x:Static resource:AppResource.ChooseText}" FontSize="{OnPlatform Android=16, iOS=15}" SelectedIndexChanged="OnRadiusPickerSelectedIndexChanged" >
                                         <Picker.ItemsSource>
                                             <x:Array Type="{x:Type x:String}">
                                                 <x:String>1km</x:String>
