@@ -138,13 +138,13 @@
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />	
 		<PackageReference Include="ReactiveUI.Maui" Version="22.3.1" />	
 		<PackageReference Include="ReverseGeocodeLib" Version="1.2.2" />	
+		<PackageReference Include="SDSDevelopment.GPXReaderLib" Version="1.0.0" />	
 		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.51" />
-		<PackageReference Include="RolandK.Formats.Gpx" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
