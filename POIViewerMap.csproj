@@ -130,7 +130,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="14.1.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="14.1.0" />
-		<PackageReference Include="Mapsui.Maui" Version="5.0.2" />
+		<PackageReference Include="Mapsui.Maui" Version="5.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
 		<PackageReference Include="POIBinaryFormatLib" Version="2.2.7" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />

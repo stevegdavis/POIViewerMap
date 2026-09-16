@@ -10,6 +10,7 @@ using Mapsui.Projections;
 using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
+using Mapsui.UI.Objects;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ButtonWidgets;
 using Mapsui.Widgets.InfoWidgets;
@@ -31,6 +32,7 @@ using HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 using Point = Microsoft.Maui.Graphics.Point;
 using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
+//using UISMyLocationLayer = Mapsui.UI.Objects.MyLocationLayer;
 
 namespace POIViewerMap.Views;
 /// <summary>
@@ -74,11 +76,12 @@ public partial class MapViewPage : ContentPage
     static Location? myCurrentCenterMap = null;
     private static Location CurrentLocationOnLoad = null;
     private CompassData CurrentCompassReading;
-    private readonly MyLocationLayer _myLocationLayer;
+    private readonly Mapsui.Layers.MyLocationLayer _myLocationLayer;
     private bool _disposed;
     private readonly SemaphoreSlim _touchEndedSemaphore = new SemaphoreSlim(1, 1);
     public static bool IsAppStateSettingsBusy = false;
     public static bool IsSearchRadiusCircleBusy = false;
+    public static bool IsPositionSearchBusy = false;
     public static Popup popup;
     private static bool FileListLocalAccess = false;
     public static ILayer myRouteLayer;
@@ -130,12 +133,25 @@ public partial class MapViewPage : ContentPage
         // Initialize the map view
         LoggingWidget.ShowLoggingInMap = ActiveMode.OnlyInDebugMode;
         _myLocationLayer?.Dispose();
-        _myLocationLayer = new MyLocationLayer(mapView.Map)
+        _myLocationLayer = new Mapsui.Layers.MyLocationLayer(mapView.Map)
         {
             IsCentered = true,
+            Name = "MyLocationLayer",
         };
+        
 
-        mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
+        // Construct userAgent only for Android platform
+        string userAgent = null;
+        // 1. Get app details
+        var appName = AppInfo.Current.Name;       // e.g., "MyApp"
+        var appVersion = AppInfo.Current.VersionString; // e.g., "1.0.0"
+        // 2. Get device details
+        var androidVersion = DeviceInfo.Current.VersionString; // e.g., "14"
+        var deviceModel = DeviceInfo.Current.Model;         // e.g., "Pixel 8"
+        // 3. Construct a standard format string for Android
+        // Example output: MyApp/1.0.0 (Linux; Android 14; Pixel 8) .NETMAUI/8.0
+        userAgent = $"{appName}/{appVersion} (Linux; Android {androidVersion}; {deviceModel}) .NETMAUI/8.0";
+        mapView.Map.Layers.Add(OpenStreetMap.CreateTileLayer(DeviceInfo.Current.Platform == DevicePlatform.Android ? userAgent : null));
         mapView.Map.Layers.Add(_myLocationLayer);
 
         // Get the lon lat coordinates from somewhere (Mapsui can not help you there)
@@ -385,13 +401,16 @@ public partial class MapViewPage : ContentPage
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(async _ =>
                 {
-                   await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
+                    if (IsPositionSearchBusy) return;
+                    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
                     if (!this.AllowCenterMap.IsChecked)
                     {
                         mapView.MyLocationLayer.Enabled = true;
                         _myLocationLayer.Enabled = false;
                         return;
                     }
+                    var mllayer = mapView.Map.Layers.Where(l => l.Name == "MyLocationLayer").FirstOrDefault() as Mapsui.Layers.MyLocationLayer;
+                    IsPositionSearchBusy = true;
                     if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
                     {
                         var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -399,18 +418,19 @@ public partial class MapViewPage : ContentPage
 
                         var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
                             myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-                        mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
-                        _myLocationLayer?.UpdateMyLocation(sphericalMercatorCoordinate, true);
-                        mapView.MyLocationLayer.UpdateMyLocation(
-                            new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
-                        _myLocationLayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
+                        //mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
+                        mllayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
+                        //mapView.MyLocationLayer.UpdateMyLocation(
+                        //    new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
+                        mllayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
                             mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                        _myLocationLayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
+                        mllayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
                             mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                        _myLocationLayer?.UpdateMySpeed(1.6);
+                        mllayer?.UpdateMySpeed(1.6);
                     }
                     mapView.MyLocationLayer.Enabled = false;
-                    _myLocationLayer.Enabled = true;
+                    mllayer.Enabled = true;
+                    IsPositionSearchBusy = false;
                 });
     }    
     /// <summary>
