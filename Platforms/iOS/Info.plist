@@ -60,6 +60,10 @@
 			</dict>
 		</array>
 
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to your location to show where you are.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs access to your location to show where you are.</string>
 
 	</dict>
 </plist>
