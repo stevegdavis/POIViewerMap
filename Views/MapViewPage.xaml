@@ -9,7 +9,7 @@
             Shell.NavBarIsVisible="false">
     
     <Page.Behaviors>
-        <mct:StatusBarBehavior StatusBarColor="{StaticResource colorPrimaryDark}"/>
+        <mct:StatusBarBehavior StatusBarColor="{StaticResource Primary}" StatusBarStyle="LightContent"/>
     </Page.Behaviors>
     <ContentPage.Content>
         <StackLayout>
@@ -17,7 +17,7 @@
                 <mapsui:MapView x:Name="mapView" Padding="{OnPlatform Android='0,0,0,0', iOS='0,-5,0,0'}"                         
                                 BackgroundColor="Gray" 
                                 Margin="0" />
-                <toolkit:SfBottomSheet x:Name="bottomSheet" GrabberAreaHeight="6" CollapsedHeight="70" GrabberBackground="Black" IsOpen="True" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.92" HalfExpandedRatio="0.55" ContentPadding="10">
+                <toolkit:SfBottomSheet x:Name="bottomSheet" AllowedState="All" AnimationDuration="500" ShowGrabber="True" GrabberAreaHeight="6" CollapsedHeight="0" GrabberBackground="Black" CollapseOnOverlayTap="True" CornerRadius="20, 20, 0, 0" FullExpandedRatio="0.92" HalfExpandedRatio="0.55" ContentPadding="10" StateChanged="bottomSheet_StateChanged">
                     <toolkit:SfBottomSheet.BottomSheetContent>
                         <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="1" Margin="2,0,0,5" >
                             <Label HorizontalOptions="Center" Margin="0,0,0,8" Text="{x:Static resource:AppResource.Options}" FontSize="16" FontAttributes="Bold"/>
@@ -83,7 +83,7 @@
                                     </HorizontalStackLayout>
                                 </StackLayout>
                                 <HorizontalStackLayout Grid.Row="8" Grid.ColumnSpan="1"  Margin="2,1,0,10">
-                                    <CheckBox x:Name="AllowCenterMap" IsChecked="False" CheckedChanged="AllowCenterMap_CheckedChanged"/>
+                                    <CheckBox x:Name="AllowCenterMap" IsChecked="False"/>
                                     <Label FontSize="16" Margin="0,10,0,0" Text="{x:Static resource:AppResource.CenterMapLabelText}" />
                                 </HorizontalStackLayout>
                             </Grid>

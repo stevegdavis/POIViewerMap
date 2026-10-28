@@ -84,8 +84,7 @@ public partial class MapViewPage : ContentPage
     static int CurrentZoomLevel = 8;
     static Mapsui.Viewport? CurrentViewport = null;
     private string SelectedFilename { get; set; } = string.Empty;
-
-    public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));
+    public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(url));    
     private IDispatcherTimer _timer;
     
     /// <summary>
@@ -127,6 +126,7 @@ public partial class MapViewPage : ContentPage
         {
             IsCentered = true,
             Name = "MyLocationLayer",
+            Enabled = false,
         };
 
 
@@ -164,11 +164,15 @@ public partial class MapViewPage : ContentPage
         mapView.IsMyLocationButtonVisible = false;
         mapView.IsNorthingButtonVisible = false;
         mapView.Map.Navigator.OverrideZoomBounds = new MMinMax(0.15, 1600);
-        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });
+        mapView.Map.Widgets.Add(new ScaleBarWidget(mapView.Map) { TextAlignment = Alignment.Center, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Top });//, Margin = new MRect(10, 30, 10, 30) });
         mapView.Map.Widgets.Add(CreateImageButtonWidget(VerticalAlignment.Bottom, HorizontalAlignment.Right, async (s, e) =>
         {
             await UpdateMapOnLocationButtonPress();
             mapView.Map.RefreshGraphics();
+        }));
+        mapView.Map.Widgets.Add(CreateOptionsButtonWidget(VerticalAlignment.Bottom, HorizontalAlignment.Right, async (s, e) =>
+        {
+            this.bottomSheet.Show();
         }));
         UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
         mapView.Map.PointerReleased += async (s, e) =>
@@ -289,8 +293,8 @@ public partial class MapViewPage : ContentPage
                 }
                 if (e.GestureType == Mapsui.Manipulations.GestureType.DoubleTap)
                 {
-                    // Hide Pin when double click
-                    e.Pin.IsVisible = false;
+                    // Hide Pin when double click ?
+                    //e.Pin.IsVisible = false;
                 }
                 if (e.GestureType == Mapsui.Manipulations.GestureType.SingleTap)
                 {
@@ -403,43 +407,44 @@ public partial class MapViewPage : ContentPage
         _timer.IsRepeating = true;
         _timer.Tick += async (sender, e) =>
         {
-
             // Update your UI element safely on the main thread
-            if (POIsDownloadIsBusy || POIsMapUpdateIsBusy || GeocodeIsActive)
-            {
-                return;
-            }
-            if (IsPositionSearchBusy) return;
             await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
             if (!this.AllowCenterMap.IsChecked)
             {
                 mapView.MyLocationLayer.Enabled = true;
                 _myLocationLayer.Enabled = false;
+                return;
             }
-            var mllayer = mapView.Map.Layers.Where(l => l.Name == "MyLocationLayer").FirstOrDefault() as Mapsui.Layers.MyLocationLayer;
-            IsPositionSearchBusy = true;
             if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Best);
-                myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
-
-                var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
-                    myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-                mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
-                mllayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
-                mapView.MyLocationLayer.UpdateMyLocation(
-                    new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
-                mllayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
-                    mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                mllayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
-                    mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                mllayer?.UpdateMySpeed(1.6);
-
-            }
+                await GetCurrentDeviceLocationAsync();
             mapView.MyLocationLayer.Enabled = false;
-            mllayer.Enabled = true;
-            IsPositionSearchBusy = false;
+            _myLocationLayer.Enabled = true;
         };
+        _timer.Start();
+    }
+    /// <summary>
+    /// <c>GetCurrentDeviceLocationAsync</c>
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetCurrentDeviceLocationAsync()
+    {
+        if (POIsMapUpdateIsBusy) return;
+        await Task.Factory.StartNew(async () =>
+        {
+            POIsMapUpdateIsBusy = true;
+            var request = new GeolocationRequest(GeolocationAccuracy.Best);
+            myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
+
+            var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
+            //mapView.Map.Home = n => n.CenterOnAndZoomTo(sphericalMercatorCoordinate, n.Resolutions[14]);
+            _myLocationLayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
+            mapView.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
+            _myLocationLayer.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            _myLocationLayer.UpdateMySpeed(1.6);
+            await UpdateVisiblePinsLabelDistanceText();
+            POIsMapUpdateIsBusy = false;
+        });
     }
     /// <summary>
     /// <c>UpdateSearchRadiusCircleOnMap</c>
@@ -500,17 +505,33 @@ public partial class MapViewPage : ContentPage
     private static ImageButtonWidget CreateImageButtonWidget(VerticalAlignment verticalAlignment,
         HorizontalAlignment horizontalAlignment, EventHandler<WidgetEventArgs> tapped) => new()
         {
-            Image = "embedded://POIViewerMap.Resources.Images.target.svg",
+            Image = "embedded://POIViewerMap.Resources.Images.location.svg",
             VerticalAlignment = verticalAlignment,
             HorizontalAlignment = horizontalAlignment,
             Margin = new MRect(16, 110),
             Padding = new MRect(1, 8),
-            CornerRadius = 8,
+            CornerRadius = 14,
             Envelope = new MRect(0, 0, 4, 4),
             Height = 60,
             Width = 48,
-            BackColor = new Mapsui.Styles.Color(236, 228, 245),
+            Opacity = 10,
+            BackColor = new Mapsui.Styles.Color(255, 255, 255),
             WithTappedEvent = tapped
+        };
+    private static ImageButtonWidget CreateOptionsButtonWidget(VerticalAlignment verticalAlignment,
+        HorizontalAlignment horizontalAlignment, EventHandler<WidgetEventArgs> tappedOptions) => new()
+        {
+            Image = "embedded://POIViewerMap.Resources.Images.settings.svg",
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            Margin = new MRect(20, 40),
+            Padding = new MRect(1, 8),
+            CornerRadius = 14,
+            Envelope = new MRect(0, 0, 4, 4),
+            Height = 48,
+            Width = 36,
+            BackColor = new Mapsui.Styles.Color(255, 255, 255),
+            WithTappedEvent = tappedOptions
         };
     private void LoadCountries()
     {
@@ -850,34 +871,6 @@ public partial class MapViewPage : ContentPage
     private async void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
     {
         CurrentCompassReading = e.Reading;
-        //if(CompassIsBusy || !this.AllowCenterMap.IsChecked)
-        //    return;
-        //CompassIsBusy = true;
-        //var mllayer = mapView.Map.Layers.Where(l => l.Name == "MyLocationLayer").FirstOrDefault() as Mapsui.Layers.MyLocationLayer;
-        //if (DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
-        //{
-        //    mapView.MyLocationLayer.Enabled = false;
-        //    mllayer.Enabled = true;
-        //    var request = new GeolocationRequest(GeolocationAccuracy.Best);
-        //    myCurrentLocation = await Geolocation.GetLocationAsync(request, new CancellationToken());
-
-        //    var sphericalMercatorCoordinate = SphericalMercator.FromLonLat(
-        //        myCurrentLocation.Longitude, myCurrentLocation.Latitude).ToMPoint();
-        //    //mapView.Map.Navigator.CenterOn(sphericalMercatorCoordinate.X, sphericalMercatorCoordinate.Y);
-        //    mllayer.UpdateMyLocation(sphericalMercatorCoordinate, true);
-        //    //mapView.MyLocationLayer.UpdateMyLocation(
-        //    //    new Mapsui.UI.Maui.Position(myCurrentLocation.Latitude, myCurrentLocation.Longitude));
-        //    mllayer?.UpdateMyDirection(CurrentCompassReading.HeadingMagneticNorth,
-        //        mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-        //    mllayer?.UpdateMyViewDirection(CurrentCompassReading.HeadingMagneticNorth,
-        //        mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-        //    mllayer?.UpdateMySpeed(1.6);
-        //    await UpdateSearchRadiusCircleOnMap(mapView, SearchRadius);
-        //}
-        //mapView.MyLocationLayer.Enabled = true;
-        //mllayer.Enabled = false;
-        //CompassIsBusy = false;
-
     }
     /// <summary>
     /// <c>CreateLineStringLayer</c>
@@ -1321,22 +1314,9 @@ public partial class MapViewPage : ContentPage
             POIsDownloadIsBusy = false;
         }
     }
-
-    private void AllowCenterMap_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void bottomSheet_StateChanged(object sender, Syncfusion.Maui.Toolkit.BottomSheet.StateChangedEventArgs e)
     {
-        if (e.Value)
-        {
-            if (!_timer.IsRunning)
-            {
-                _timer.Start();
-            }
-        }
-        else
-        {
-            if (_timer.IsRunning)
-            {
-                _timer.Stop();
-            }
-        }
+        if(e.NewState == Syncfusion.Maui.Toolkit.BottomSheet.BottomSheetState.Collapsed)
+            this.bottomSheet.IsOpen = false;
     }
 }

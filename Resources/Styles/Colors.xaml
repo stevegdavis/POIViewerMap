@@ -16,7 +16,7 @@
     <Color x:Key="colorPrimaryDark">#FF555555</Color>
     <Color x:Key="ButtonText">#248f8f</Color>
     <Color x:Key="TrackingStartButtonColor">#248f8f</Color>
-    <Color x:Key="NavigationBarColor">#34cbcb</Color>
+    <Color x:Key="NavigationBarColor">#248f8f</Color>
     <Color x:Key="NavigationBarTextColor">White</Color>
     <Color x:Key="BottomSheetBackgroundColor">#f2f2f2</Color>
     <Color x:Key="White">White</Color>
